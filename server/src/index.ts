@@ -4,6 +4,10 @@ import log from './logger'
 
 const app = createApp()
 
-app.listen(APP_PORT, (): void => {
-  log.info(`SERVER RUNNING ON PORT: ${APP_PORT}`)
-})
+try {
+  app.listen(APP_PORT, (): void => {
+    log.info(`SERVER RUNNING ON PORT: ${APP_PORT}`)
+  })
+} catch (error) {
+  log.error(error)
+}
