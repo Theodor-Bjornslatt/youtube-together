@@ -1,9 +1,9 @@
-import dotenv from 'dotenv';
-import { add } from './add/add';
-// load the environment variables from the .env file
-dotenv.config({
-  path: '.env',
-});
+import { createApp } from './app'
+import { APP_PORT } from './config'
+import log from './logger'
 
-console.log(process.env.APP_PORT);
-console.log(add(1, 2));
+const app = createApp()
+
+app.listen(APP_PORT, (): void => {
+  log.info(`SERVER RUNNING ON PORT: ${APP_PORT}`)
+})
