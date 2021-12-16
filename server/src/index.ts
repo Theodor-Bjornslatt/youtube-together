@@ -7,15 +7,13 @@ import { APP_PORT, REDIS_OPTIONS, MONGO_URI } from './config'
 import log from './logger/index'
 import connectMongoDB from './db/mongodb'
 
-console.log(`MONGO_URI`, MONGO_URI)
 try {
   const RedisStore = connectRedis(session)
   const client = new Redis(REDIS_OPTIONS)
   const store = new RedisStore({ client })
   const app = createApp(store)
-  ;(async () => {
-    await connectMongoDB(MONGO_URI)
-  })()
+  connectMongoDB(MONGO_URI)
+
   app.listen(APP_PORT, (): void => {
     log.info(`SERVER RUNNING ON PORT: ${APP_PORT}`)
   })
