@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "eval $(cat .env) nodemon src/index.ts",
+    "dev": "nodemon src/index.ts",
     "up": "mkdir -p data && docker-compose up -d",
     "stop": "docker-compose stop",
     "down": "docker-compose down"

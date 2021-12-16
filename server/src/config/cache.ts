@@ -1,3 +1,9 @@
+import dotenv from 'dotenv'
+
+dotenv.config({
+  path: '.env'
+})
+
 const {
   REDIS_PORT = 6379,
   REDIS_HOST = 'localhost',
