@@ -14,7 +14,7 @@
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./server/tsconfig.eslint.json"
+    "project": "./tsconfig.eslint.json"
   },
   "plugins": [
     "@typescript-eslint",
@@ -27,6 +27,13 @@
     "prettier/prettier": "error",
     "no-console": "off",
     "import/prefer-default-export": "off",
+    "import/order": [
+      "error",
+      {
+        "groups": [["builtin", "external"]],
+        "newlines-between": "always"
+      }
+    ],
     "no-use-before-define": [
       "error",
       {

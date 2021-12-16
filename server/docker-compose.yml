@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  cache:
+    image: redis:alpine
+    container_name: redis-cache
+    ports:
+      - 6379:6379
+    restart: on-failure
+    volumes:
+      - ./data/cache:/data:db
+    command: ['--requirepass "secret"']
+    env_file:
+      - .env
+
+  db:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: secret
+      MONGO_INITDB_DATABASE: bamse
+      MONGO_USERNAME: admin
+      MONGO_PASSWORD: secret
+    volumes:
+      - ./data/mongodb:/data/db
+      - ./mongo-init.sh:/docker-entrypoint-initdb.d/mongo-init.sh:ro
