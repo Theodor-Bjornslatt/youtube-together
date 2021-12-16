@@ -4,7 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "scripts": {
-    "dev": "nodemon src/index.ts",
+    "dev": "eval $(cat .env) nodemon src/index.ts",
     "up": "mkdir -p data && docker-compose up -d",
     "stop": "docker-compose stop",
     "down": "docker-compose down"
@@ -34,7 +34,7 @@
     "husky": "^7.0.2",
     "jest": "^27.1.0",
     "lint-staged": "^11.1.2",
-    "nodemon": "^2.0.12",
+    "nodemon": "^2.0.15",
     "prettier": "^2.3.2",
     "ts-jest": "^27.0.5",
     "ts-node": "^10.2.1",
