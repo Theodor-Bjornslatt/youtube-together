@@ -1,11 +1,6 @@
 import { SessionOptions } from 'express-session'
-import dotenv from 'dotenv'
 
 import { IN_PROD } from './app'
-
-dotenv.config({
-  path: '.env'
-})
 
 const HALF_YEAR = 1000 * 60 * 60 * 24 * 180
 
