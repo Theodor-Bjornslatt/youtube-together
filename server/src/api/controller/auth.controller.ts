@@ -4,25 +4,22 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Request, Response } from 'express'
 
-import { User } from '../models'
-import { validateEmail, logIn } from '../../validation'
 import { encrypt } from '../../util/crypt'
 import log from '../../logger'
+import { User } from '../models'
+import { validateEmail, logIn, registerSchema } from '../../validation'
 
 const apiRegisterUser = async (
   req: Request,
   res: Response
 ): Promise<Response | undefined> => {
   try {
+    await registerSchema.validateAsync(req.body, { abortEarly: false })
     const { username, password, email } = req.body
 
-    if (!username || !password || !email || !validateEmail(email)) {
-      return res.status(400).json({ message: 'Missing parameters' })
-    }
-
-    const found = await User.findOne({ email })
+    const found = await User.exists({ email })
     if (found) {
-      return res.status(400).json({ message: 'Invalid email' })
+      throw new Error('Invalid email')
     }
     const user = new User({
       username,
@@ -32,7 +29,7 @@ const apiRegisterUser = async (
 
     await user.save()
 
-    return res.status(201).json({ message: 'OK' })
+    return res.status(201).json({ user: {} })
   } catch (error) {
     log.error(error)
     return res.status(500).json({ message: 'Something went wrong on server' })

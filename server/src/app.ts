@@ -1,6 +1,6 @@
 import cors from 'cors'
 import dotenv from 'dotenv'
-import express, { Request, Response, Express } from 'express'
+import express, { Request, Response, Express, NextFunction } from 'express'
 import session, { Store } from 'express-session'
 import morgan from 'morgan'
 
@@ -29,6 +29,10 @@ export const createApp = (store: Store): Express => {
   // 404 - no route in use
   app.use('*', (req: Request, res: Response) => {
     res.status(404).json({ error: 'page not found' })
+  })
+
+  app.use((err: Error, req: Request, res: Response) => {
+    res.status(500).json({ message: 'Internal Server Error' })
   })
 
   return app

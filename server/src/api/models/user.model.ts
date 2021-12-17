@@ -1,8 +1,16 @@
-import mongoose from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
 
 import { compare } from '../../util'
 
-const userSchema = new mongoose.Schema(
+export interface UserDocument extends Document {
+  _id: string
+  email: string
+  name: string
+  password: string
+  admin: boolean
+}
+
+const userSchema = new Schema(
   {
     username: {
       type: String,
@@ -26,4 +34,4 @@ userSchema.methods.matchesPassword = function match(password: string) {
   return compare(password, this.password)
 }
 
-export default mongoose.model('user', userSchema)
+export const User = model('user', userSchema)
