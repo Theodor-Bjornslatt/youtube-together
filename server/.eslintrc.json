@@ -24,6 +24,7 @@
     "prettier"
   ],
   "rules": {
+    "arrow-body-style": ["error", "always"],
     "prettier/prettier": "error",
     "no-console": "off",
     "import/prefer-default-export": "off",

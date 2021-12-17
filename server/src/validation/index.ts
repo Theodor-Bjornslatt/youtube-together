@@ -1,1 +1,1 @@
-console.log('hej')
+export * from './validate'

@@ -4,7 +4,7 @@ import Redis from 'ioredis'
 
 import { createApp } from './app'
 import { APP_PORT, REDIS_OPTIONS, MONGO_URI } from './config'
-import log from './logger/index'
+import log from './logger'
 import connectMongoDB from './db/mongodb'
 
 try {

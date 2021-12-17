@@ -1,1 +1,1 @@
-console.log('hej')
+export { default as User } from './user.model'

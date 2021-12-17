@@ -1,1 +1,1 @@
-console.log('hej')
+export { default as authRoutes } from './auth.routes'

@@ -5,6 +5,7 @@ import session, { Store } from 'express-session'
 import morgan from 'morgan'
 
 import { SESSION_OPTIONS } from './config'
+import { authRoutes } from './api/routes'
 
 dotenv.config({
   path: '.env'
@@ -23,14 +24,12 @@ export const createApp = (store: Store): Express => {
   app.set('trust proxy', 1)
 
   // routes
-  app.use('/', (req: Request, res: Response): void => {
-    res.json({ message: 'Hello' })
-  })
+  app.use('/api', authRoutes)
 
   // 404 - no route in use
-  app.use('*', (req: Request, res: Response) =>
+  app.use('*', (req: Request, res: Response) => {
     res.status(404).json({ error: 'page not found' })
-  )
+  })
 
   return app
 }
