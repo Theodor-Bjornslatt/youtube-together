@@ -7,33 +7,29 @@ import { Request, Response } from 'express'
 import { encrypt } from '../../util/crypt'
 import log from '../../logger'
 import { User } from '../models'
-import { validateEmail, logIn, registerSchema } from '../../validation'
+import { logIn, registerSchema } from '../../validation'
 
+// fix error handler
 const apiRegisterUser = async (
   req: Request,
   res: Response
 ): Promise<Response | undefined> => {
-  try {
-    await registerSchema.validateAsync(req.body, { abortEarly: false })
-    const { username, password, email } = req.body
+  await registerSchema.validateAsync(req.body, { abortEarly: false })
+  const { username, password, email } = req.body
 
-    const found = await User.exists({ email })
-    if (found) {
-      throw new Error('Invalid email')
-    }
-    const user = new User({
-      username,
-      password: encrypt(password),
-      email
-    })
-
-    await user.save()
-
-    return res.status(201).json({ user: {} })
-  } catch (error) {
-    log.error(error)
-    return res.status(500).json({ message: 'Something went wrong on server' })
+  const found = await User.exists({ email })
+  if (found) {
+    throw new Error('Invalid email')
   }
+  const user = new User({
+    username,
+    password: encrypt(password),
+    email
+  })
+
+  await user.save()
+
+  return res.status(201).json({ user: user._doc })
 }
 
 const apiLoginUser = async (req: Request, res: Response): Promise<Response> => {

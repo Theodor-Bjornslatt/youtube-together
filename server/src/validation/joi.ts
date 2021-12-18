@@ -14,9 +14,12 @@ export const validate = async (
   payload: User
 ): Promise<void> => {
   try {
+    console.log('nu är de inte fel')
+
     await schema.validateAsync(payload, { abortEarly: false })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
-    throw new BadRequest(error, 400)
+    console.log('nu är de fel')
+    throw new Error(error)
   }
 }
