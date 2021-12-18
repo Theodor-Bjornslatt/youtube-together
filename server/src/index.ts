@@ -1,4 +1,5 @@
 import connectRedis from 'connect-redis'
+import dotenv from 'dotenv'
 import session from 'express-session'
 import Redis from 'ioredis'
 
@@ -8,6 +9,10 @@ import log from './logger'
 import connectMongoDB from './db/mongodb'
 import { createServer } from './server'
 import { initSocket } from './socket'
+
+dotenv.config({
+  path: '.env'
+})
 
 try {
   const RedisStore = connectRedis(session)

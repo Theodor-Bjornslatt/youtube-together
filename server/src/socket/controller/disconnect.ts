@@ -1,7 +1,9 @@
 import { ISocket } from '../../interfaces'
+import log from '../../logger'
 
 export function onDisconnect(this: ISocket): void {
-  console.log(
-    `${this.name} ${this.id} disconnected  with socket id: ${this.id}`
-  )
+  log.info(`${this.name} disconnected`)
+  this.rooms.forEach((room) => {
+    this.to(room).emit(`${this.name} leaved ${room}`)
+  })
 }

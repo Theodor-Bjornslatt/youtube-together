@@ -1,19 +1,12 @@
-import { Socket } from 'socket.io'
+import { ISocket } from '../../interfaces'
+import log from '../../logger'
 
-interface IUser {
-  name: string
-  id: number
-  room: string
-}
-
-type ISocket = Socket & IUser
-
-export function onJoinRoom(this: ISocket, { room }: IUser): void {
+export function onJoinRoom(this: ISocket, room: string): void {
   this.join(room)
-  console.log(`${this.name} joined ${room} with socket id: ${this.id}`)
+  log.info(`${this.name} joined ${room}`)
 }
 
-export function onLeaveRoom(this: Socket, { name, room }: IUser): void {
+export function onLeaveRoom(this: ISocket, room: string): void {
   this.leave(room)
-  console.log(`${name} leaved ${room} with socket id: ${this.id}`)
+  this.to(room).emit(`${this.name} leaved ${room}`)
 }
