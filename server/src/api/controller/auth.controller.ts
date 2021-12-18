@@ -8,6 +8,7 @@ import { encrypt } from '../../util/crypt'
 import log from '../../logger'
 import { User } from '../models'
 import { logIn, registerSchema, validate } from '../../validation'
+import { BadRequest } from '../../errors'
 
 // fix error handler
 const apiRegisterUser = async (
@@ -19,7 +20,7 @@ const apiRegisterUser = async (
 
   const found = await User.exists({ email })
   if (found) {
-    throw new Error('Invalid email')
+    throw new BadRequest('Invalid email')
   }
   const user = new User({
     username,
