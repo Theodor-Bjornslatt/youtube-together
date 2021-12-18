@@ -28,6 +28,6 @@ try {
     log.info(`SERVER RUNNING ON PORT: ${APP_PORT}`)
   })
 } catch (error) {
-  // log.error(error)
+  log.error(error)
   process.exit(1)
 }
