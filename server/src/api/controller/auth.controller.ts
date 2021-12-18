@@ -47,7 +47,6 @@ const apiLoginUser = async (req: Request, res: Response): Promise<Response> => {
     }
 
     const { password: pwd, createdAt, updatedAt, __v, ...other } = user._doc
-    console.log(`other`, other)
     logIn(req, other)
     return res.status(200).json(other)
   } catch (error) {
