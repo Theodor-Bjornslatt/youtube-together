@@ -20,6 +20,7 @@ export const validate = async (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.log('nu är de fel')
-    throw new Error(error)
+    // eslint-disable-next-line @typescript-eslint/no-throw-literal
+    throw new BadRequest(error.message)
   }
 }

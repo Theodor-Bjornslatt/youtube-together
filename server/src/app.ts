@@ -5,7 +5,7 @@ import morgan from 'morgan'
 
 import { SESSION_OPTIONS } from './config'
 import { authRoutes } from './api/routes'
-import { IError } from './interfaces'
+import { handleError } from './middleware'
 
 export const createApp = (store: Store): Express => {
   const app: Express = express()
@@ -26,13 +26,8 @@ export const createApp = (store: Store): Express => {
   app.use((req: Request, res: Response) => {
     res.status(404).json({ error: 'page not found' })
   })
-  app.use((err: any, req: Request, res: Response) => {
-    console.log('Error Handling Middleware called')
-    console.log(`err`, err.message)
-    res
-      .status(err.status || 500)
-      .json({ message: err.message || 'Something went wrong on server' })
-  })
+
+  app.use(handleError)
 
   return app
 }

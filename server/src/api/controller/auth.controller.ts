@@ -7,14 +7,14 @@ import { Request, Response } from 'express'
 import { encrypt } from '../../util/crypt'
 import log from '../../logger'
 import { User } from '../models'
-import { logIn, registerSchema } from '../../validation'
+import { logIn, registerSchema, validate } from '../../validation'
 
 // fix error handler
 const apiRegisterUser = async (
   req: Request,
   res: Response
 ): Promise<Response | undefined> => {
-  await registerSchema.validateAsync(req.body, { abortEarly: false })
+  await validate(registerSchema, req.body)
   const { username, password, email } = req.body
 
   const found = await User.exists({ email })
