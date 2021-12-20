@@ -6,6 +6,13 @@ export class BadRequest extends Error {
     this.status = status
   }
 }
+export class AllReadyLogedIn extends Error {
+  constructor(public message: string, public status = 200) {
+    super(message)
+
+    this.status = status
+  }
+}
 
 export class CustomError {
   message!: string
