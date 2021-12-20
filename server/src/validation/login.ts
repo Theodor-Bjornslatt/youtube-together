@@ -1,6 +1,6 @@
 import { Request } from 'express'
 
-import { UserDocument } from '../api/models'
+import { IUser } from '../interfaces'
 
 declare module 'express-session' {
   interface SessionData {
@@ -9,7 +9,7 @@ declare module 'express-session' {
   }
 }
 
-export const logIn = (req: Request, { admin, _id }: UserDocument): void => {
+export const logIn = (req: Request, { admin, _id }: IUser): void => {
   req.session.admin = admin
   req.session.userId = _id
 }

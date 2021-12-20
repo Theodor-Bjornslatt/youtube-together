@@ -1,14 +1,6 @@
-import { Document, Schema, model } from 'mongoose'
+import { Schema, model } from 'mongoose'
 
 import { compare } from '../../util'
-
-export interface UserDocument extends Document {
-  _id: string
-  email: string
-  username: string
-  password: string
-  admin: boolean
-}
 
 const userSchema = new Schema(
   {
