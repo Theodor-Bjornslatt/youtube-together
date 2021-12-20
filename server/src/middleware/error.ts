@@ -1,8 +1,6 @@
 import { Request, Response, NextFunction, RequestHandler } from 'express'
 
-import { BadRequest, CustomError } from '../errors'
 import { IError } from '../interfaces'
-import log from '../logger'
 
 const handleError = (
   err: IError,
@@ -11,7 +9,7 @@ const handleError = (
   next: NextFunction
 ): void => {
   // log.error(err)
-  res.status(err.status).json({ error: err.message })
+  res.status(err.status || 500).json({ error: err.message || 'Server bad' })
 }
 
 const catchAsync = (handler: RequestHandler) => {

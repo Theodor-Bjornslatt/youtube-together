@@ -4,30 +4,28 @@
 import { BadRequest } from '../../errors'
 import { encrypt } from '../../util'
 import { registerSchema, validate } from '../../validation'
-import { User, UserDocument } from '../models'
+import { User } from '../models'
+import { IUser } from '../../interfaces'
 
 export const loginUserService = async ({
   email,
   password
-}: UserDocument): Promise<UserDocument> => {
+}: IUser): Promise<IUser> => {
   if (!email || !password) {
-    throw new BadRequest('NO')
+    throw new BadRequest('Missing params')
   }
   const user = await User.findOne({ email })
   if (!user || !user.matchesPassword(password)) {
-    throw new BadRequest('NO')
+    throw new BadRequest('Bad credentials')
   }
 
-  const newLocal = user._doc
-  const { password: pwd, createdAt, updatedAt, __v, ...other } = newLocal
-  return other
+  const { password: pwd, createdAt, updatedAt, __v, ...userDTO } = user._doc
+  return userDTO
 }
 
-export const registerUserService = async (
-  reqUser: UserDocument
-): Promise<UserDocument> => {
-  await validate(registerSchema, reqUser)
-  const { username, password, email } = reqUser
+export const registerUserService = async (body: IUser): Promise<IUser> => {
+  await validate(registerSchema, body)
+  const { username, password, email } = body
 
   const found = await User.exists({ email })
   if (found) {
