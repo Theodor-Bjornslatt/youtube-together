@@ -5,7 +5,7 @@ import { compare } from '../../util'
 export interface UserDocument extends Document {
   _id: string
   email: string
-  name: string
+  username: string
   password: string
   admin: boolean
 }
