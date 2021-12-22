@@ -2,12 +2,14 @@ export const headerHeight = '100px'
 
 type MaxWidth = {
   small: 1280
-  large: 1440
+  medium: 1440
+  large: 1600
 }
 
-export const maxWidth: MaxWidth = {
+export const maxWidths: MaxWidth = {
   small: 1280,
-  large: 1440
+  medium: 1440,
+  large: 1600
 }
 
 type HeaderBoxHeight = {
@@ -15,7 +17,7 @@ type HeaderBoxHeight = {
   desktop: '108px'
 }
 
-export const headerBoxHeight: HeaderBoxHeight = {
+export const headerBoxHeights: HeaderBoxHeight = {
   mobile: '54px',
   desktop: '108px'
 }
@@ -25,12 +27,15 @@ type MinimumInputHeight = {
   desktop: '60px'
 }
 
-export const minimumInputHeight: MinimumInputHeight = {
+export const minimumInputHeights: MinimumInputHeight = {
   mobile: '40px',
   desktop: '60px'
 } 
 
-export const imageFilter = '#16141414'
+export const imageFilters = {
+  mediumDark: '#16141414',
+  dark: '#16141450'
+}
 
 export const colors = {
   lightPink: '#FBECEC',
