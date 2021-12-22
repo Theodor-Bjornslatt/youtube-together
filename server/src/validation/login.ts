@@ -9,8 +9,7 @@ declare module 'express-session' {
   }
 }
 
-export const logIn = (req: Request, { admin, _id }: IUser): void => {
-  req.session.admin = admin
+export const logIn = (req: Request, { _id }: IUser): void => {
   req.session.userId = _id
 }
 

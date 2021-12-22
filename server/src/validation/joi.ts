@@ -5,7 +5,6 @@ import { BadRequest } from '../errors'
 interface User {
   username: string
   password: string
-  admin: boolean
   email: string
 }
 
