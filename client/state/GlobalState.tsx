@@ -1,12 +1,14 @@
-import { createContext, useReducer } from 'react'
+import { useEffect, createContext, useReducer } from 'react'
+
+import { useWindowSize } from '../hooks/useWindowSize'
 
 const initialState = {
-  anAction: 'Action'
+  windowWidth: 0
 }
 
 type GlobalState = typeof initialState
 
-type SetStateAction = { type: 'anAction'; payload: string }
+type SetStateAction = { type: 'windowWidth'; payload: number }
 
 type GlobalContextType = {
   state: GlobalState
@@ -20,7 +22,7 @@ export const GlobalContext = createContext<GlobalContextType>({
 
 const GlobalReducer = (state: GlobalState, action: SetStateAction) => {
   switch (action.type) {
-    case 'anAction':
+    case 'windowWidth':
       return {
         ...state,
         anAction: action.payload
@@ -35,6 +37,12 @@ type ContextProps = {
 }
 
 export const GlobalContextProvider = ({ children }: ContextProps) => {
+  const windowSize = useWindowSize()
+  useEffect(() => {
+    dispatch({ type: 'windowWidth', payload: windowSize.width })
+    console.log(windowSize)
+  }, [windowSize])
+
   const [state, dispatch] = useReducer<
     (state: GlobalState, action: SetStateAction) => GlobalState
   >(GlobalReducer, {
