@@ -7,7 +7,19 @@
     "dev": "nodemon src/index.ts",
     "up": "docker-compose up -d",
     "stop": "docker-compose stop",
-    "down": "docker-compose down"
+    "down": "docker-compose down",
+    "prepare": "cd .. && husky install .husky",
+    "lint-server": "lint-staged"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-server"
+    }
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx}": [
+      "eslint --cache --fix"
+    ]
   },
   "keywords": [
     "Typescript",
@@ -39,7 +51,7 @@
     "eslint-plugin-jest": "^24.4.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-promise": "^5.1.0",
-    "husky": "^7.0.2",
+    "husky": "^7.0.4",
     "jest": "^27.1.0",
     "lint-staged": "^11.1.2",
     "nodemon": "^2.0.15",
