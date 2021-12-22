@@ -1,12 +1,12 @@
-import { Request } from 'express'
+// import { Request } from 'express'
 
-declare module 'express-session' {
-  interface SessionData {
-    admin: boolean
-    userId: string
-  }
-}
+// declare module 'express-session' {
+//   interface SessionData {
+//     admin: boolean
+//     userId: string
+//   }
+// }
 
-export const isAdmin = (req: Request): boolean => {
-  return !req.session.admin
-}
+// export const isAdmin = (req: Request): boolean => {
+//   return !req.session.admin
+// }
