@@ -7,7 +7,7 @@
     "start": "next start",
     "lint": "next lint",
     "lint-client": "lint-staged",
-    "prepare": "cd .. && husky install client/.husky"
+    "prepare": "cd .. && husky install .husky"
   },
   "prettier": {
     "singleQuote": true,
