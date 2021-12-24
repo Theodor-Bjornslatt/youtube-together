@@ -1,6 +1,7 @@
-import { TextInputContainer } from './textInput.styled'
-import classNames from 'classnames'
 import React from 'react'
+import classNames from 'classnames'
+
+import { TextInputContainer } from './textInput.styled'
 
 export type InputProps = {
   label?: string
@@ -22,7 +23,7 @@ export const TextInput: React.FC<InputProps> = ({
   onChange,
   value
 }) => {
-  const inputNames = classNames('input-text', { 'input-text-error': !!error })
+  const inputNames = classNames('input', { 'input-error': !!error })
   const labelNames = classNames('label', { 'label-error': !!error })
   return (
     <TextInputContainer>

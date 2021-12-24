@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import classNames from 'classnames'
+
 import { InputProps } from '../TextInput'
 import { TextAreaInputContainer } from './TextAreaInput.styled'
 

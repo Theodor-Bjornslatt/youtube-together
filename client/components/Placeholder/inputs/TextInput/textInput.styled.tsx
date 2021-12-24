@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+
 import {
   fontSizes,
   borderRadius,
@@ -14,6 +15,7 @@ export const TextInputContainer = styled.div`
     flex-direction: column;
     text-align: left;
     max-width: 23rem;
+    max-height: 100%;
     font-family: ${fonts.roboto};
   }
 
@@ -29,16 +31,16 @@ export const TextInputContainer = styled.div`
     }
   }
 
-  .input-text {
+  .input {
     display: inline-block;
     box-sizing: border-box;
     background: ${colors.lightPink};
     font-size: ${fontSizes.small};
     font-family: ${fonts.roboto};
     border-radius: ${borderRadius.small};
-    padding-left: 12px;
-    padding-top: 12px;
-    padding-bottom: 12px;
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
     border: ${borders.light};
     color: ${colors.darkest};
     height: ${minimumInputHeight.mobile};
