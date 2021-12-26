@@ -1,5 +1,11 @@
+import StartHero from '../components/StartHero'
+
 const Home = () => {
-  return <div>WELCOME TO YOUTUBE TOGETHER</div>
+  return (
+    <>
+      <StartHero />
+    </>
+  )
 }
 
 export default Home

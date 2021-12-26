@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway&family=Roboto+Mono&display=swap');
 
 html,
-body {
+body,
+#__next {
+  min-height: 100vh;
   padding: 0;
   margin: 0;
 }

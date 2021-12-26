@@ -10,8 +10,9 @@ import {
 } from './variables'
 
 export const GlobalStyle = createGlobalStyle`
-  color: ${colors.white};
-  background-color: ${colors.darkest};
+  body {
+     background-color: ${colors.darkest};
+  }
 
   h1,
   h2,
@@ -20,6 +21,7 @@ export const GlobalStyle = createGlobalStyle`
   h5,
   p {
     margin: 0;
+    color: ${colors.white};
   }
 
   h1 {
