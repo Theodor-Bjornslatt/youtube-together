@@ -1,7 +1,7 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
-import { BadRequest } from '../../errors'
+import { BadRequest, Unauthorized } from '../../errors'
 import { encrypt } from '../../util'
 import { registerSchema, validate } from '../../validation'
 import { User } from '../models'
@@ -40,4 +40,14 @@ export const registerUserService = async (body: IUser): Promise<IUser> => {
 
   const savedUser = await user.save()
   return savedUser
+}
+
+export const whoamiService = async (
+  userId: string | undefined
+): Promise<IUser> => {
+  const user = await User.findOne({ id: userId })
+  if (!user) throw new Unauthorized('Unauthorized')
+  console.log(`user`, user)
+  const { password, createdAt, updatedAt, __v, ...userDTO } = user._doc
+  return userDTO
 }
