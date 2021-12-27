@@ -13,17 +13,10 @@ export class AllReadyLogedIn extends Error {
     this.status = status
   }
 }
+export class Unauthorized extends Error {
+  constructor(public message: string, public status = 403) {
+    super(message)
 
-export class CustomError {
-  message!: string
-
-  status!: number
-
-  additionalInfo!: unknown
-
-  constructor(message: string, status = 500, additionalInfo = {}) {
-    this.message = message
     this.status = status
-    this.additionalInfo = additionalInfo
   }
 }
