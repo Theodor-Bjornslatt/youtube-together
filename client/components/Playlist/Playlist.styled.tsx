@@ -1,3 +1,4 @@
+
 import styled from 'styled-components'
 
 import { borders, colors, fontWeights, spacings } from '../../styles/variables'
@@ -7,16 +8,18 @@ type PlaylistContainerProps = {
 }
 
 export const PlaylistContainer = styled.div<PlaylistContainerProps>`
-  ${(props) => props.isActive && 'cursor: grabbing'};
+ //@TODO update this styling when putting together room
 `
 
 type DraggingProps = {
-  dragEntered?: boolean
   isActive?: boolean
+  translateX?: number
+  translateY?: number
 }
 
 export const PlaylistItemContainer = styled.div<DraggingProps>`
-  width: 500px;
+  width: calc(100% - ${spacings.extraExtraSmall} - ${spacings.extraExtraSmall});
+  max-width: 500px;
   display: grid;
   grid-template-columns: auto auto;
   justify-content: space-between;
@@ -26,15 +29,17 @@ export const PlaylistItemContainer = styled.div<DraggingProps>`
   background: ${colors.darkest};
   border: ${borders.light};
   margin: ${spacings.extraSmall} ${spacings.extraExtraSmall};
-  ${(props) =>
-    props.isActive &&
-    `border-top: 2px solid blue;
-  `}
-  cursor: grab;
+  ${props => props.translateX && props.translateY && `
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    pointer-events: none;
+    `}
+  cursor: ${props => props.isActive ? 'grabbing' : 'grab'};
 
-  :-moz-drag-over {
-    cursor: grabbing;
-    background: white;
+  :hover{
+    border-left: 2px solid ${colors.lightPink};
   }
 `
 

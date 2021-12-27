@@ -1,5 +1,6 @@
-import { useState, DragEvent } from 'react'
+import { useState, useEffect } from 'react'
 
+import { usePointerPosition } from '../../hooks/usePointerPosition'
 import { PlaylistContainer } from './Playlist.styled'
 import PlaylistItem from './PlaylistItem'
 
@@ -23,27 +24,46 @@ export default function Playlist() {
     id: number
     name: string
   }
-  const [draggedItem, setDraggedItem] = useState<PlaceHolderType | undefined>({
-    id: 0,
-    name: ''
-  })
-  const [isActive, setIsActive] = useState(false)
 
-  function handleDragStart(
-    e: DragEvent<HTMLDivElement>,
-    item: PlaceHolderType
-  ) {
-    e.dataTransfer.effectAllowed = 'all'
-    e.dataTransfer.dropEffect = 'move'
+  const [draggedIndex, setDraggedIndex] = useState<number | undefined>(undefined)
+  const [draggedItem, setDraggedItem] = useState<PlaceHolderType | undefined>(undefined)
+  const [isPointerOnPlaylist, setIsPointerOnPlaylist] = useState(false)
+
+  const pointerPosition = usePointerPosition()
+
+  function unFocusElements() {
+    if (document.getSelection()) {
+      document.getSelection()?.empty()
+    }
+  }
+
+  useEffect(() => {
+    window.addEventListener('pointerup', endDrag)
+    window.addEventListener('pointermove', unFocusElements)
+
+    return () => {
+      window.removeEventListener('pointerup', endDrag)
+      window.removeEventListener('pointermove', unFocusElements)
+    }
+  })
+
+  function endDrag() {
+    if (!isPointerOnPlaylist && draggedIndex && draggedItem) {
+      const previousPlaylist = [...playlist].filter(it => it.id !== draggedItem.id)
+      previousPlaylist.splice(draggedIndex, 0, draggedItem)
+      setPlaylist(previousPlaylist)
+    }
+    setDraggedItem(undefined)
+  }
+
+  function startDrag(item: PlaceHolderType) {
+    setDraggedIndex(playlist.findIndex(it => it.id === item.id))
     setDraggedItem(item)
   }
 
-  function onDragOver(e: DragEvent<HTMLDivElement>, id: number) {
-    e.preventDefault()
-    e.dataTransfer.effectAllowed = 'all'
-    e.dataTransfer.dropEffect = 'move'
-    if (draggedItem?.id === id || !draggedItem) return
-    const hoveredItemIndex = playlist.findIndex((item) => item.id === id)
+  function onPointerEnter(item: PlaceHolderType) {
+    if (!draggedItem || draggedItem.id === item.id) return
+    const hoveredItemIndex = playlist.findIndex((it) => it.id === item.id)
     const newPlaylist = [
       ...playlist.filter((item) => item.id !== draggedItem.id)
     ]
@@ -51,30 +71,22 @@ export default function Playlist() {
     setPlaylist(newPlaylist)
   }
 
-  function onDragEnd() {
-    setDraggedItem(undefined)
-  }
-
-  function preventDefault(e: DragEvent<HTMLDivElement>) {
-    e.preventDefault()
-  }
-
   return (
     <PlaylistContainer
-      isActive={isActive}
-      onDragOver={preventDefault}
-      onDragEnter={preventDefault}
+      isActive={draggedItem != undefined}
+      onPointerEnter={() => !isPointerOnPlaylist && setIsPointerOnPlaylist(true)}
+      onPointerLeave={() => isPointerOnPlaylist && setIsPointerOnPlaylist(false)}
     >
       {playlist.map((item) => (
         <PlaylistItem
-          onDragOver={onDragOver}
-          onDragStart={handleDragStart}
-          onDragEnd={onDragEnd}
-          setIsActive={setIsActive}
+          startDrag={startDrag}
           key={item.id}
           item={item}
+          onPointerEnter={onPointerEnter}
+          isActive={draggedItem != undefined}
         />
       ))}
-    </PlaylistContainer>
+      {draggedItem && <PlaylistItem startDrag={startDrag} item={draggedItem} translateX={pointerPosition.x - 80} translateY={pointerPosition.y - 20} />}
+    </PlaylistContainer >
   )
 }

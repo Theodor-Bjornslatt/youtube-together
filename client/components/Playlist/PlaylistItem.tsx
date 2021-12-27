@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction, DragEvent } from 'react'
-
 import {
   PlaylistItemContainer,
   PlaylistTextContainer,
@@ -10,33 +8,31 @@ import play from '../../public/play.svg'
 
 type PlaylistItemProps = {
   item: { id: number; name: string }
-  setIsActive: Dispatch<SetStateAction<boolean>>
-  onDragStart: (
-    e: DragEvent<HTMLDivElement>,
-    item: { id: number; name: string }
-  ) => void
-  onDragOver: (e: DragEvent<HTMLDivElement>, id: number) => void
-  onDragEnd: () => void
+  isActive?: boolean
+  startDrag: (item: { id: number; name: string }) => void
+  onPointerEnter?: (item: { id: number; name: string }) => void
+  translateX?: number
+  translateY?: number
 }
 
 export default function PlaylistItem({
   item,
-  setIsActive,
-  onDragStart,
-  onDragOver,
-  onDragEnd
+  isActive,
+  startDrag,
+  onPointerEnter,
+  translateX,
+  translateY,
 }: PlaylistItemProps) {
+
   return (
     <PlaylistItemContainer
-      onDragStart={(e) => onDragStart(e, item)}
-      onPointerDown={() => setIsActive(true)}
-      onPointerUp={() => setIsActive(false)}
-      onDragOver={(e) => onDragOver(e, item.id)}
-      onDragEnter={(e) => e.preventDefault()}
-      onDragLeave={(e) => e.preventDefault()}
-      onDragEnd={onDragEnd}
-      draggable
-      isActive={true}
+      onPointerDown={(e) => { e.stopPropagation(), startDrag(item) }}
+      onPointerEnter={() => onPointerEnter && onPointerEnter(item)}
+      onDragStart={(e) => e.preventDefault()}
+      isActive={isActive}
+      translateY={translateY}
+      translateX={translateX}
+      style={{ transform: `${translateY && translateX ? `translateY(${translateY}px) translateX(${translateX}px)` : 'none'}` }}
     >
       <PlaylistTextContainer>
         <h4>{item.name}</h4>
@@ -44,6 +40,6 @@ export default function PlaylistItem({
       <PlaylistIconContainer>
         <NextImage src={play} width={34} height={34} />
       </PlaylistIconContainer>
-    </PlaylistItemContainer>
+    </PlaylistItemContainer >
   )
 }
