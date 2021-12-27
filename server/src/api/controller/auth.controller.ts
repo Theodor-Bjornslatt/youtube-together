@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Request, Response } from 'express'
 
-import { logIn } from '../../validation'
+import { logIn, logOut } from '../../validation'
 import {
   loginUserService,
   registerUserService
@@ -22,9 +22,15 @@ const apiLoginUser = async (req: Request, res: Response): Promise<void> => {
   res.status(200).json({ user })
 }
 
+const apiLogoutUser = async (req: Request, res: Response): Promise<void> => {
+  await logOut(req, res)
+  res.json({ message: 'OK' })
+}
+
 const auth = {
   apiRegisterUser,
-  apiLoginUser
+  apiLoginUser,
+  apiLogoutUser
 }
 
 export default auth
