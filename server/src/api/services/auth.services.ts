@@ -46,8 +46,6 @@ export const whoamiService = async (
   userId: string | undefined
 ): Promise<IUser> => {
   const user = await User.findOne({ id: userId })
-  if (!user) throw new Unauthorized('Unauthorized')
-  console.log(`user`, user)
   const { password, createdAt, updatedAt, __v, ...userDTO } = user._doc
   return userDTO
 }
