@@ -25,7 +25,7 @@ export const loginUserService = async ({
 
 export const registerUserService = async (body: IUser): Promise<IUser> => {
   await validate(registerSchema, body)
-  const { username, password, email } = body
+  const { username, password, email, color } = body
 
   const found = await User.exists({ email })
   if (found) {
@@ -34,7 +34,8 @@ export const registerUserService = async (body: IUser): Promise<IUser> => {
   const user = new User({
     username,
     password: encrypt(password),
-    email
+    email,
+    color
   })
 
   const savedUser = await user.save()
