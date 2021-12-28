@@ -86,7 +86,8 @@ export const shadows = {
 }
 
 export const borders = {
-  light: '1px solid #2D2828'
+  light: '1px solid #2D2828',
+  danger: `1px solid ${colors.danger}`
 }
 
 export const textColors = {
