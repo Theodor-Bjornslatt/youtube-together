@@ -1,7 +1,7 @@
 /* eslint-disable eslint-comments/disable-enable-pair */
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
-import { BadRequest } from '../../errors'
+import { BadRequest, Unauthorized } from '../../errors'
 import { encrypt } from '../../util'
 import { registerSchema, validate } from '../../validation'
 import { User } from '../models'
@@ -25,7 +25,7 @@ export const loginUserService = async ({
 
 export const registerUserService = async (body: IUser): Promise<IUser> => {
   await validate(registerSchema, body)
-  const { username, password, email } = body
+  const { username, password, email, color } = body
 
   const found = await User.exists({ email })
   if (found) {
@@ -34,9 +34,18 @@ export const registerUserService = async (body: IUser): Promise<IUser> => {
   const user = new User({
     username,
     password: encrypt(password),
-    email
+    email,
+    color
   })
 
   const savedUser = await user.save()
   return savedUser
+}
+
+export const whoamiService = async (
+  userId: string | undefined
+): Promise<IUser> => {
+  const user = await User.findOne({ id: userId })
+  const { password, createdAt, updatedAt, __v, ...userDTO } = user._doc
+  return userDTO
 }

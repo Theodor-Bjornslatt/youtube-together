@@ -4,10 +4,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Request, Response } from 'express'
 
-import { logIn } from '../../validation'
+import { logIn, logOut } from '../../validation'
 import {
   loginUserService,
-  registerUserService
+  registerUserService,
+  whoamiService
 } from '../services/auth.services'
 
 const apiRegisterUser = async (req: Request, res: Response): Promise<void> => {
@@ -22,9 +23,22 @@ const apiLoginUser = async (req: Request, res: Response): Promise<void> => {
   res.status(200).json({ user })
 }
 
+const apiLogoutUser = async (req: Request, res: Response): Promise<void> => {
+  await logOut(req, res)
+  res.json({ message: 'OK' })
+}
+
+const apiWhoAmI = async (req: Request, res: Response): Promise<void> => {
+  const { userId } = req.session
+  const user = await whoamiService(userId)
+  res.json({ user })
+}
+
 const auth = {
   apiRegisterUser,
-  apiLoginUser
+  apiLoginUser,
+  apiLogoutUser,
+  apiWhoAmI
 }
 
 export default auth

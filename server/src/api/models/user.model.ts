@@ -16,7 +16,8 @@ const userSchema = new Schema(
       trim: true,
       unique: true
     },
-    password: { type: String, required: [true, 'Must provide a password'] }
+    password: { type: String, required: [true, 'Must provide a password'] },
+    color: { type: String, default: 'blue' }
   },
   { timestamps: true }
 )
