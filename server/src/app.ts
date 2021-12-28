@@ -3,7 +3,7 @@ import express, { Request, Response, Express } from 'express'
 import session, { Store } from 'express-session'
 import morgan from 'morgan'
 
-import { SESSION_OPTIONS } from './config'
+import { SESSION_OPTIONS, CORS_OPTIONS } from './config'
 import { authRoutes } from './api/routes'
 import { handleError } from './middleware'
 
@@ -11,7 +11,7 @@ export const createApp = (store: Store): Express => {
   const app: Express = express()
 
   // middleware
-  app.use(cors({ credentials: false }))
+  app.use(cors(CORS_OPTIONS))
   app.use(express.json())
   app.use(morgan('dev'))
   app.use(session({ ...SESSION_OPTIONS, store }))
