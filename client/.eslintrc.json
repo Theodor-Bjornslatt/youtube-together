@@ -70,6 +70,7 @@
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "unused-imports/no-unused-imports-ts": "error",
-    "unused-imports/no-unused-vars-ts": "error"
+    "unused-imports/no-unused-vars-ts": "error",
+    "@typescript-eslint/no-explicit-any": "off"
   }
 }
