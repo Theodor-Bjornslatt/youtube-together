@@ -13,7 +13,7 @@ export const maxWidths: MaxWidth = {
 }
 
 type HeaderBoxHeight = {
-   mobile: '54px'
+  mobile: '54px'
   desktop: '108px'
 }
 
@@ -30,7 +30,7 @@ type MinimumInputHeight = {
 export const minimumInputHeights: MinimumInputHeight = {
   mobile: '40px',
   desktop: '60px'
-} 
+}
 
 export const imageFilters = {
   mediumDark: '#16141414',
@@ -44,7 +44,8 @@ export const colors = {
   brown: '#2D2828',
   white: '#FFFFFF',
   transparentDark: '#2D282880',
-  transparentPink: '#FBECEC33'
+  transparentPink: '#FBECEC33',
+  danger: '#bb2124'
 }
 
 type BorderRadius = {
@@ -85,7 +86,8 @@ export const shadows = {
 }
 
 export const borders = {
-  light: '1px solid #2D2828'
+  light: '1px solid #2D2828',
+  danger: `1px solid ${colors.danger}`
 }
 
 export const textColors = {
