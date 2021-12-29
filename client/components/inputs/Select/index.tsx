@@ -11,8 +11,8 @@ import {
 type SelectProps = {
   label?: string
   name: string
-  onChange?: any
-  children: any
+  onChange?: React.ChangeEventHandler<HTMLSelectElement>
+  children: React.ReactNode
   error: string
 }
 

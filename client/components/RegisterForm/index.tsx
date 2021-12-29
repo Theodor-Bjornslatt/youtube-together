@@ -10,6 +10,14 @@ import { Select } from '../../components/inputs/Select'
 
 export default function RegisterForm() {
   const { dispatch } = useContext(GlobalContext)
+  const initialValue = {
+    username: '',
+    color: '',
+    email: '',
+    password: '',
+    repeat: ''
+  }
+
   const submitForm = async () => {
     // eslint-disable-next-line
     const { repeat, ...signupValues } = values
@@ -28,13 +36,7 @@ export default function RegisterForm() {
 
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
     submitForm,
-    {
-      username: '',
-      color: '',
-      email: '',
-      password: '',
-      repeat: ''
-    },
+    initialValue,
     validateSignUp
   )
 

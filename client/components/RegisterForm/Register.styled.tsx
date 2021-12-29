@@ -11,7 +11,7 @@ export const Form = styled.form`
 `
 
 export const SignupButton = styled(ButtonStyled)`
-  margin-top: ${spacings.extraSmall};
+  margin-top: ${spacings.small};
   font-size: ${fontSizes.small};
   font-family: ${fonts.roboto};
   margin-bottom: 2rem;
