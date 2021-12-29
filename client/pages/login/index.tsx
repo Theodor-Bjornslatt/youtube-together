@@ -1,49 +1,60 @@
 import React, { useState } from 'react'
 
+import { validateSignIn } from '../../utils/formValidationRules'
 import { TextInput } from '../../components/inputs/TextInput'
 import { ErrorMessage, FormContainer } from './Login.styled'
 import { useForm } from '../../hooks/useForm'
 import { LoginButton } from './Login.styled'
+import { Form, Headline } from '../register/register.styled'
 
 export default function Login() {
-  const [loginData, onChangeHandler] = useForm({
-    email: '',
-    password: ''
-  })
+  const { values, errors, onChangeHandler, handleSubmit } = useForm(
+    submitHandler,
+    {
+      email: '',
+      password: ''
+    },
+    validateSignIn
+  )
+
   const [error, setError] = useState(false)
 
-  const submitHandler = async () => {
-    if (!loginData.email || !loginData.password) return
-
+  async function submitHandler() {
+    if (!values.email || !values.password) return
     const res = await fetch('http://localhost:8080/api/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify(loginData)
+      body: JSON.stringify(values)
     })
-
     if (!res.ok) return setError(true)
     const data = await res.json()
+    console.log('data :>> ', data)
   }
 
   return (
     <FormContainer>
-      <TextInput
-        label="Email"
-        value={loginData.email}
-        name="email"
-        onChange={onChangeHandler}
-      />
-      <TextInput
-        label="Password"
-        type="password"
-        value={loginData.password}
-        name="password"
-        onChange={onChangeHandler}
-      />
+      <Headline>Login</Headline>
+      <Form onSubmit={handleSubmit}>
+        <TextInput
+          label="Email"
+          value={values.email}
+          error={errors.email}
+          name="email"
+          onChange={onChangeHandler}
+        />
+        <TextInput
+          label="Password"
+          type="password"
+          value={values.password}
+          error={errors.password}
+          name="password"
+          onChange={onChangeHandler}
+        />
 
-      {error && <ErrorMessage>Invalid email or password</ErrorMessage>}
-      <LoginButton onClick={submitHandler}>Login</LoginButton>
+        {error && <ErrorMessage>Invalid email or password</ErrorMessage>}
+        <LoginButton onSubmit={handleSubmit}>Login</LoginButton>
+      </Form>
     </FormContainer>
   )
 }
