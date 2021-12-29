@@ -89,8 +89,10 @@ export const borders = {
   light: '1px solid #2D2828',
   danger: `1px solid ${colors.danger}`
 }
-
-export const textColors = {
+type textColors = {
+  [key: string]: string
+}
+export const textColors: textColors = {
   pink: '#FE37F6',
   green: '#93FFA4',
   blue: '#93F8FF'
