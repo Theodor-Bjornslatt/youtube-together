@@ -50,23 +50,15 @@ export default function RegisterForm() {
         onChange={onChangeHandler}
       />
 
-      <Select label="Colors" name="colors">
+      <Select error={errors.color} label="Choose a color" name="colors">
         {Object.keys(textColors).map((color, index) => {
           return (
-            <option key={index} value={textColors[color]}>
+            <option className="option" key={index} value={textColors[color]}>
               {color}
             </option>
           )
         })}
       </Select>
-      <TextInput
-        label="Choose a color"
-        placeholder="Choose a color..."
-        name="color"
-        error={errors.color}
-        value={values.color}
-        onChange={onChangeHandler}
-      />
       <TextInput
         placeholder="Email..."
         label="Email"

@@ -93,9 +93,9 @@ type textColors = {
   [key: string]: string
 }
 export const textColors: textColors = {
-  pink: '#FE37F6',
-  green: '#93FFA4',
-  blue: '#93F8FF'
+  Pink: '#FE37F6',
+  Green: '#93FFA4',
+  Blue: '#93F8FF'
 }
 
 export const fonts = {

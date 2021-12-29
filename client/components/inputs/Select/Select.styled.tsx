@@ -5,7 +5,8 @@ import { inputBaseStyle } from '../TextInput/textInput.styled'
 
 export const SelectStyled = styled.select`
   min-width: 15rem;
-  ${inputBaseStyle}
+  color: ${colors.darkest};
+  ${inputBaseStyle};
 `
 export const SelectLabel = styled.label`
   color: ${colors.white};
