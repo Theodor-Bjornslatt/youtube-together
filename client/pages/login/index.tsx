@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { TextInput } from '../../components/inputs/TextInput'
-import { FormContainer } from './Login.styled'
+import { ErrorMessage, FormContainer } from './Login.styled'
 import { useForm } from '../../hooks/useForm'
 import { LoginButton } from './Login.styled'
 
@@ -10,6 +10,7 @@ export default function Login() {
     email: '',
     password: ''
   })
+  const [error, setError] = useState(false)
 
   const submitHandler = async () => {
     if (!loginData.email || !loginData.password) return
@@ -21,8 +22,8 @@ export default function Login() {
       body: JSON.stringify(loginData)
     })
 
+    if (!res.ok) return setError(true)
     const data = await res.json()
-    console.log('data :>> ', data)
   }
 
   return (
@@ -40,6 +41,8 @@ export default function Login() {
         name="password"
         onChange={onChangeHandler}
       />
+
+      {error && <ErrorMessage>Invalid email or password</ErrorMessage>}
       <LoginButton onClick={submitHandler}>Login</LoginButton>
     </FormContainer>
   )
