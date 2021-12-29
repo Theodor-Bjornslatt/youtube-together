@@ -7,19 +7,21 @@ import validate from '../../utils/formValidationRules'
 
 const register = () => {
   const submitForm = async () => {
-    /*   const res = await fetch('http://localhost:8080/api/register', {
+    // eslint-disable-next-line
+    const { repeat, ...signupValues } = values
+    const res = await fetch('http://localhost:8080/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify(values)
+      body: JSON.stringify(signupValues)
     })
-    
-    const data = await res.json() */
-    console.log(values)
+
+    const data = await res.json()
+    console.log(data)
     console.log(errors)
   }
+
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
-    validate,
     submitForm,
     {
       username: '',
@@ -27,11 +29,12 @@ const register = () => {
       email: '',
       password: '',
       repeat: ''
-    }
+    },
+    validate
   )
 
   return (
-    <>
+    <form onSubmit={handleSubmit}>
       <TextInput
         placeholder="Username..."
         label="Create a username"
@@ -72,8 +75,8 @@ const register = () => {
         value={values.repeat}
         onChange={onChangeHandler}
       />
-      <Button onClick={handleSubmit} text="Signup" />
-    </>
+      <Button onSubmit={handleSubmit} text="Signup" />
+    </form>
   )
 }
 

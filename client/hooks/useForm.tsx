@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 
-type GenericObject = { [key: string]: any }
+export type GenericObject = { [key: string]: string }
 
 type UseForm = {
   values: GenericObject
@@ -10,26 +10,25 @@ type UseForm = {
 }
 
 export const useForm = (
-  validate: any,
-  submitForm: any,
-  initialValue: GenericObject
+  submitForm: () => void,
+  initialValue: GenericObject,
+  validate?: (values: GenericObject) => GenericObject
 ): UseForm => {
   const [values, setValues] = useState(initialValue)
   const [errors, setErrors] = useState({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
-    if (errors === {} && isSubmitting) {
-      console.log('useeffect')
+    if (Object.keys(errors).length === 0 && isSubmitting) {
       submitForm()
     }
   }, [errors])
 
   const handleSubmit = (e: any) => {
     if (e) e.preventDefault()
-    console.log(values)
-
-    setErrors(validate(values))
+    if (validate) {
+      setErrors(validate(values))
+    }
     setIsSubmitting(true)
   }
 

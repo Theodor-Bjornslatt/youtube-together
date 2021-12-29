@@ -3,7 +3,7 @@ type GenericObject = { [key: string]: string }
 export default function validate(values: GenericObject) {
   const validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-  let errors: GenericObject = {}
+  const errors: GenericObject = {}
 
   if (!values.username) {
     errors.username = 'Username is required'
