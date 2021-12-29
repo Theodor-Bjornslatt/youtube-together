@@ -10,7 +10,7 @@ import {
   sizes,
   spacings
 } from '../../styles/variables'
-import MaxWidthContainer from '../MaxWidthContainer'
+import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
 export const FooterContainer = styled.footer`
   position: absolute;
@@ -22,7 +22,7 @@ export const FooterContainer = styled.footer`
   border: ${borders.light};
 `
 
-export const FooterContentContainer = styled(MaxWidthContainer)`
+export const FooterContentContainer = styled(MaxWidthContainerStyled)`
   justify-content: space-between;
   margin: ${spacings.small} 0;
   max-width: 100%;
