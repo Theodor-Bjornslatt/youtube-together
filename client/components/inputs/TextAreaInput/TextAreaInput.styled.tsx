@@ -1,5 +1,4 @@
 import styled from 'styled-components'
-
 import TextareaAutosize from 'react-textarea-autosize'
 
 import { colors, borders } from '../../../styles/variables'
