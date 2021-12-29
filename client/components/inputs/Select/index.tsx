@@ -27,10 +27,12 @@ export const Select = ({
     <InputWrapper>
       {label && <Label hasErrorMsg={error !== undefined}>{label}</Label>}
       <WrapperInner>
-        <SelectStyled name={name} onChange={onChange} defaultValue="">
-          <option value="" disabled hidden>
-            Pick a color
-          </option>
+        <SelectStyled
+          name={name}
+          onChange={onChange}
+          defaultValue=""
+          hasErrorMsg={error !== undefined}
+        >
           {children}
         </SelectStyled>
       </WrapperInner>

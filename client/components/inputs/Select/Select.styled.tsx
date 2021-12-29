@@ -1,9 +1,9 @@
 import styled from 'styled-components'
 
 import { colors } from '../../../styles/variables'
-import { inputBaseStyle } from '../TextInput/textInput.styled'
+import { inputBaseStyle, TextErrorProp } from '../TextInput/textInput.styled'
 
-export const SelectStyled = styled.select`
+export const SelectStyled = styled.select<TextErrorProp>`
   min-width: 15rem;
   color: ${colors.darkest};
   ${inputBaseStyle};

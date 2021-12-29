@@ -49,11 +49,18 @@ export default function RegisterForm() {
         value={values.username}
         onChange={onChangeHandler}
       />
-
-      <Select error={errors.color} label="Choose a color" name="colors">
+      <Select
+        name="color"
+        onChange={onChangeHandler}
+        label="Colors"
+        error={errors.colors}
+      >
+        <option value="" disabled hidden>
+          Pick a color
+        </option>
         {Object.keys(textColors).map((color, index) => {
           return (
-            <option className="option" key={index} value={textColors[color]}>
+            <option key={index} value={textColors[color]}>
               {color}
             </option>
           )
