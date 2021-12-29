@@ -1,9 +1,9 @@
 import React from 'react'
 
 import { useForm } from '../../hooks/useForm'
-import Button from '../../components/Button'
 import { TextInput } from '../../components/inputs/TextInput'
 import validate from '../../utils/formValidationRules'
+import { Form, Headline, SignupButton } from './register.styled'
 
 const register = () => {
   const submitForm = async () => {
@@ -34,7 +34,8 @@ const register = () => {
   )
 
   return (
-    <form onSubmit={handleSubmit}>
+    <Form onSubmit={handleSubmit}>
+      <Headline>Create a user</Headline>
       <TextInput
         placeholder="Username..."
         label="Create a username"
@@ -44,7 +45,7 @@ const register = () => {
         onChange={onChangeHandler}
       />
       <TextInput
-        label="Choose a color to use in chat"
+        label="Choose a color"
         placeholder="Choose a color..."
         name="color"
         error={errors.color}
@@ -75,8 +76,8 @@ const register = () => {
         value={values.repeat}
         onChange={onChangeHandler}
       />
-      <Button onSubmit={handleSubmit} text="Signup" />
-    </form>
+      <SignupButton onSubmit={handleSubmit}>Sign Up</SignupButton>
+    </Form>
   )
 }
 

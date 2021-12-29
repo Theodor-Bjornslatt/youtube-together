@@ -1,4 +1,4 @@
-type GenericObject = { [key: string]: string }
+import { GenericObject } from '../hooks/useForm'
 
 export default function validate(values: GenericObject) {
   const validRegex =
