@@ -16,7 +16,7 @@ export type IMessages = {
 const Chat = () => {
   const [chatMsg, setChatMsg] = useState('')
   const [messages, setMessages] = useState<IMessages[]>([])
-
+  const [color, setColor] = useState('')
   useEffect(() => {
     let a: any
     // eslint-disable-next-line prefer-const
@@ -25,6 +25,9 @@ const Chat = () => {
     socket.emit('join', a)
     socket.on('chat', (data) => {
       console.log(data)
+      if (data) {
+        setColor(data.color)
+      }
       setMessages((old) => [...old, data])
     })
     socket.on('state', (data) => {
@@ -41,7 +44,7 @@ const Chat = () => {
   }
   return (
     <StyledChat>
-      <ChatMessage messages={messages} />
+      <ChatMessage color={color} messages={messages} />
       <TextAreaInput
         name={'chat'}
         placeholder="Enter message..."

@@ -12,9 +12,10 @@ import {
 
 type ChatMessageProps = {
   messages: IMessages[]
+  color: string
 }
 
-const ChatMessage = ({ messages }: ChatMessageProps) => {
+const ChatMessage = ({ messages, color }: ChatMessageProps) => {
   return (
     <StyledChatMsg>
       <MessageContainer>
@@ -26,7 +27,7 @@ const ChatMessage = ({ messages }: ChatMessageProps) => {
             <>
               <Card key={id}>
                 <UserName>{username}</UserName>
-                <MsgDiv>{msg}</MsgDiv>
+                <MsgDiv color={color}>{msg}</MsgDiv>
                 <TimeDiv>{`${date.toLocaleTimeString().slice(0, 5)}`}</TimeDiv>
               </Card>
             </>

@@ -14,7 +14,7 @@ export const StyledChatMsg = styled.div`
   flex-direction: column-reverse;
   background: ${colors.darkest};
   width: 90%;
-  height: 25rem;
+  height: 23rem;
   margin-bottom: ${spacings.extraExtraSmall};
   overflow: scroll;
   @media screen and (max-width: ${sizes.mobile}px) {
@@ -51,7 +51,7 @@ export const UserName = styled.div`
 `
 export const MsgDiv = styled.div`
   padding: ${spacings.medium} ${spacings.extraSmall};
-  color: pink;
+  color: ${(props) => props.color};
 `
 export const TimeDiv = styled.div`
   position: absolute;
