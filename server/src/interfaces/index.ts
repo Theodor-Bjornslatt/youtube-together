@@ -2,7 +2,8 @@ import { Socket } from 'socket.io'
 import { Document } from 'mongoose'
 
 export interface ISocket extends Socket {
-  name?: string | string[]
+  username?: string | string[]
+  color?: string | string[]
 }
 
 export interface IError extends Error {

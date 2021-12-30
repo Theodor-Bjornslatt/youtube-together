@@ -26,7 +26,9 @@ export const initSocket = (server: Server): void => {
 
   io.use((socket: ISocket, next) => {
     // eslint-disable-next-line no-param-reassign
-    socket.name = socket.handshake.query.name
+    socket.username = socket.handshake.query.name
+    // eslint-disable-next-line no-param-reassign
+    socket.color = '#93FFA4'
     next()
   })
 
