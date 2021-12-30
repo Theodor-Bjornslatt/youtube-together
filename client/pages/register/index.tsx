@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useForm } from '../../hooks/useForm'
 import { TextInput } from '../../components/inputs/TextInput'
-import validate from '../../utils/formValidationRules'
+import { validateSignUp } from '../../utils/formValidationRules'
 import { Form, Headline, SignupButton } from './register.styled'
 
 const register = () => {
@@ -30,7 +30,7 @@ const register = () => {
       password: '',
       repeat: ''
     },
-    validate
+    validateSignUp
   )
 
   return (

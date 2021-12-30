@@ -1,15 +1,15 @@
 import { ButtonStyled } from './Button.styled'
 
 type ButtonProps = {
-  text?: string
   onClick?: React.MouseEventHandler<HTMLButtonElement>
   onSubmit?: React.FormEventHandler
+  children: JSX.Element
 }
 
-function Button({ text = 'Click me', onClick, onSubmit }: ButtonProps) {
+function Button({ children, onClick, onSubmit }: ButtonProps) {
   return (
-    <ButtonStyled onClick={onClick} onSubmit={onSubmit}>
-      {text}
+    <ButtonStyled onSubmit={onSubmit} onClick={onClick}>
+      {children}
     </ButtonStyled>
   )
 }

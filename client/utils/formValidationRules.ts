@@ -1,6 +1,6 @@
 import { GenericObject } from '../hooks/useForm'
 
-export default function validate(values: GenericObject) {
+export function validateSignUp(values: GenericObject) {
   const validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   const errors: GenericObject = {}
@@ -32,6 +32,26 @@ export default function validate(values: GenericObject) {
     errors.repeat = 'This field is required'
   } else if (values.password !== values.repeat) {
     errors.repeat = 'Password must match'
+  }
+
+  return errors
+}
+
+export const validateSignIn = (values: GenericObject) => {
+  const validRegex =
+    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
+  const errors: GenericObject = {}
+
+  if (!values.email) {
+    errors.email = 'Email address is required'
+  } else if (!validRegex.test(values.email)) {
+    errors.email = 'Email address is invalid'
+  }
+
+  if (!values.password) {
+    errors.password = 'Password is required'
+  } else if (values.password.length < 8 || values.password.length > 15) {
+    errors.password = 'Password must be between 8 and 15 characters'
   }
 
   return errors
