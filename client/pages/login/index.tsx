@@ -28,8 +28,6 @@ export default function Login() {
       body: JSON.stringify(values)
     })
     if (!res.ok) return setError(true)
-    const data = await res.json()
-    console.log('data :>> ', data)
   }
 
   return (
@@ -51,7 +49,6 @@ export default function Login() {
           name="password"
           onChange={onChangeHandler}
         />
-
         {error && <ErrorMessage>Invalid email or password</ErrorMessage>}
         <LoginButton onSubmit={handleSubmit}>Login</LoginButton>
       </Form>

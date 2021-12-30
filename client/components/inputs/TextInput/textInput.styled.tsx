@@ -33,6 +33,7 @@ export const InputWrapper = styled.div`
   max-width: 23rem;
   max-height: 100%;
   font-family: ${fonts.roboto};
+  margin: 5px 0;
 `
 
 export const WrapperInner = styled.div`

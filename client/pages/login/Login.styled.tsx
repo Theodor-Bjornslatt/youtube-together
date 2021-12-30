@@ -4,7 +4,6 @@ import { ButtonStyled } from '../../components/Button/Button.styled'
 import { colors, fonts, fontSizes, spacings } from '../../styles/variables'
 
 export const FormContainer = styled.div`
-  height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -13,7 +12,6 @@ export const FormContainer = styled.div`
 
 export const LoginButton = styled(ButtonStyled)`
   margin-top: ${spacings.extraSmall};
-
   font-size: ${fontSizes.small};
 `
 
