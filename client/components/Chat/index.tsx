@@ -3,10 +3,17 @@ import { useEffect, useState } from 'react'
 import socket from '../../utils/socket'
 import { TextAreaInput } from '../inputs/TextAreaInput'
 import Button from '../Button'
+import ChatMessage from './ChatMessage'
+
+export type IMessages = {
+  msg: string
+  timestamp: number
+  user: string
+}
 
 const Chat = () => {
   const [chatMsg, setChatMsg] = useState('')
-  const [messages, setMessages] = useState<any[]>([])
+  const [messages, setMessages] = useState<IMessages[]>([])
 
   useEffect(() => {
     let a: any
@@ -29,9 +36,7 @@ const Chat = () => {
   }
   return (
     <>
-      {messages.map((msg, idx) => {
-        return <p key={idx}>{msg.msg}</p>
-      })}
+      <ChatMessage messages={messages} />
       <TextAreaInput
         name={'chat'}
         value={chatMsg}
