@@ -2,20 +2,27 @@ import { ISocket } from '../../interfaces'
 // eslint-disable-next-line import/no-cycle
 import { getIo } from '../socket'
 import { idGenerator } from '../../util'
+import { Message } from '../../api/models'
 
 interface SocketData {
   room: string
   msg: string
 }
-export function onChatMessage(this: ISocket, data: SocketData): void {
+export async function onChatMessage(
+  this: ISocket,
+  data: SocketData
+): Promise<void> {
   const message = {
-    user: this.name,
+    username: this.username,
     msg: data.msg,
     timestamp: Date.now(),
     id: idGenerator(),
-    color: '#93FFA4'
+    color: this.color
   }
 
   const io = getIo()
   io.to(data.room).emit('chat', message)
+
+  const msg = new Message({ room: data.room, ...message })
+  await msg.save()
 }
