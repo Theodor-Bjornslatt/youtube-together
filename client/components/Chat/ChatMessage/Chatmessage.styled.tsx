@@ -1,22 +1,41 @@
 import styled from 'styled-components'
 
-import { borders, colors } from '../../../styles/variables'
+import { colors, fontSizes, spacings } from '../../../styles/variables'
 
 export const StyledChatMsg = styled.div`
   display: flex;
   flex-direction: column-reverse;
-  background: ${colors.dark};
-  width: 75%;
-  height: 20rem;
+  background: ${colors.darkest};
+  width: 90%;
+  min-height: 20rem;
   overflow: scroll;
 `
 
 export const MessageContainer = styled.div`
-  width: 50%;
+  width: 90%;
   margin: auto;
-  border-radius: ${borders.light};
 `
 export const Card = styled.div`
-  background: yellow;
-  margin: 1rem;
+  background: ${colors.dark};
+  padding: 5px;
+  margin-top: 2rem;
+  position: relative;
+`
+export const UserName = styled.div`
+  font-size: ${fontSizes.extraSmall};
+  color: ${colors.white};
+  position: absolute;
+  top: ${spacings.extraExtraSmall};
+  right: ${spacings.extraSmall};
+`
+export const MsgDiv = styled.div`
+  padding: ${spacings.medium} ${spacings.extraSmall};
+  color: pink;
+`
+export const TimeDiv = styled.div`
+  position: absolute;
+  top: ${spacings.extraExtraSmall};
+  left: ${spacings.extraSmall};
+  font-size: ${fontSizes.extraSmall};
+  color: ${colors.white};
 `

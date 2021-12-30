@@ -4,11 +4,13 @@ import socket from '../../utils/socket'
 import { TextAreaInput } from '../inputs/TextAreaInput'
 import Button from '../Button'
 import ChatMessage from './ChatMessage'
+import { StyledChat } from './Chat.styled'
 
 export type IMessages = {
   msg: string
   timestamp: number
-  user: string
+  username: string
+  id: string
 }
 
 const Chat = () => {
@@ -35,7 +37,7 @@ const Chat = () => {
     socket.emit('chat', obj)
   }
   return (
-    <>
+    <StyledChat>
       <ChatMessage messages={messages} />
       <TextAreaInput
         name={'chat'}
@@ -45,7 +47,7 @@ const Chat = () => {
         }}
       />
       <Button onClick={onClickHandler}>Hello</Button>
-    </>
+    </StyledChat>
   )
 }
 

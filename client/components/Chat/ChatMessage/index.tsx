@@ -1,7 +1,14 @@
 import React from 'react'
 
 import { IMessages } from '..'
-import { Card, MessageContainer, StyledChatMsg } from './Chatmessage.styled'
+import {
+  Card,
+  MessageContainer,
+  MsgDiv,
+  StyledChatMsg,
+  TimeDiv,
+  UserName
+} from './Chatmessage.styled'
 
 type ChatMessageProps = {
   messages: IMessages[]
@@ -11,15 +18,18 @@ const ChatMessage = ({ messages }: ChatMessageProps) => {
   return (
     <StyledChatMsg>
       <MessageContainer>
-        {messages.map((message, index) => {
-          const { user, msg, timestamp } = message
+        {messages.map((message) => {
+          const { username, msg, timestamp, id } = message
           const date = new Date(timestamp)
+
           return (
-            <Card key={index}>
-              <li>{user}</li>
-              <li>{msg}</li>
-              <li>{`${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`}</li>
-            </Card>
+            <>
+              <Card key={id}>
+                <UserName>{username}</UserName>
+                <MsgDiv>{msg}</MsgDiv>
+                <TimeDiv>{`${date.toLocaleTimeString().slice(0, 5)}`}</TimeDiv>
+              </Card>
+            </>
           )
         })}
       </MessageContainer>
