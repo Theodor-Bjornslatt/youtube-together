@@ -1,6 +1,5 @@
 import { ISocket } from '../../interfaces'
-// eslint-disable-next-line import/no-cycle
-import { getIo } from '../socket'
+import { getIo } from '../io'
 import { idGenerator } from '../../util'
 import { Message } from '../../api/models'
 
