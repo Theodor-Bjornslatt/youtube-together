@@ -3,16 +3,25 @@ import socketio from 'socket.io'
 
 import { ISocket } from '../interfaces'
 import { SOCKET_EVENT as EVENT } from '../config'
-import startSockets from './controller'
+// eslint-disable-next-line import/no-cycle
+import onConnect from './controller'
 
+let socketIO: socketio.Server
+
+export const getIo = (): socketio.Server => {
+  if (!socketIO) {
+    socketIO = new socketio.Server({
+      allowEIO3: true,
+      cors: {
+        origin: true,
+        credentials: true
+      }
+    })
+  }
+  return socketIO
+}
 export const initSocket = (server: Server): void => {
-  const io: socketio.Server = new socketio.Server({
-    allowEIO3: true,
-    cors: {
-      origin: true,
-      credentials: true
-    }
-  })
+  const io = getIo()
   io.attach(server)
 
   io.use((socket: ISocket, next) => {
@@ -21,5 +30,5 @@ export const initSocket = (server: Server): void => {
     next()
   })
 
-  io.on(EVENT.INIT, startSockets)
+  io.on(EVENT.INIT, onConnect)
 }
