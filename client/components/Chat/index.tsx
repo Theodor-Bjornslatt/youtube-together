@@ -27,6 +27,9 @@ const Chat = () => {
       console.log(data)
       setMessages((old) => [...old, data])
     })
+    socket.on('state', (data) => {
+      console.log(data)
+    })
   }, [])
 
   const onClickHandler = () => {
