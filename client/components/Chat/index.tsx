@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react'
 
 import socket from '../../utils/socket'
 import { TextAreaInput } from '../inputs/TextAreaInput'
-import Button from '../Button'
 import ChatMessage from './ChatMessage'
 import { StyledChat } from './Chat.styled'
+import { ChatButton } from './ChatMessage/Chatmessage.styled'
 
 export type IMessages = {
   msg: string
@@ -41,12 +41,13 @@ const Chat = () => {
       <ChatMessage messages={messages} />
       <TextAreaInput
         name={'chat'}
+        placeholder="Enter message..."
         value={chatMsg}
         onChange={(e) => {
           setChatMsg(e.target.value)
         }}
       />
-      <Button onClick={onClickHandler}>Hello</Button>
+      <ChatButton onClick={onClickHandler}>Send</ChatButton>
     </StyledChat>
   )
 }
