@@ -8,6 +8,6 @@ import { verify } from './middleware'
 export const initSocket = (server: Server): void => {
   const io = getIo()
   io.attach(server)
-  io.use(verify)
+  // io.use(verify)
   io.on(EVENT.INIT, onConnect)
 }

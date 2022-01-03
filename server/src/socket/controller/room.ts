@@ -8,8 +8,16 @@ interface IClient {
   color: string | string[] | undefined
 }
 
-export async function onJoinRoom(this: ISocket, room: string): Promise<void> {
+interface IData extends IClient {
+  room: string
+}
+
+export async function onJoinRoom(this: ISocket, data: IData): Promise<void> {
   const io = getIo()
+  const { room, username, color } = data
+
+  this.username = username || 'Guest'
+  this.color = color || '#ffff'
 
   const messages = await Message.find({ room })
   const clients = io.sockets.adapter.rooms.get(room)
