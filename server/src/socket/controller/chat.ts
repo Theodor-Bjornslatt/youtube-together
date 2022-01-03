@@ -23,5 +23,7 @@ export async function onChatMessage(
   io.to(data.room).emit('chat', message)
 
   const msg = new Message({ room: data.room, ...message })
+  console.log(data)
+
   await msg.save()
 }

@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { IMessages } from '..'
+import { MessageData } from '../../../state/SocketContext'
 import {
   Card,
   MessageContainer,
@@ -11,15 +11,14 @@ import {
 } from './Chatmessage.styled'
 
 type ChatMessageProps = {
-  messages: IMessages[]
-  color: string
+  messages?: MessageData[]
 }
 
-const ChatMessage = ({ messages, color }: ChatMessageProps) => {
+const ChatMessage = ({ messages }: ChatMessageProps) => {
   return (
     <StyledChatMsg>
       <MessageContainer>
-        {messages.map((message) => {
+        {messages?.map((message) => {
           const { username, msg, timestamp, id } = message
           const date = new Date(timestamp)
 
@@ -27,7 +26,7 @@ const ChatMessage = ({ messages, color }: ChatMessageProps) => {
             <>
               <Card key={id}>
                 <UserName>{username}</UserName>
-                <MsgDiv color={color}>{msg}</MsgDiv>
+                <MsgDiv color={message.color}>{msg}</MsgDiv>
                 <TimeDiv>{`${date.toLocaleTimeString().slice(0, 5)}`}</TimeDiv>
               </Card>
             </>

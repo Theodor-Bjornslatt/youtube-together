@@ -8,6 +8,7 @@ export const AreaInput = styled(TextareaAutosize)`
   ${inputBaseStyle}
   border: ${borders.light};
   color: ${colors.darkest};
+
   &:focus {
     border: 1px solid lightpink;
     outline: none;
