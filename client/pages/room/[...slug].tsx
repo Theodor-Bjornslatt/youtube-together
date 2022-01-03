@@ -13,16 +13,16 @@ export type IMessages = {
 }
 
 const Room = () => {
-  const { socket } = useSockets()
   const router = useRouter()
+  const { socket } = useSockets()
+  const room = (router.query['slug'] && router.query['slug'][0]) || undefined
 
   useEffect(() => {
-    if (!socket) return
-    const room = router.asPath
+    if (!room) return
     socket.emit('join', { room, username: 'Lala', color: 'red' })
-  }, [socket])
+  }, [room])
 
-  return <Chat></Chat>
+  return <Chat room={room}></Chat>
 }
 
 export default Room
