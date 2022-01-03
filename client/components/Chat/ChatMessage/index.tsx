@@ -18,18 +18,16 @@ const ChatMessage = ({ messages }: ChatMessageProps) => {
   return (
     <StyledChatMsg>
       <MessageContainer>
-        {messages?.map((message) => {
-          const { username, msg, timestamp, id } = message
+        {messages?.map((msg) => {
+          const { username, message, timestamp, id } = msg
           const date = new Date(timestamp)
 
           return (
-            <>
-              <Card key={id}>
-                <UserName>{username}</UserName>
-                <MsgDiv color={message.color}>{msg}</MsgDiv>
-                <TimeDiv>{`${date.toLocaleTimeString().slice(0, 5)}`}</TimeDiv>
-              </Card>
-            </>
+            <Card key={id}>
+              <UserName>{username}</UserName>
+              <MsgDiv color={msg.color}>{message}</MsgDiv>
+              <TimeDiv>{`${date.toLocaleTimeString().slice(0, 5)}`}</TimeDiv>
+            </Card>
           )
         })}
       </MessageContainer>

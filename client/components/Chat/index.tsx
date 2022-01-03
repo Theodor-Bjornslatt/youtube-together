@@ -6,16 +6,18 @@ import { StyledChat } from './Chat.styled'
 import { ChatButton } from './ChatMessage/Chatmessage.styled'
 import { useSockets } from '../../state/SocketContext'
 
-const Chat = () => {
+type ChatProps = {
+  room?: string | string[]
+}
+
+const Chat = ({ room }: ChatProps) => {
   const { socket, messages } = useSockets()
-  const [chatMsg, setChatMsg] = useState('')
+  const [message, setMessage] = useState('')
 
   const onClickHandler = () => {
-    console.log('socket', socket)
-    if (!socket) return
     const obj = {
-      room: 'watch',
-      msg: chatMsg
+      room,
+      message
     }
     socket.emit('chat', obj)
   }
@@ -26,9 +28,9 @@ const Chat = () => {
       <TextAreaInput
         name={'chat'}
         placeholder="Enter message..."
-        value={chatMsg}
+        value={message}
         onChange={(e) => {
-          setChatMsg(e.target.value)
+          setMessage(e.target.value)
         }}
       />
       <ChatButton onClick={onClickHandler}>Send</ChatButton>

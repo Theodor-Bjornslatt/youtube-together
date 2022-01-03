@@ -4,7 +4,7 @@ import io, { Socket } from 'socket.io-client'
 type Context = {
   socket: Socket
   username?: string
-  messages?: { msg: string; timestamp: number; username: string }[]
+  messages?: { message: string; timestamp: number; username: string }[]
   setMessages: (data: MessageData) => void
   roomId?: string
   rooms: object
@@ -12,7 +12,7 @@ type Context = {
 
 export type MessageData = {
   username: string
-  msg: string
+  message: string
   timestamp: number
   id?: string
   color?: string
@@ -33,7 +33,6 @@ function SocketsProvider(props: any) {
 
   useEffect(() => {
     socket.on('chat', (data: MessageData) => {
-      console.log('data', data)
       setMessages((messages) => [...messages, data])
     })
   }, [socket])
