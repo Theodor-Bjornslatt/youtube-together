@@ -5,7 +5,7 @@ import { Message } from '../../api/models'
 
 interface SocketData {
   room: string
-  msg: string
+  message: string
 }
 export async function onChatMessage(
   this: ISocket,
@@ -13,17 +13,14 @@ export async function onChatMessage(
 ): Promise<void> {
   const message = {
     username: this.username,
-    msg: data.msg,
+    message: data.message,
     timestamp: Date.now(),
     id: idGenerator(),
     color: this.color
   }
-
   const io = getIo()
   io.to(data.room).emit('chat', message)
 
   const msg = new Message({ room: data.room, ...message })
-  console.log(data)
-
   await msg.save()
 }
