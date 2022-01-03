@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 
-import socket from '../../utils/socket'
 import { TextAreaInput } from '../inputs/TextAreaInput'
 import ChatMessage from './ChatMessage'
 import { StyledChat } from './Chat.styled'
@@ -17,31 +16,26 @@ const Chat = () => {
   const [chatMsg, setChatMsg] = useState('')
   const [messages, setMessages] = useState<IMessages[]>([])
   const [color, setColor] = useState('')
-  useEffect(() => {
-    let a: any
-    // eslint-disable-next-line prefer-const
-    a = 'watch'
+  // useEffect(() => {
+  //   socket.on('chat', (data) => {
+  //     console.log(data)
+  //     if (data) {
+  //       setColor(data.color)
+  //     }
+  //     setMessages((old) => [...old, data])
+  //   })
+  //   socket.on('state', (data) => {
+  //     console.log(data)
+  //   })
+  // }, [])
 
-    socket.emit('join', a)
-    socket.on('chat', (data) => {
-      console.log(data)
-      if (data) {
-        setColor(data.color)
-      }
-      setMessages((old) => [...old, data])
-    })
-    socket.on('state', (data) => {
-      console.log(data)
-    })
-  }, [])
-
-  const onClickHandler = () => {
-    const obj = {
-      room: 'watch',
-      msg: chatMsg
-    }
-    socket.emit('chat', obj)
-  }
+  // const onClickHandler = () => {
+  //   const obj = {
+  //     room: 'watch',
+  //     msg: chatMsg
+  //   }
+  //   socket.emit('chat', obj)
+  // }
   return (
     <StyledChat>
       <ChatMessage color={color} messages={messages} />
