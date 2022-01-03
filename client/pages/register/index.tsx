@@ -1,11 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
 
 import { useForm } from '../../hooks/useForm'
 import { TextInput } from '../../components/inputs/TextInput'
 import { validateSignUp } from '../../utils/formValidationRules'
 import { Form, Headline, SignupButton } from './register.styled'
+import { GlobalContext } from '../../state/GlobalState'
 
 const register = () => {
+  const { dispatch } = useContext(GlobalContext)
   const submitForm = async () => {
     // eslint-disable-next-line
     const { repeat, ...signupValues } = values
@@ -15,10 +17,9 @@ const register = () => {
       credentials: 'include',
       body: JSON.stringify(signupValues)
     })
-
+    if (!res.ok) return //@TODO handle error
     const data = await res.json()
-    console.log(data)
-    console.log(errors)
+    dispatch({ type: 'user', payload: data.user })
   }
 
   const { values, errors, onChangeHandler, handleSubmit } = useForm(

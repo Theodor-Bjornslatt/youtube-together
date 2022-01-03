@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 
 import { validateSignIn } from '../../utils/formValidationRules'
 import { TextInput } from '../../components/inputs/TextInput'
@@ -6,6 +6,7 @@ import { ErrorMessage, FormContainer } from './Login.styled'
 import { useForm } from '../../hooks/useForm'
 import { LoginButton } from './Login.styled'
 import { Form, Headline } from '../register/register.styled'
+import { GlobalContext } from '../../state/GlobalState'
 
 export default function Login() {
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
@@ -19,6 +20,8 @@ export default function Login() {
 
   const [error, setError] = useState(false)
 
+  const { dispatch } = useContext(GlobalContext)
+
   async function submitHandler() {
     if (!values.email || !values.password) return
     const res = await fetch('http://localhost:8080/api/login', {
@@ -28,6 +31,8 @@ export default function Login() {
       body: JSON.stringify(values)
     })
     if (!res.ok) return setError(true)
+    const user = await res.json()
+    dispatch({ type: 'user', payload: user })
   }
 
   return (

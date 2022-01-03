@@ -1,7 +1,8 @@
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
 import Chat from '../../components/Chat'
+import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 
 export type IMessages = {
@@ -14,13 +15,16 @@ export type IMessages = {
 
 const Room = () => {
   const router = useRouter()
+  const { state } = useContext(GlobalContext)
+  const { user } = state
+
   const { socket } = useSockets()
   const room = (router.query['slug'] && router.query['slug'][0]) || undefined
 
   useEffect(() => {
-    if (!room) return
-    socket.emit('join', { room, username: 'Lala', color: 'red' })
-  }, [room])
+    if (!room || !user) return
+    socket.emit('join', { room, username: user?.username, color: user?.color })
+  }, [room, user])
 
   return <Chat room={room}></Chat>
 }
