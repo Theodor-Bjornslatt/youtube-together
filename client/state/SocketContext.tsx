@@ -1,6 +1,8 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import io, { Socket } from 'socket.io-client'
 
+import { User } from './GlobalState'
+
 type Context = {
   socket: Socket
   username?: string
@@ -19,6 +21,11 @@ export type MessageData = {
   room?: string
 }
 
+type RoomStateData = {
+  messages: MessageData[]
+  users: User[]
+}
+
 const socket = io('http://localhost:8080')
 
 const SocketContext = createContext<Context>({
@@ -34,6 +41,10 @@ function SocketsProvider(props: any) {
   useEffect(() => {
     socket.on('chat', (data: MessageData) => {
       setMessages((messages) => [...messages, data])
+    })
+    socket.on('state', (data: RoomStateData) => {
+      console.log('data', data)
+      setMessages((messages) => [...messages, ...data.messages])
     })
   }, [socket])
 

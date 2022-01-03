@@ -6,7 +6,7 @@ const messageSchema = new Schema({
     required: [true, 'Must provide a username'],
     trim: true
   },
-  msg: {
+  message: {
     type: String,
     trim: true
   },
