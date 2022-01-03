@@ -2,8 +2,7 @@ import { useState } from 'react'
 
 import { TextAreaInput } from '../inputs/TextAreaInput'
 import ChatMessage from './ChatMessage'
-import { StyledChat } from './Chat.styled'
-import { ChatButton } from './ChatMessage/Chatmessage.styled'
+import { StyledChat, MessageListContainer, ChatButton } from './Chat.styled'
 import { useSockets } from '../../state/SocketContext'
 
 type ChatProps = {
@@ -24,7 +23,11 @@ const Chat = ({ room }: ChatProps) => {
 
   return (
     <StyledChat>
-      <ChatMessage messages={messages} />
+      <MessageListContainer>
+        {messages?.map((message, index) => (
+          <ChatMessage message={message} key={index} />
+        ))}
+      </MessageListContainer>
       <TextAreaInput
         name={'chat'}
         placeholder="Enter message..."
