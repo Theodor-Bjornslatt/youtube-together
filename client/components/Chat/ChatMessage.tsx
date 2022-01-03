@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { MessageData } from '../../state/SocketContext'
-import { Card, MsgDiv, TimeDiv, UserName } from './Chat.styled'
+import { Card, InfoContainer, MessageContainer } from './Chat.styled'
 
 type ChatMessageProps = {
   message: MessageData
@@ -9,11 +9,26 @@ type ChatMessageProps = {
 
 const ChatMessage = ({ message: msg }: ChatMessageProps) => {
   const { username, color, timestamp, message } = msg
+
+  function getTimeString() {
+    const date = new Date(timestamp)
+    const hour = date.getHours()
+    return `${hour < 10 ? '0' + hour : hour}:${date.getMinutes()}`
+  }
+
   return (
     <Card>
-      <UserName>{username}</UserName>
-      <MsgDiv color={color}>{message}</MsgDiv>
-      <TimeDiv>{new Date(timestamp).toLocaleTimeString().slice(0, 5)}</TimeDiv>
+      <InfoContainer>
+        <div>
+          <p>{username}</p>
+        </div>
+        <div>
+          <p>{getTimeString()}</p>
+        </div>
+      </InfoContainer>
+      <MessageContainer color={color}>
+        <p>{message}</p>
+      </MessageContainer>
     </Card>
   )
 }

@@ -6,7 +6,7 @@ import { User } from './GlobalState'
 type Context = {
   socket: Socket
   username?: string
-  messages?: { message: string; timestamp: number; username: string }[]
+  messages?: MessageData[]
   setMessages: (data: MessageData) => void
   roomId?: string
   rooms: object

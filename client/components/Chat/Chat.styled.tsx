@@ -9,54 +9,50 @@ import {
   sizes,
   spacings
 } from '../../styles/variables'
-export const StyledChat = styled.div`
+
+export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 3rem;
 `
 
 export const MessageListContainer = styled.div`
-  display: grid;
-  align-items: flex-start;
-  flex-direction: column-reverse;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
   gap: ${spacings.large};
   height: 500px;
   width: 100%;
-  padding: ${spacings.extraLarge} ${spacings.huge};
   overflow-y: auto;
+  padding: ${spacings.medium} ${spacings.small};
 
-  @media screen and (max-width: ${sizes.tablet}px) {
-    padding: ${spacings.small} ${spacings.medium};
+  @media screen and (max-width: ${sizes.mobile}px) {
+    gap: ${spacings.small};
   }
 `
 
 export const Card = styled.div`
   background: ${colors.dark};
-  padding: ${spacings.extraExtraSmall};
+  padding: ${spacings.small} ${spacings.small} ${spacings.medium};
   position: relative;
   border-radius: ${borderRadius.small};
 `
 
-export const UserName = styled.div`
-  font-size: ${fontSizes.extraSmall};
-  color: ${colors.white};
-  position: absolute;
-  top: ${spacings.extraExtraSmall};
-  right: ${spacings.extraSmall};
+export const InfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  p {
+    font-size: ${fontSizes.extraSmall};
+  }
 `
 
-export const MsgDiv = styled.div`
-  padding: ${spacings.medium} ${spacings.extraSmall};
-  color: ${(props) => props.color};
-`
-
-export const TimeDiv = styled.div`
-  position: absolute;
-  top: ${spacings.extraExtraSmall};
-  left: ${spacings.extraSmall};
-  font-size: ${fontSizes.extraSmall};
-  color: ${colors.white};
+export const MessageContainer = styled.div`
+  margin-top: ${spacings.extraSmall};
+  p {
+    color: ${(props) => props.color};
+  }
 `
 
 export const ChatButton = styled.button`

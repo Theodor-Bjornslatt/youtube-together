@@ -1,22 +1,24 @@
 import React, { useContext } from 'react'
 
 import { useForm } from '../../hooks/useForm'
-import { TextInput } from '../../components/inputs/TextInput'
+import { TextInput } from '../inputs/TextInput'
 import { validateSignUp } from '../../utils/formValidationRules'
-import { Form, Headline, SignupButton } from './register.styled'
+import { Form, Headline, SignupButton } from './Register.styled'
 import { GlobalContext } from '../../state/GlobalState'
 
-const register = () => {
+export default function RegisterForm() {
   const { dispatch } = useContext(GlobalContext)
   const submitForm = async () => {
     // eslint-disable-next-line
     const { repeat, ...signupValues } = values
+
     const res = await fetch('http://localhost:8080/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
       body: JSON.stringify(signupValues)
     })
+
     if (!res.ok) return //@TODO handle error
     const data = await res.json()
     dispatch({ type: 'user', payload: data.user })
@@ -81,5 +83,3 @@ const register = () => {
     </Form>
   )
 }
-
-export default register

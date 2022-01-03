@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { ButtonStyled } from '../../components/Button/Button.styled'
+import { ButtonStyled } from '../Button/Button.styled'
 import { fonts, fontSizes, sizes, spacings } from '../../styles/variables'
 
 export const Form = styled.form`
@@ -19,6 +19,7 @@ export const SignupButton = styled(ButtonStyled)`
 export const Headline = styled.h2`
   font-family: ${fonts.roboto};
   margin: 2rem 0;
+
   @media screen and (max-width: ${sizes.mobile}px) {
     margin: 0 0 2rem 0;
   }

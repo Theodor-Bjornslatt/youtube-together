@@ -5,7 +5,8 @@ import {
   borderRadius,
   colors,
   borders,
-  fonts
+  fonts,
+  spacings
 } from '../../../styles/variables'
 
 export type TextErrorProp = {
@@ -19,9 +20,8 @@ export const inputBaseStyle = css`
   font-size: ${fontSizes.small};
   font-family: ${fonts.roboto};
   border-radius: ${borderRadius.small};
-  padding-left: 8px;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}
+    ${spacings.extraExtraSmall};
   min-height: 34px;
   width: 100%;
 `
@@ -30,10 +30,9 @@ export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  max-width: 23rem;
+  width: 100%;
   max-height: 100%;
   font-family: ${fonts.roboto};
-  margin: 5px 0;
 `
 
 export const WrapperInner = styled.div`
@@ -48,6 +47,7 @@ export const Input = styled.input<TextErrorProp>`
   ${inputBaseStyle}
   border: ${(props) => (props.hasErrorMsg ? borders.danger : borders.light)};
   color: ${(props) => (props.hasErrorMsg ? colors.danger : colors.darkest)};
+
   &:focus {
     border: ${(props) =>
       props.hasErrorMsg ? borders.danger : `1px solid lightpink`};
