@@ -1,9 +1,11 @@
+import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { useContext, useEffect } from 'react'
+import { useEffect } from 'react'
 
 import Chat from '../../components/Chat'
-import { GlobalContext } from '../../state/GlobalState'
+import { setUser, User } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
+import ServerSideWhoAmI from '../../utils/serverSideWhoAmI'
 
 export type IMessages = {
   msg: string
@@ -13,40 +15,46 @@ export type IMessages = {
   color: string
 }
 
-const Room = () => {
-  const router = useRouter()
-  const { state, dispatch } = useContext(GlobalContext)
-  const { user } = state
+type RoomProps = {
+  userData: User | undefined
+}
 
-  const { socket } = useSockets()
-  const room = (router.query['slug'] && router.query['slug'][0]) || undefined
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  let userData
 
-  //THIS IS NOT THE WAY - MANDALORIAN
-  async function whoAmI() {
-    if (!user) {
-      const res = await fetch('http://localhost:8080/api/whoami', {
-        credentials: 'include'
-      })
-      const data = await res.json()
+  try {
+    userData = await ServerSideWhoAmI(ctx)
+  } catch (e) {
+    userData = undefined
+    // TO REDIRECT DO THIS
+    // return {
+    //   redirect: {
+    //     permanent: false,
+    //     destination: '/'
+    //   }
+    // }
+  }
 
-      dispatch({ type: 'user', payload: data.user })
-      socket.emit('join', {
-        room,
-        username: data.user.username,
-        color: data.user.color
-      })
-    } else {
-      socket.emit('join', {
-        room,
-        username: user?.username,
-        color: user?.color
-      })
+  return {
+    props: {
+      userData
     }
   }
+}
+
+const Room = ({ userData }: RoomProps) => {
+  const router = useRouter()
+  const { socket } = useSockets()
+  userData && setUser(userData)
+  const room = (router.query['slug'] && router.query['slug'][0]) || undefined
 
   useEffect(() => {
     if (!room) return
-    whoAmI()
+    socket.emit('join', {
+      room,
+      username: userData?.username,
+      color: userData?.color
+    })
   }, [room])
 
   return <Chat room={room}></Chat>
