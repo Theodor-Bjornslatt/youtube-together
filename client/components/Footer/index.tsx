@@ -1,5 +1,7 @@
+import { useContext } from 'react'
 import Link from 'next/link'
 
+import { GlobalContext } from '../../state/GlobalState'
 import {
   FooterContainer,
   FooterContentContainer,
@@ -7,16 +9,17 @@ import {
 } from './Footer.styled'
 
 export default function Footer() {
+  const { state } = useContext(GlobalContext)
   return (
     <FooterContainer>
       <FooterContentContainer>
         <FooterLinkSection>
           <Link href={'/'}>Home</Link>
           <Link href={'/rooms'}>Rooms</Link>
-          <Link href={'/login'}>Login</Link>
+          {!state.user && <Link href={'/login'}>Login</Link>}
         </FooterLinkSection>
         <FooterLinkSection>
-          <Link href={'/create-room'}>Create Room</Link>
+          {state.user && <Link href={'/create-room'}>Create Room</Link>}
         </FooterLinkSection>
       </FooterContentContainer>
     </FooterContainer>

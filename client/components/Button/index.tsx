@@ -3,7 +3,7 @@ import { ButtonStyled } from './Button.styled'
 type ButtonProps = {
   onClick?: React.MouseEventHandler<HTMLButtonElement>
   onSubmit?: React.FormEventHandler
-  children: JSX.Element
+  children: React.ReactNode
 }
 
 function Button({ children, onClick, onSubmit }: ButtonProps) {

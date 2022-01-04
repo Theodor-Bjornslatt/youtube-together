@@ -62,8 +62,8 @@ export const GlobalStyle = createGlobalStyle`
   p {
     font-family: ${fonts.roboto};
     font-weight: ${fontWeights.regular};
-    font-size: ${fontSizes.large};
-    line-height: ${lineHeights.large};
+    font-size: ${fontSizes.small};
+    line-height: ${lineHeights.small};
   }
 
 
