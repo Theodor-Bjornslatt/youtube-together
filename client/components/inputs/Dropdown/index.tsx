@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { GenericObject } from '../../../hooks/useForm'
 
 import {
   InputWrapper,
@@ -10,29 +11,22 @@ import { Arrow, Options, OptionsWrapper, Select } from './Dropdown.styled'
 type DropdownProps = {
   label?: string
   error?: string
-  name?: string
+  title?: string
   options: { [key: string]: string }
-  onChange: (e: React.ChangeEvent<any>) => void
+  values: GenericObject
 }
 
-function Dropdown({ label, name, error, options, onChange }: DropdownProps) {
+function Dropdown({ label, title, error, options, values }: DropdownProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selected, setSelected] = useState('Chose color')
+  const [selected, setSelected] = useState(title)
 
   return (
     <InputWrapper>
       {label && <Label hasErrorMsg={error !== undefined}>{label}</Label>}
       <WrapperInner>
-        <Select
-          name={name}
-          value={options[selected]}
-          onClick={() => setIsOpen(!isOpen)}
-          onChange={onChange}
-          //Skicka ner value och sätta som value.color = options[selected]
-        >
-          {console.log(options[selected])}
+        <Select name={title} onClick={() => setIsOpen(!isOpen)}>
           {selected}
-          <Arrow></Arrow>
+          <Arrow />
         </Select>
         {isOpen && (
           <OptionsWrapper>
@@ -42,6 +36,7 @@ function Dropdown({ label, name, error, options, onChange }: DropdownProps) {
                 onClick={() => {
                   setSelected(option)
                   setIsOpen(false)
+                  values.color = options[option]
                 }}
               >
                 {option}

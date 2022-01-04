@@ -21,6 +21,7 @@ export default function RegisterForm() {
   const submitForm = async () => {
     // eslint-disable-next-line
     const { repeat, ...signupValues } = values
+    console.log(signupValues)
 
     const res = await fetch('http://localhost:8080/api/register', {
       method: 'POST',
@@ -31,6 +32,8 @@ export default function RegisterForm() {
 
     if (!res.ok) return //@TODO handle error
     const data = await res.json()
+    console.log(data)
+
     dispatch({ type: 'user', payload: data.user })
   }
 
@@ -52,10 +55,10 @@ export default function RegisterForm() {
         onChange={onChangeHandler}
       />
       <Dropdown
+        values={values}
         label="Colors"
-        name="color"
+        title="Choose color"
         error={errors.colors}
-        onChange={onChangeHandler}
         options={textColors}
       />
       <TextInput

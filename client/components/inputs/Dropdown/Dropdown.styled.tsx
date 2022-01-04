@@ -10,7 +10,6 @@ import { inputBaseStyle } from '../TextInput/textInput.styled'
 
 type Name = {
   name?: string
-  value: any
 }
 
 export const Select = styled.div<Name>`

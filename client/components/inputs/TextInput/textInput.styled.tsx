@@ -6,7 +6,7 @@ import {
   colors,
   borders,
   fonts,
-  spacings
+  spacings as s
 } from '../../../styles/variables'
 
 export type TextErrorProp = {
@@ -20,7 +20,7 @@ export const inputBaseStyle = css`
   font-size: ${fontSizes.small};
   font-family: ${fonts.roboto};
   border-radius: ${borderRadius.small};
-  padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}${spacings.extraExtraSmall};
+  padding: ${s.extraExtraSmall} 0 ${s.extraExtraSmall} ${s.extraExtraSmall};
   min-height: 34px;
   width: 100%;
 `
