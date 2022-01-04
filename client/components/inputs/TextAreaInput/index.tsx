@@ -10,13 +10,15 @@ type AreaProps = {
   onChange?: React.ChangeEventHandler<HTMLTextAreaElement>
   required?: boolean
   type?: string
+  onKeyDown?: React.KeyboardEventHandler<HTMLTextAreaElement> | undefined
 }
 
 export const TextAreaInput = ({
   name,
   placeholder,
   onChange,
-  value
+  value,
+  onKeyDown
 }: AreaProps) => {
   return (
     <InputWrapper>
@@ -25,6 +27,7 @@ export const TextAreaInput = ({
         name={name}
         placeholder={placeholder}
         onChange={onChange}
+        onKeyDown={onKeyDown}
         value={value}
       />
     </InputWrapper>

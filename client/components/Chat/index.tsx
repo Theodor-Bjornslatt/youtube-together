@@ -20,6 +20,11 @@ const Chat = ({ room }: ChatProps) => {
     }
     socket?.emit('chat', obj)
   }
+  const sendMsg = (e: any) => {
+    if (e.key === 'Enter') {
+      onClickHandler()
+    }
+  }
 
   return (
     <ChatContainer>
@@ -31,6 +36,7 @@ const Chat = ({ room }: ChatProps) => {
       <TextAreaInput
         name={'chat'}
         placeholder="Enter message..."
+        onKeyDown={sendMsg}
         value={message}
         onChange={(e) => {
           setMessage(e.target.value)

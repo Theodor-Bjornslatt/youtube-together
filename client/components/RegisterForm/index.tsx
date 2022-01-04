@@ -58,7 +58,6 @@ export default function RegisterForm() {
         values={values}
         label="Colors"
         title="Choose color"
-        error={errors.colors}
         options={textColors}
       />
       <TextInput
@@ -73,6 +72,7 @@ export default function RegisterForm() {
         placeholder="Password..."
         label="Password"
         name="password"
+        type="password"
         error={errors.password}
         value={values.password}
         onChange={onChangeHandler}
@@ -81,6 +81,7 @@ export default function RegisterForm() {
         placeholder="Repeat password..."
         label="Repeat password"
         name="repeat"
+        type="password"
         error={errors.repeat}
         value={values.repeat}
         onChange={onChangeHandler}

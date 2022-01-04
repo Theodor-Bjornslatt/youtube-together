@@ -8,11 +8,11 @@ import {
 } from '../../../styles/variables'
 import { inputBaseStyle } from '../TextInput/textInput.styled'
 
-type Name = {
-  name?: string
+type Headline = {
+  headline?: string
 }
 
-export const Select = styled.div<Name>`
+export const Select = styled.div<Headline>`
   ${inputBaseStyle}
   position: relative;
 `

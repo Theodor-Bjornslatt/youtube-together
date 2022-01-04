@@ -45,7 +45,7 @@ export const colors = {
   white: '#FFFFFF',
   transparentDark: '#2D282880',
   transparentPink: '#FBECEC33',
-  danger: '#bb2124'
+  danger: '#FF1A1A'
 }
 
 type BorderRadius = {
@@ -87,7 +87,8 @@ export const shadows = {
 
 export const borders = {
   light: '1px solid #2D2828',
-  danger: `1px solid ${colors.danger}`
+  danger: `1px solid ${colors.danger}`,
+  focus: '1px solid lightpink'
 }
 type textColors = {
   [key: string]: string

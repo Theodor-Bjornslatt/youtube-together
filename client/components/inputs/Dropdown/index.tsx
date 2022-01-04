@@ -10,21 +10,20 @@ import { Arrow, Options, OptionsWrapper, Select } from './Dropdown.styled'
 
 type DropdownProps = {
   label?: string
-  error?: string
   title?: string
   options: { [key: string]: string }
   values: GenericObject
 }
 
-function Dropdown({ label, title, error, options, values }: DropdownProps) {
+const Dropdown = ({ label, title, options, values }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState(title)
 
   return (
     <InputWrapper>
-      {label && <Label hasErrorMsg={error !== undefined}>{label}</Label>}
+      {label && <Label>{label}</Label>}
       <WrapperInner>
-        <Select name={title} onClick={() => setIsOpen(!isOpen)}>
+        <Select headline={title} onClick={() => setIsOpen(!isOpen)}>
           {selected}
           <Arrow />
         </Select>
