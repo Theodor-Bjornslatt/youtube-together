@@ -10,6 +10,7 @@ const messageSchema = new Schema({
     type: String,
     trim: true
   },
+  id: { type: String },
   color: { type: String },
   timestamp: { type: Number },
   room: { type: String }
