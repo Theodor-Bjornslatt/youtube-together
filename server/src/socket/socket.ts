@@ -3,7 +3,6 @@ import { Server } from 'http'
 import { SOCKET_EVENT as EVENT } from '../config'
 import { getIo } from './io'
 import onConnect from './controller'
-import { verify } from './middleware'
 
 export const initSocket = (server: Server): void => {
   const io = getIo()

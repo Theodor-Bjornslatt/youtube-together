@@ -9,7 +9,11 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   const io = getIo()
   const { room, username, color } = data
 
-  this.data.username = username || 'Guest'
+  this.data.username =
+    username ||
+    `Guest#${(Math.floor(Math.random() * 10000) + 10000)
+      .toString()
+      .substring(1)}`
   this.data.color = color || '#ffff'
 
   const messages = await Message.find({ room })
