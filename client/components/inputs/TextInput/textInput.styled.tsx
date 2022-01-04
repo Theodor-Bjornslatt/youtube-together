@@ -26,6 +26,7 @@ export const InputWrapper = styled.div`
   flex-direction: column;
   text-align: left;
   width: 18rem;
+  height: 90px;
   max-height: 100%;
   font-family: ${fonts.roboto};
 `

@@ -36,6 +36,7 @@ export const Options = styled.div`
   transition: all 0.2s;
   &:hover {
     background: grey;
+    border-radius: 0;
   }
 `
 

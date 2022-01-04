@@ -30,10 +30,9 @@ export const TextInput = ({
 }: InputProps) => {
   return (
     <InputWrapper>
-      {label && <Label hasErrorMsg={error !== undefined}>{label}</Label>}
+      {label && <Label>{label}</Label>}
       <WrapperInner>
         <Input
-          hasErrorMsg={error !== undefined}
           name={name}
           type={type}
           onChange={onChange}
