@@ -20,8 +20,7 @@ export const inputBaseStyle = css`
   font-size: ${fontSizes.small};
   font-family: ${fonts.roboto};
   border-radius: ${borderRadius.small};
-  padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}
-    ${spacings.extraExtraSmall};
+  padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}${spacings.extraExtraSmall};
   min-height: 34px;
   width: 100%;
 `
@@ -30,7 +29,7 @@ export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 100%;
+  width: 18rem;
   max-height: 100%;
   font-family: ${fonts.roboto};
 `

@@ -6,7 +6,7 @@ import { validateSignUp } from '../../utils/formValidationRules'
 import { Form, Headline, SignupButton } from './Register.styled'
 import { GlobalContext } from '../../state/GlobalState'
 import { textColors } from '../../styles/variables'
-import { Select } from '../../components/inputs/Select'
+import Dropdown from '../../components/inputs/Dropdown'
 
 export default function RegisterForm() {
   const { dispatch } = useContext(GlobalContext)
@@ -51,23 +51,13 @@ export default function RegisterForm() {
         value={values.username}
         onChange={onChangeHandler}
       />
-      <Select
-        name="color"
-        onChange={onChangeHandler}
+      <Dropdown
         label="Colors"
+        name="color"
         error={errors.colors}
-      >
-        <option value="" disabled hidden>
-          Pick a color
-        </option>
-        {Object.keys(textColors).map((color, index) => {
-          return (
-            <option key={index} value={textColors[color]}>
-              {color}
-            </option>
-          )
-        })}
-      </Select>
+        onChange={onChangeHandler}
+        options={textColors}
+      />
       <TextInput
         placeholder="Email..."
         label="Email"
