@@ -17,3 +17,12 @@ export interface IUser extends Document {
   password: string
   color: string
 }
+
+export interface IClient {
+  username: string | string[] | undefined
+  color: string | string[] | undefined
+}
+
+export interface IData extends IClient {
+  room: string
+}
