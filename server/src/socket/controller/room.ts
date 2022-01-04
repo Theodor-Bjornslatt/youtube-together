@@ -1,17 +1,9 @@
 import { Socket } from 'socket.io'
 
 import { Message } from '../../api/models'
+import { IClient, IData } from '../../interfaces'
 import log from '../../logger'
 import { getIo } from '../io'
-
-interface IClient {
-  username: string | string[] | undefined
-  color: string | string[] | undefined
-}
-
-interface IData extends IClient {
-  room: string
-}
 
 export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   const io = getIo()
