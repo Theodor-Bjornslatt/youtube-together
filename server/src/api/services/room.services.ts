@@ -1,7 +1,11 @@
 import { getIo } from '../../socket/io'
 
 type RoomObject = {
-  [key: string]: string[] | string
+  [key: string]:
+    | string[]
+    | string
+    | number
+    | { users: string | string[]; size: number }
 }
 export const getAllRooms = (): RoomObject => {
   const io = getIo()
@@ -13,14 +17,17 @@ export const getAllRooms = (): RoomObject => {
     return ab[0][0] === '#'
   })
 
-  const obj: RoomObject = {}
+  const roomsObj: RoomObject = {}
   userRooms.forEach((room) => {
     const roomName = room[0]
     const users = [...room[1]]
-    obj[roomName] = users.map((id) => {
-      return io.sockets.sockets.get(id)?.data.username
-    })
+    roomsObj[roomName] = {
+      users: users.map((id) => {
+        return io.sockets.sockets.get(id)?.data.username
+      }),
+      size: users.length
+    }
   })
 
-  return obj
+  return roomsObj
 }
