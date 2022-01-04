@@ -4,7 +4,7 @@ import io, { Socket } from 'socket.io-client'
 import { User } from './GlobalState'
 
 type Context = {
-  socket: Socket
+  socket: Socket | undefined
   username?: string
   messages?: MessageData[]
   setMessages: (data: MessageData) => void
@@ -26,7 +26,8 @@ type RoomStateData = {
   users: User[]
 }
 
-const socket = io('http://localhost:8080')
+const socket =
+  typeof window === 'undefined' ? undefined : io('http://localhost:8080/')
 
 const SocketContext = createContext<Context>({
   socket,
@@ -39,6 +40,7 @@ function SocketsProvider(props: any) {
   const [messages, setMessages] = useState<MessageData[]>([])
 
   useEffect(() => {
+    if (!socket) return
     socket.on('chat', (data: MessageData) => {
       setMessages((messages) => [...messages, data])
     })
@@ -46,6 +48,12 @@ function SocketsProvider(props: any) {
       console.log('data', data)
       setMessages((messages) => [...messages, ...data.messages])
     })
+
+    function cleanup() {
+      if (!socket) return
+      socket.disconnect()
+    }
+    return cleanup
   }, [socket])
 
   return (
