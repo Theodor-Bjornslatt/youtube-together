@@ -1,4 +1,4 @@
-import { User } from '../../../state/GlobalState'
+import { User } from '../../state/GlobalState'
 import { UserContainer, Avatar, Name } from './ActiveUsers.styled'
 
 type UserProps = {

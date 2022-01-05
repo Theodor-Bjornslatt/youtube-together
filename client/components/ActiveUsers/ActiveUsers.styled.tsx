@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { colors, spacings } from '../../../styles/variables'
+import { colors, spacings } from '../../styles/variables'
 
 type ColorProp = {
   color: string

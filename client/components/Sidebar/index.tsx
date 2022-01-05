@@ -1,5 +1,5 @@
 import { Container } from './Sidebar.styled'
-import ActiveUsers from '../Sidebar/ActiveUsers/index'
+import ActiveUsers from '../ActiveUsers/index'
 import { User } from '../../state/GlobalState'
 
 type SidebarProp = {
