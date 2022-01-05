@@ -1,4 +1,4 @@
-import { useEffect, createContext, useContext, useReducer } from 'react'
+import { useEffect, createContext, useReducer } from 'react'
 
 import { useWindowSize } from '../hooks/useWindowSize'
 
@@ -71,9 +71,4 @@ export const GlobalContextProvider = ({ children }: ContextProps) => {
       {children}
     </GlobalContext.Provider>
   )
-}
-
-export const setUser = (userData: User | undefined) => {
-  const { dispatch } = useContext(GlobalContext)
-  dispatch({ type: 'user', payload: userData })
 }

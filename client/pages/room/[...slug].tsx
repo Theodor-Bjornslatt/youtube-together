@@ -1,9 +1,9 @@
 import { GetServerSideProps } from 'next'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react'
+import { useContext, useEffect } from 'react'
 
 import Chat from '../../components/Chat'
-import { setUser, User } from '../../state/GlobalState'
+import { GlobalContext, User } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import ServerSideWhoAmI from '../../utils/serverSideWhoAmI'
 
@@ -15,12 +15,16 @@ export type IMessages = {
   color: string
 }
 
+type UserData = {
+  user?: User
+}
+
 type RoomProps = {
-  userData: User | undefined
+  user: User | null
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  let userData
+  let userData: UserData | undefined
 
   try {
     userData = await ServerSideWhoAmI(ctx)
@@ -37,23 +41,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      userData
+      user: userData?.user || null
     }
   }
 }
 
-const Room = ({ userData }: RoomProps) => {
+const Room = ({ user }: RoomProps) => {
   const router = useRouter()
   const { socket } = useSockets()
-  userData && setUser(userData)
+  const { dispatch } = useContext(GlobalContext)
+
   const room = (router.query['slug'] && router.query['slug'][0]) || undefined
 
   useEffect(() => {
     if (!room) return
+    user && dispatch({ type: 'user', payload: user })
     socket.emit('join', {
       room,
-      username: userData?.username,
-      color: userData?.color
+      username: user?.username,
+      color: user?.color
     })
   }, [room])
 
