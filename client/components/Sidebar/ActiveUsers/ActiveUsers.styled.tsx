@@ -1,12 +1,26 @@
 import styled from 'styled-components'
 
-export const Container = styled.div`
-  background-color: blue;
-  width: 100%;
+import { colors, spacings } from '../../../styles/variables'
 
-  &:hover {
-    cursor: pointer;
-  }
+type ColorProp = {
+  color: string
+}
+
+export const Container = styled.div`
+  width: 100%;
 `
 
-export const UserContainer = styled.div``
+export const UserContainer = styled.div`
+  display: flex;
+  align-items: center;
+`
+
+export const Avatar = styled.img`
+  width: 40px;
+  border-radius: 50%;
+  margin: ${spacings.extraExtraSmall};
+`
+
+export const Name = styled.h4<ColorProp>`
+  color: ${(props) => props.color || colors.white};
+`
