@@ -4,9 +4,10 @@ import {
   colors,
   fontSizes,
   fonts,
-  borderRadius
+  borderRadius,
+  borders
 } from '../../../styles/variables'
-import { inputBaseStyle } from '../TextInput/textInput.styled'
+import { inputBaseStyle, WrapperInner } from '../TextInput/textInput.styled'
 
 type Headline = {
   headline?: string
@@ -15,6 +16,12 @@ type Headline = {
 export const Select = styled.div<Headline>`
   ${inputBaseStyle}
   position: relative;
+  &:focus {
+    border-radius: ${borderRadius.small};
+    border: ${borders.focus};
+    outline: none;
+    box-shadow: inset 0 2px 10px 0 rgba(0, 0, 0, 0.3);
+  }
 `
 
 export const OptionsWrapper = styled.div`
@@ -37,6 +44,15 @@ export const Options = styled.div`
   &:hover {
     background: grey;
     border-radius: 0;
+  }
+  &:focus {
+    background: grey;
+    border-radius: 0;
+    outline: none;
+    /* border-radius: ${borderRadius.small};
+    border: ${borders.focus};
+    outline: none;
+    box-shadow: inset 0 2px 10px 0 rgba(0, 0, 0, 0.3); */
   }
 `
 

@@ -42,8 +42,6 @@ export const useForm = (
   const onChangeHandler = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    console.log(values)
-
     setValues((values) => ({ ...values, [e.target.name]: e.target.value }))
   }
 
