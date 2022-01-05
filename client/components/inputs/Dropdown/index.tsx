@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { GenericObject } from '../../../hooks/useForm'
 
+import { GenericObject } from '../../../hooks/useForm'
 import {
   InputWrapper,
   Label,
@@ -19,8 +19,8 @@ const Dropdown = ({ label, title, options, values }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState(title)
 
-  const dropDownRef: React.RefObject<HTMLDivElement> | null | undefined =
-    useRef(null)
+  const dropDownRef: React.RefObject<HTMLDivElement> | null = useRef(null)
+  const selectRef: React.RefObject<HTMLDivElement> | null = useRef(null)
 
   const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as Element
@@ -35,11 +35,24 @@ const Dropdown = ({ label, title, options, values }: DropdownProps) => {
     const target = e.target as Element
     if (!dropDownRef.current) return
     if (e.key === 'Escape') {
-      setIsOpen(false)
+      toggleSelect()
     }
     if (e.key === 'Enter' && dropDownRef.current.contains(target)) {
-      setIsOpen(true)
+      toggleSelect()
     }
+  }
+
+  const setValuesAndClose = (option: string) => {
+    setSelected(option)
+    setIsOpen(false)
+    values.color = options[option]
+  }
+
+  const toggleSelect = () => {
+    setSelected(title)
+    setIsOpen((prev) => !prev)
+    if (!selectRef.current) return
+    if (isOpen) selectRef.current.blur()
   }
 
   useEffect(() => {
@@ -57,9 +70,10 @@ const Dropdown = ({ label, title, options, values }: DropdownProps) => {
       {label && <Label>{label}</Label>}
       <WrapperInner ref={dropDownRef}>
         <Select
+          ref={selectRef}
           tabIndex={0}
           headline={title}
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => toggleSelect()}
         >
           {selected}
           <Arrow />
@@ -70,17 +84,13 @@ const Dropdown = ({ label, title, options, values }: DropdownProps) => {
               <Options
                 onKeyDown={(e) => {
                   if (e.key === 'Enter') {
-                    setSelected(option)
-                    setIsOpen(false)
-                    values.color = options[option]
+                    setValuesAndClose(option)
                   }
                 }}
                 tabIndex={0}
                 key={index}
                 onClick={() => {
-                  setSelected(option)
-                  setIsOpen(false)
-                  values.color = options[option]
+                  setValuesAndClose(option)
                 }}
               >
                 {option}

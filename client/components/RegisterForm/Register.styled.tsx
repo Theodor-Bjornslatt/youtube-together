@@ -9,6 +9,9 @@ export const Form = styled.form`
   align-items: center;
   justify-content: center;
 `
+export const Wrapper = styled.div`
+  width: 18rem;
+`
 
 export const SignupButton = styled(ButtonStyled)`
   margin-top: ${spacings.small};

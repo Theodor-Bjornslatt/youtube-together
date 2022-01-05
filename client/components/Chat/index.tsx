@@ -20,7 +20,7 @@ const Chat = ({ room }: ChatProps) => {
     }
     socket?.emit('chat', obj)
   }
-  const sendMsg = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+  const sendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       if (document.activeElement instanceof HTMLElement) {
         document.activeElement.blur()
@@ -39,7 +39,7 @@ const Chat = ({ room }: ChatProps) => {
       <TextAreaInput
         name={'chat'}
         placeholder="Enter message..."
-        onKeyDown={sendMsg}
+        onKeyDown={sendMessage}
         value={message}
         onChange={(e) => {
           setMessage(e.target.value)

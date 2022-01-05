@@ -1,13 +1,12 @@
 import styled from 'styled-components'
 
 import {
-  colors,
   fontSizes,
   fonts,
   borderRadius,
   borders
 } from '../../../styles/variables'
-import { inputBaseStyle, WrapperInner } from '../TextInput/textInput.styled'
+import { inputBaseStyle } from '../TextInput/textInput.styled'
 
 type Headline = {
   headline?: string
@@ -16,9 +15,11 @@ type Headline = {
 export const Select = styled.div<Headline>`
   ${inputBaseStyle}
   position: relative;
+
   &:focus {
-    border-radius: ${borderRadius.small};
+    border-radius: ${borderRadius.small} ${borderRadius.small} 0 0;
     border: ${borders.focus};
+    border-bottom: none;
     outline: none;
     box-shadow: inset 0 2px 10px 0 rgba(0, 0, 0, 0.3);
   }
@@ -27,32 +28,37 @@ export const Select = styled.div<Headline>`
 export const OptionsWrapper = styled.div`
   display: inline-block;
   box-sizing: border-box;
-  background: ${colors.lightPink};
   font-size: ${fontSizes.small};
   font-family: ${fonts.roboto};
-  border-radius: ${borderRadius.small};
   min-height: 34px;
   width: 100%;
   z-index: 1;
-  position: absolute;
-  left: 0;
+  position: relative;
 `
 export const Options = styled.div`
   ${inputBaseStyle}
+  border-radius: 0;
   cursor: pointer;
   transition: all 0.2s;
+
+  &:last-child {
+    border-radius: 0 0 ${borderRadius.small} ${borderRadius.small};
+
+    &:hover {
+      background: grey;
+      border-radius: 0 0 ${borderRadius.small} ${borderRadius.small};
+    }
+  }
+
   &:hover {
     background: grey;
     border-radius: 0;
   }
+
   &:focus {
     background: grey;
     border-radius: 0;
     outline: none;
-    /* border-radius: ${borderRadius.small};
-    border: ${borders.focus};
-    outline: none;
-    box-shadow: inset 0 2px 10px 0 rgba(0, 0, 0, 0.3); */
   }
 `
 

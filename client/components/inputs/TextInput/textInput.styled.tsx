@@ -6,7 +6,7 @@ import {
   colors,
   borders,
   fonts,
-  spacings as s
+  spacings
 } from '../../../styles/variables'
 
 export const inputBaseStyle = css`
@@ -16,7 +16,8 @@ export const inputBaseStyle = css`
   font-size: ${fontSizes.small};
   font-family: ${fonts.roboto};
   border-radius: ${borderRadius.small};
-  padding: ${s.extraExtraSmall} 0 ${s.extraExtraSmall} ${s.extraExtraSmall};
+  padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}
+    ${spacings.extraExtraSmall};
   min-height: 34px;
   width: 100%;
 `
@@ -25,7 +26,7 @@ export const InputWrapper = styled.div`
   display: flex;
   flex-direction: column;
   text-align: left;
-  width: 18rem;
+  width: 100%;
   height: 90px;
   max-height: 100%;
   font-family: ${fonts.roboto};
