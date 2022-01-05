@@ -1,0 +1,50 @@
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
+
+import Chat from '../../components/Chat'
+import Sidebar from '../../components/Sidebar'
+import { Aside, Container } from './room.styled'
+import { setUser, User } from '../../state/GlobalState'
+import { ChatContainer } from '../../components/Chat/Chat.styled'
+import { useSockets } from '../../state/SocketContext'
+
+export type IMessages = {
+  msg: string
+  timestamp: number
+  username: string
+  id: string
+  color: string
+}
+
+type RoomProps = {
+  userData: User | undefined
+}
+
+const Room = ({ userData }: RoomProps) => {
+  const router = useRouter()
+  const { socket, activeUsers } = useSockets()
+  userData && setUser(userData)
+  const room = (router.query['slug'] && router.query['slug'][0]) || undefined
+
+  useEffect(() => {
+    if (!room) return
+    socket?.emit('join', {
+      room,
+      username: userData?.username,
+      color: userData?.color
+    })
+  }, [room])
+
+  return (
+    <Container>
+      <ChatContainer>
+        <Chat room={room} />
+      </ChatContainer>
+      <Aside>
+        <Sidebar users={activeUsers} />
+      </Aside>
+    </Container>
+  )
+}
+
+export default Room
