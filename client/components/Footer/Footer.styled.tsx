@@ -8,7 +8,8 @@ import {
   fontWeights,
   lineHeights,
   sizes,
-  spacings
+  spacings,
+  headerBoxHeights
 } from '../../styles/variables'
 import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
@@ -16,6 +17,7 @@ export const FooterContainer = styled.footer`
   position: absolute;
   bottom: 0;
   width: 100%;
+  height: ${headerBoxHeights.desktop};
   display: flex;
   justify-content: center;
   background: ${colors.darkest};
