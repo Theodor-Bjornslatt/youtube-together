@@ -7,14 +7,16 @@ import { getIo } from '../io'
 
 export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   const io = getIo()
-  const { room, username, color } = data
-
-  this.data.username =
-    username ||
-    `Guest#${(Math.floor(Math.random() * 10000) + 10000)
+  const {
+    room,
+    username = `Guest#${(Math.floor(Math.random() * 10000) + 10000)
       .toString()
-      .substring(1)}`
-  this.data.color = color || '#ffff'
+      .substring(1)}`,
+    color = '#ffff'
+  } = data
+
+  this.data.username = username
+  this.data.color = color
 
   const messages = await Message.find({ room })
   const clients = io.sockets.adapter.rooms.get(room)
@@ -29,8 +31,8 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   })
 
   this.join(room)
-  io.to(this.id).emit('state', { users, messages })
-
+  io.to(this.id).emit('pre-room', { users, messages })
+  this.to(room).emit('joined-room', { username, color })
   log.info(`${this.data.username} joined ${room}`)
 }
 
