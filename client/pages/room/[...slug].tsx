@@ -51,12 +51,13 @@ const Room = ({ user }: RoomProps) => {
   const { socket } = useSockets()
   const { dispatch } = useContext(GlobalContext)
 
-  const room = (router.query['slug'] && router.query['slug'][0]) || undefined
+  const room =
+    (router.query['slug'] && `#${router.query['slug'][0]}`) || undefined
 
   useEffect(() => {
     if (!room) return
     user && dispatch({ type: 'user', payload: user })
-    socket.emit('join', {
+    socket?.emit('join', {
       room,
       username: user?.username,
       color: user?.color

@@ -1,7 +1,3 @@
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable no-underscore-dangle */
-// eslint-disable-next-line eslint-comments/disable-enable-pair
-/* eslint-disable @typescript-eslint/naming-convention */
 import { Request, Response } from 'express'
 
 import { logIn, logOut } from '../../validation'
