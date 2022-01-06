@@ -6,7 +6,6 @@ export const Container = styled.div`
   display: grid;
   height: auto;
   grid-template-areas: 'chat aside';
-
   grid-template-columns: 4fr 1fr;
 `
 

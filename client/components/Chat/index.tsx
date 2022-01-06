@@ -19,6 +19,7 @@ const Chat = ({ room }: ChatProps) => {
       message
     }
     socket?.emit('chat', obj)
+    setMessage('')
   }
 
   return (

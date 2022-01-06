@@ -48,7 +48,7 @@ function SocketsProvider(props: any) {
       setMessages((messages) => [...messages, data])
     })
     socket.on('pre-room', (data: RoomStateData) => {
-      console.log('data', data)
+      console.log('pre-room', data)
       setMessages((messages) => [...messages, ...data.messages])
       setActiveUsers((users) => [...users, ...data.users])
     })

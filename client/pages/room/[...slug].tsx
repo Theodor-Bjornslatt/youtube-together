@@ -49,7 +49,6 @@ const Room = ({ user }: RoomProps) => {
     (router.query['slug'] && `#${router.query['slug'][0]}`) || undefined
 
   useEffect(() => {
-    console.log('user :>> ', user)
     if (!room) return
     user && dispatch({ type: 'user', payload: user })
 
