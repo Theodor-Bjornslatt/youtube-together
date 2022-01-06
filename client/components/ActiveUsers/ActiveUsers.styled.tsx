@@ -15,6 +15,7 @@ export const UserContainer = styled.div`
   align-items: center;
 `
 
+// width will probably be resized according to window size
 export const Avatar = styled.img`
   width: 40px;
   border-radius: 50%;

@@ -9,14 +9,6 @@ import { useSockets } from '../../state/SocketContext'
 import ServerSideWhoAmI from '../../utils/serverSideWhoAmI'
 import { Aside, ChatContainer, Container } from './room.styled'
 
-export type IMessages = {
-  msg: string
-  timestamp: number
-  username: string
-  id: string
-  color: string
-}
-
 type UserData = {
   user?: User
 }
