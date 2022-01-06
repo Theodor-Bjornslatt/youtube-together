@@ -1,4 +1,5 @@
 import { getIo } from '../../socket/io'
+import { PlayList } from '../models/playlist.model'
 
 type RoomObject = {
   [key: string]:
@@ -48,3 +49,19 @@ export const getAllRooms = (params?: FilterParams): RoomObject => {
 
   return roomsObj
 }
+
+export const postPlayList = async (body: any): Promise<void> => {
+  const { name, url, author, image } = body
+  const playList = new PlayList({
+    name,
+    url,
+    author,
+    image
+  })
+  playList.save()
+}
+// skapa modell för playlist
+// spara model i services
+// res.json msg ok
+// lägga till route i app.use
+//
