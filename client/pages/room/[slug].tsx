@@ -1,5 +1,4 @@
 import { GetServerSideProps } from 'next'
-import { useRouter } from 'next/router'
 import { useContext, useEffect } from 'react'
 
 import Chat from '../../components/Chat'
@@ -9,44 +8,64 @@ import { useSockets } from '../../state/SocketContext'
 import ServerSideWhoAmI from '../../utils/serverSideWhoAmI'
 import { Aside, ChatContainer, Container } from './room.styled'
 
-type UserData = {
+type CurrentUserData = {
   user?: User
+}
+
+type UserData = {
+  users: string[]
+  size: number
+}
+
+type RoomData = {
+  [key: string]: UserData
+}
+
+type Room = {
+  room?: RoomData
 }
 
 type RoomProps = {
   user: User | null
+  currentUsers: UserData | null
+  room: string | null
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  let userData: UserData | undefined
+  let userData: CurrentUserData | undefined
+  let currentRoom: Room = {}
+  const querySlug = ctx.query.slug
+  const slug = Array.isArray(querySlug) ? querySlug[0] : [querySlug][0]
 
-  try {
-    userData = await ServerSideWhoAmI(ctx)
-  } catch (e) {
-    userData = undefined
-    // TO REDIRECT DO THIS
-    // return {
-    //   redirect: {
-    //     permanent: false,
-    //     destination: '/'
-    //   }
-    // }
+  if (slug) {
+    try {
+      // @TODO add # to fetch when rooms are saved with a #
+      const res = await fetch(`http://localhost:8080/api/rooms/${slug}`)
+      res.ok && (currentRoom = await res.json())
+      currentRoom.room && (console.log('current Room', currentRoom))
+      userData = await ServerSideWhoAmI(ctx)
+    } catch (e) {
+      userData = undefined
+    }
   }
+
+  // This redirects when no room is returned
+  // if (!Object.keys(roomData).length) {
+  //   return { notFound: true }
+  // }
 
   return {
     props: {
-      user: userData?.user || null
+      user: userData?.user || null,
+      currentUsers: currentRoom.room && currentRoom.room[`${slug}`] || null,
+      room: slug || null
     }
   }
 }
 
-const Room = ({ user }: RoomProps) => {
-  const router = useRouter()
+const Room = ({ user, room }: RoomProps) => {
   const { socket, activeUsers } = useSockets()
   const { dispatch } = useContext(GlobalContext)
-
-  const room =
-    (router.query['slug'] && `#${router.query['slug'][0]}`) || undefined
 
   useEffect(() => {
     if (!room) return
