@@ -19,6 +19,7 @@ const Chat = ({ room }: ChatProps) => {
       message
     }
     socket?.emit('chat', obj)
+    setMessage('')
   }
   const sendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {

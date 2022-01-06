@@ -45,7 +45,7 @@ export const registerUserService = async (body: IUser): Promise<IUser> => {
 export const whoamiService = async (
   userId: string | undefined
 ): Promise<IUser> => {
-  const user = await User.findOne({ id: userId })
+  const user = await User.findOne({ _id: userId })
   const { password, createdAt, updatedAt, __v, ...userDTO } = user._doc
   return userDTO
 }
