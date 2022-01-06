@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React, { useState } from 'react'
 
 import { TextAreaInput } from '../inputs/TextAreaInput'
 import ChatMessage from './ChatMessage'
@@ -20,6 +20,14 @@ const Chat = ({ room }: ChatProps) => {
     }
     socket?.emit('chat', obj)
   }
+  const sendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      if (document.activeElement instanceof HTMLElement) {
+        document.activeElement.blur()
+      }
+      onClickHandler()
+    }
+  }
 
   return (
     <ChatContainer>
@@ -31,6 +39,7 @@ const Chat = ({ room }: ChatProps) => {
       <TextAreaInput
         name={'chat'}
         placeholder="Enter message..."
+        onKeyDown={sendMessage}
         value={message}
         onChange={(e) => {
           setMessage(e.target.value)

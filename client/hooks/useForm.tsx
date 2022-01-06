@@ -5,8 +5,12 @@ export type GenericObject = { [key: string]: string }
 type UseForm = {
   values: GenericObject
   errors: GenericObject
-  onChangeHandler: (e: any) => void
-  handleSubmit: (e: any) => void
+  onChangeHandler: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void
+  handleSubmit: (
+    e: React.FormEvent<HTMLFormElement | HTMLButtonElement>
+  ) => void
 }
 
 export const useForm = (
@@ -21,10 +25,13 @@ export const useForm = (
   useEffect(() => {
     if (Object.keys(errors).length === 0 && isSubmitting) {
       submitForm()
+      setValues(initialValue)
     }
   }, [errors])
 
-  const handleSubmit = (e: any) => {
+  const handleSubmit = (
+    e: React.FormEvent<HTMLFormElement | HTMLButtonElement>
+  ) => {
     if (e) e.preventDefault()
     if (validate) {
       setErrors(validate(values))
@@ -32,7 +39,9 @@ export const useForm = (
     setIsSubmitting(true)
   }
 
-  const onChangeHandler = (e: any) => {
+  const onChangeHandler = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setValues((values) => ({ ...values, [e.target.name]: e.target.value }))
   }
 
