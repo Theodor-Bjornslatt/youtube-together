@@ -1,4 +1,5 @@
 import React, { useContext } from 'react'
+import { useRouter } from 'next/router'
 
 import { useForm } from '../../hooks/useForm'
 import { TextInput } from '../inputs/TextInput'
@@ -9,6 +10,8 @@ import { textColors } from '../../styles/variables'
 import Dropdown from '../../components/inputs/Dropdown'
 
 export default function RegisterForm() {
+  const router = useRouter()
+
   const { dispatch } = useContext(GlobalContext)
   const initialValue = {
     username: '',
@@ -33,6 +36,7 @@ export default function RegisterForm() {
     const data = await res.json()
 
     dispatch({ type: 'user', payload: data.user })
+    router.push('/')
   }
 
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
@@ -90,3 +94,4 @@ export default function RegisterForm() {
     </Form>
   )
 }
+
