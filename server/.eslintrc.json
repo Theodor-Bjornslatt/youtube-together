@@ -28,6 +28,7 @@
     "prettier/prettier": "error",
     "no-console": "off",
     "import/prefer-default-export": "off",
+    "@typescript-eslint/no-unused-expressions": "off",
     "import/order": [
       "error",
       {
