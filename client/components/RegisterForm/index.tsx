@@ -4,10 +4,11 @@ import { useRouter } from 'next/router'
 import { useForm } from '../../hooks/useForm'
 import { TextInput } from '../inputs/TextInput'
 import { validateSignUp } from '../../utils/formValidationRules'
-import { Form, Headline, SignupButton, Wrapper } from './Register.styled'
+import { Form, SignupButton } from './Register.styled'
 import { GlobalContext } from '../../state/GlobalState'
 import { textColors } from '../../styles/variables'
 import Dropdown from '../../components/inputs/Dropdown'
+import FormContainer from '../FormContainer'
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -48,9 +49,8 @@ export default function RegisterForm() {
   )
 
   return (
-    <Form onSubmit={handleSubmit}>
-      <Headline>Create a user</Headline>
-      <Wrapper>
+    <FormContainer>
+      <Form onSubmit={handleSubmit}>
         <TextInput
           placeholder="Username..."
           label="Create a username"
@@ -91,8 +91,8 @@ export default function RegisterForm() {
           value={values.repeat}
           onChange={onChangeHandler}
         />
-      </Wrapper>
-      <SignupButton onSubmit={handleSubmit}>Sign Up</SignupButton>
-    </Form>
+        <SignupButton onSubmit={handleSubmit}>Sign Up</SignupButton>
+      </Form>
+    </FormContainer>
   )
 }

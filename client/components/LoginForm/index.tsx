@@ -3,11 +3,11 @@ import { useRouter } from 'next/router'
 
 import { validateSignIn } from '../../utils/formValidationRules'
 import { TextInput } from '../inputs/TextInput'
-import { ErrorMessage, FormContainer } from './Login.styled'
+import { ErrorMessage } from './Login.styled'
 import { useForm } from '../../hooks/useForm'
-import { LoginButton } from './Login.styled'
-import { Form, Headline } from '../RegisterForm/Register.styled'
+import { LoginButton, Form } from './Login.styled'
 import { GlobalContext } from '../../state/GlobalState'
+import FormContainer from '../FormContainer'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -45,7 +45,6 @@ export default function LoginForm() {
 
   return (
     <FormContainer>
-      <Headline>Login</Headline>
       <Form onSubmit={handleSubmit}>
         <TextInput
           label="Email"
