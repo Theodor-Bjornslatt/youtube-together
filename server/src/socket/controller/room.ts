@@ -6,14 +6,15 @@ import log from '../../logger'
 import { getIo } from '../io'
 
 export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
-  const io = getIo()
   const {
-    room,
+    room: roomToJoin,
     username = `Guest#${(Math.floor(Math.random() * 10000) + 10000)
       .toString()
       .substring(1)}`,
     color = '#ffff'
   } = data
+  const room = `#${roomToJoin}`
+  const io = getIo()
 
   this.data.username = username
   this.data.color = color
@@ -37,6 +38,7 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
 }
 
 export function onLeaveRoom(this: Socket, room: string): void {
-  this.leave(room)
-  this.to(room).emit(`${this.data.username} leaved ${room}`)
+  const roomToLeave = `#${room}`
+  this.leave(roomToLeave)
+  this.to(room).emit(`${this.data.username} left ${roomToLeave}`)
 }

@@ -6,7 +6,7 @@ import { ChatContainer, MessageListContainer, ChatButton } from './Chat.styled'
 import { useSockets } from '../../state/SocketContext'
 
 type ChatProps = {
-  room?: string | string[]
+  room: string | null
 }
 
 const Chat = ({ room }: ChatProps) => {

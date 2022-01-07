@@ -7,6 +7,11 @@ const apiGetAllRoutes = (req: Request, res: Response): void => {
   res.json({ rooms })
 }
 
-const room = { apiGetAllRoutes }
+const apiGetRoom = (req: Request, res: Response): void => {
+  const room = getAllRooms({ id: req.params.id })
+  res.json({ room })
+}
+
+const room = { apiGetAllRoutes, apiGetRoom }
 
 export default room
