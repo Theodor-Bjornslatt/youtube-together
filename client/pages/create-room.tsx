@@ -1,5 +1,5 @@
 import { GetServerSideProps } from 'next'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 
 import CreateRoomForm from '../components/CreateRoomForm'
 import { GlobalContext, User } from '../state/GlobalState'
@@ -37,7 +37,9 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function CreateRoom({ user }: RoomProps) {
   const { dispatch } = useContext(GlobalContext)
-  user && dispatch({ type: 'user', payload: user })
+  useEffect(() => {
+    dispatch({ type: 'user', payload: user })
+  }, [])
 
-  return <CreateRoomForm />
+  return <CreateRoomForm user={user} />
 }

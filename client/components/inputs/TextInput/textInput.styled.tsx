@@ -27,7 +27,6 @@ export const InputWrapper = styled.div`
   flex-direction: column;
   text-align: left;
   width: 100%;
-  height: 90px;
   max-height: 100%;
   font-family: ${fonts.roboto};
 `
@@ -56,4 +55,5 @@ export const ErrMsg = styled.span`
   font-size: 0.75rem;
   padding-left: 8px;
   padding-top: 4px;
+  height: 12px;
 `

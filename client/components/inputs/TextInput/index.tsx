@@ -40,7 +40,7 @@ export const TextInput = ({
           value={value}
         />
       </WrapperInner>
-      {error && <ErrMsg>{error}</ErrMsg>}
+      <ErrMsg>{error}</ErrMsg>
     </InputWrapper>
   )
 }
