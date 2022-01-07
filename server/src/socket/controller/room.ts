@@ -31,9 +31,24 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
     })
   })
 
-  this.join(room)
-  io.to(this.id).emit('pre-room', { users, messages })
-  this.to(room).emit('joined-room', { username, color })
+  const alreadyJoined = users.some((user) => {
+    return user.username === username
+  })
+
+  if (!alreadyJoined) {
+    this.join(room)
+    io.to(this.id).emit('pre-room', { users, messages })
+    this.to(room).emit('joined-room', { username, color })
+  } else {
+    const filteredUsers = users.filter((user) => {
+      return user.username !== username
+    })
+    io.to(this.id).emit('pre-room', {
+      users: filteredUsers,
+      messages
+    })
+  }
+
   log.info(`${this.data.username} joined ${room}`)
 }
 
