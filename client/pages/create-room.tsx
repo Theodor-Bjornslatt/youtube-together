@@ -1,38 +1,43 @@
-import { useState } from 'react'
+import { GetServerSideProps } from 'next'
+import { useContext } from 'react'
 
-import { TextInput } from '../components/inputs/TextInput'
-export default function CreateRoom() {
-  const [value, setValue] = useState('')
+import CreateRoomForm from '../components/CreateRoomForm'
+import { GlobalContext, User } from '../state/GlobalState'
+import ServerSideWhoAmI from '../utils/serverSideWhoAmI'
 
-  const onChangeHandler = (e: any) => {
-    const text = e.target.value
-    setValue(text)
+type UserData = {
+  user?: User
+}
+
+type RoomProps = {
+  user: User | null
+}
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  let userData: UserData | undefined
+
+  try {
+    userData = await ServerSideWhoAmI(ctx)
+  } catch (e) {
+    userData = undefined
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/'
+      }
+    }
   }
 
-  const onClickHandler = async () => {
-    if (!value) return
-    //room-name
-    //playlist
-    const res = await fetch('http://localhost:8080/api/rooms', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(value)
-    })
+  return {
+    props: {
+      user: userData?.user || null
+    }
   }
+}
 
-  //
+export default function CreateRoom({ user }: RoomProps) {
+  const { dispatch } = useContext(GlobalContext)
+  user && dispatch({ type: 'user', payload: user })
 
-  return (
-    <>
-      <TextInput
-        placeholder="url"
-        label="video"
-        name="youtube"
-        value={value}
-        onChange={onChangeHandler}
-      />
-      <button onClick={onClickHandler}>CLICK</button>
-    </>
-  )
+  return <CreateRoomForm />
 }
