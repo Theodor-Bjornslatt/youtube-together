@@ -12,22 +12,17 @@ type CurrentUserData = {
   user?: User
 }
 
-type UserData = {
+type RoomData = {
   users: string[]
   size: number
 }
 
-type RoomData = {
-  [key: string]: UserData
-}
-
 type Room = {
-  room?: RoomData
+  room?: { [key: string]: RoomData }
 }
 
 type RoomProps = {
   user: User | null
-  currentUsers: UserData | null
   room: string | null
 }
 
@@ -39,25 +34,25 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   if (slug) {
     try {
-      // @TODO add # to fetch when rooms are saved with a #
       const res = await fetch(`http://localhost:8080/api/rooms/${slug}`)
-      res.ok && (currentRoom = await res.json())
-      currentRoom.room && (console.log('current Room', currentRoom))
+      if (!res.ok) return { notFound: true }
+
+      currentRoom = await res.json()
+      currentRoom.room && console.log('current Room', currentRoom)
       userData = await ServerSideWhoAmI(ctx)
     } catch (e) {
       userData = undefined
     }
   }
 
-  // This redirects when no room is returned
-  // if (!Object.keys(roomData).length) {
+  //This redirects when no room is returned
+  // if (!Object.keys(currentRoom).length) {
   //   return { notFound: true }
   // }
 
   return {
     props: {
       user: userData?.user || null,
-      currentUsers: currentRoom.room && currentRoom.room[`${slug}`] || null,
       room: slug || null
     }
   }

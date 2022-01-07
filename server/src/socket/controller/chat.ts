@@ -19,8 +19,9 @@ export async function onChatMessage(
     id: idGenerator(),
     color: this.data.color
   }
+  const room = `#${data.room}`
   const io = getIo()
-  io.to(data.room).emit('chat', message)
-  const msg = new Message({ room: data.room, ...message })
+  io.to(room).emit('chat', message)
+  const msg = new Message({ room, ...message })
   await msg.save()
 }
