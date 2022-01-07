@@ -34,7 +34,6 @@ export const getAllRooms = (params?: FilterParams): RoomObject => {
 
   if (!userRooms.length) return {}
 
-  // Repeated further down, should refactor
   const roomsObj: RoomObject = {}
   userRooms.forEach((room) => {
     const roomName = room[0]
