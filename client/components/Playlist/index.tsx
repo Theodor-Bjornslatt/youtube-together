@@ -1,35 +1,30 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction, useMemo } from 'react'
 
-import { usePointerPosition } from '../../hooks/usePointerPosition'
 import { PlaylistContainer } from './Playlist.styled'
 import PlaylistItem from './PlaylistItem'
 
-export default function Playlist() {
-  const [playlist, setPlaylist] = useState([
-    {
-      id: 1,
-      name: 'Anna'
-    },
-    {
-      id: 2,
-      name: 'Mona'
-    },
-    {
-      id: 3,
-      name: 'Lisa'
+export type PlayItem = {
+  id: string
+  name: string
+}
+
+type PlaylistProps = {
+  playlist: PlayItem[]
+  setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
+}
+
+export default function Playlist({ playlist, setPlaylist }: PlaylistProps) {
+  const [pointerPosition, setPointerPosition] = useState({ x: 0, y: 0 })
+  const [draggedItem, setDraggedItem] = useState<PlayItem | undefined>()
+  const [playlistCopy, setPlaylistCopy] = useState<PlayItem[]>([...playlist])
+
+  useEffect(() => {
+    window.addEventListener('pointerup', () => setDraggedItem(undefined))
+
+    return () => {
+      window.removeEventListener('pointerup', () => setDraggedItem(undefined))
     }
-  ])
-
-  type PlaceHolderType = {
-    id: number
-    name: string
-  }
-
-  const [draggedIndex, setDraggedIndex] = useState<number | undefined>(undefined)
-  const [draggedItem, setDraggedItem] = useState<PlaceHolderType | undefined>(undefined)
-  const [isPointerOnPlaylist, setIsPointerOnPlaylist] = useState(false)
-
-  const pointerPosition = usePointerPosition()
+  }, [])
 
   function unFocusElements() {
     if (document.getSelection()) {
@@ -37,47 +32,32 @@ export default function Playlist() {
     }
   }
 
-  useEffect(() => {
-    window.addEventListener('pointerup', endDrag)
-    window.addEventListener('pointermove', unFocusElements)
-
-    return () => {
-      window.removeEventListener('pointerup', endDrag)
-      window.removeEventListener('pointermove', unFocusElements)
+  function endDrag(reset?: 'reset') {
+    if (reset) {
+      setPlaylistCopy([...playlist])
+    } else {
+      setPlaylist([...playlistCopy])
+      setDraggedItem(undefined)
     }
-  })
-
-  function endDrag() {
-    if (!isPointerOnPlaylist && draggedIndex && draggedItem) {
-      const previousPlaylist = [...playlist].filter(it => it.id !== draggedItem.id)
-      previousPlaylist.splice(draggedIndex, 0, draggedItem)
-      setPlaylist(previousPlaylist)
-    }
-    setDraggedItem(undefined)
   }
 
-  function startDrag(item: PlaceHolderType) {
-    setDraggedIndex(playlist.findIndex(it => it.id === item.id))
+  function startDrag(item: PlayItem) {
     setDraggedItem(item)
   }
 
-  function onPointerEnter(item: PlaceHolderType) {
+  function onPointerEnter(item: PlayItem) {
     if (!draggedItem || draggedItem.id === item.id) return
-    const hoveredItemIndex = playlist.findIndex((it) => it.id === item.id)
+    const hoveredItemIndex = playlistCopy.findIndex((it) => it.id === item.id)
     const newPlaylist = [
-      ...playlist.filter((item) => item.id !== draggedItem.id)
+      ...playlistCopy.filter((item) => item.id !== draggedItem.id)
     ]
     newPlaylist.splice(hoveredItemIndex, 0, draggedItem)
-    setPlaylist(newPlaylist)
+    setPlaylistCopy(newPlaylist)
   }
 
-  return (
-    <PlaylistContainer
-      isActive={draggedItem != undefined}
-      onPointerEnter={() => !isPointerOnPlaylist && setIsPointerOnPlaylist(true)}
-      onPointerLeave={() => isPointerOnPlaylist && setIsPointerOnPlaylist(false)}
-    >
-      {playlist.map((item) => (
+  const mappedPlaylist = useMemo(
+    () =>
+      playlist.map((item) => (
         <PlaylistItem
           startDrag={startDrag}
           key={item.id}
@@ -85,8 +65,40 @@ export default function Playlist() {
           onPointerEnter={onPointerEnter}
           isActive={draggedItem != undefined}
         />
-      ))}
-      {draggedItem && <PlaylistItem startDrag={startDrag} item={draggedItem} translateX={pointerPosition.x - 80} translateY={pointerPosition.y - 20} />}
-    </PlaylistContainer >
+      )),
+    [playlist, draggedItem]
+  )
+
+  return (
+    <PlaylistContainer
+      isActive={draggedItem != undefined}
+      onPointerLeave={() => endDrag('reset')}
+      onPointerMove={(e) => (
+        unFocusElements(), setPointerPosition({ x: e.clientX, y: e.clientY })
+      )}
+      onPointerUp={() => endDrag()}
+    >
+      {draggedItem ? (
+        <>
+          {playlistCopy?.map((item) => (
+            <PlaylistItem
+              startDrag={startDrag}
+              key={item.id}
+              item={item}
+              onPointerEnter={onPointerEnter}
+              isActive={draggedItem != undefined}
+            />
+          ))}
+          <PlaylistItem
+            startDrag={startDrag}
+            item={draggedItem}
+            translateX={pointerPosition.x - 80}
+            translateY={pointerPosition.y - 20}
+          />
+        </>
+      ) : (
+        mappedPlaylist
+      )}
+    </PlaylistContainer>
   )
 }
