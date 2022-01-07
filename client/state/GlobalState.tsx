@@ -11,17 +11,17 @@ export type User = {
 
 const initialState = {
   windowWidth: 0,
-  user: undefined
+  loggedIn: false
 }
 
 type GlobalState = {
   windowWidth: number
-  user: User | undefined
+  loggedIn: boolean
 }
 
 type SetStateAction =
   | { type: 'windowWidth'; payload: number }
-  | { type: 'user'; payload: User | undefined }
+  | { type: 'loggedIn'; payload: boolean }
 
 type GlobalContextType = {
   state: GlobalState
@@ -40,7 +40,7 @@ const GlobalReducer = (state: GlobalState, action: SetStateAction) => {
         ...state,
         windowWidth: action.payload
       }
-    case 'user':
+    case 'loggedIn':
       return {
         ...state,
         user: action.payload

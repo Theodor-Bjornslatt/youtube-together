@@ -64,7 +64,7 @@ const Room = ({ user, room }: RoomProps) => {
 
   useEffect(() => {
     if (!room) return
-    user && dispatch({ type: 'user', payload: user })
+    user && dispatch({ type: 'loggedIn', payload: true })
 
     socket?.emit('join', {
       room,
