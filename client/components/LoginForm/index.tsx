@@ -37,7 +37,9 @@ export default function LoginForm() {
     if (!res.ok) return setError(true)
     const user = await res.json()
 
-    dispatch({ type: 'user', payload: user })
+    if (!user.id) return
+
+    dispatch({ type: 'loggedIn', payload: true })
     router.push('/')
   }
 

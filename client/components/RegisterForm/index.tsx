@@ -35,7 +35,9 @@ export default function RegisterForm() {
     if (!res.ok) return //@TODO handle error
     const data = await res.json()
 
-    dispatch({ type: 'user', payload: data.user })
+    if (!data) return
+
+    dispatch({ type: 'loggedIn', payload: true })
     router.push('/')
   }
 
@@ -94,4 +96,3 @@ export default function RegisterForm() {
     </Form>
   )
 }
-
