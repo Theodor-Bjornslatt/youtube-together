@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react'
+import { useRouter } from 'next/router'
 
 import { validateSignIn } from '../../utils/formValidationRules'
 import { TextInput } from '../inputs/TextInput'
@@ -9,6 +10,8 @@ import { Form, Headline } from '../RegisterForm/Register.styled'
 import { GlobalContext } from '../../state/GlobalState'
 
 export default function LoginForm() {
+  const router = useRouter()
+
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
     submitHandler,
     {
@@ -35,6 +38,7 @@ export default function LoginForm() {
     const user = await res.json()
 
     dispatch({ type: 'user', payload: user })
+    router.push('/')
   }
 
   return (
