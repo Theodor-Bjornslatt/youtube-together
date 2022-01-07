@@ -7,6 +7,6 @@ const router = Router()
 
 router.route('/rooms').get(catchAsync(RoomCtrl.apiGetAllRoutes))
 router.route('/rooms/:id').get(catchAsync(RoomCtrl.apiGetRoom))
-router.route('/rooms/playlist').post(catchAsync(RoomCtrl.apiPostPlaylist))
+router.route('/rooms/:id/playlist').post(catchAsync(RoomCtrl.apiPostPlaylist))
 
 export default router

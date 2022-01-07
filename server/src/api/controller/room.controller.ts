@@ -14,7 +14,7 @@ const apiGetRoom = (req: Request, res: Response): void => {
 
 const apiPostPlaylist = (req: Request, res: Response): void => {
   postPlayList(req.body)
-  res.status(200).json({ message: 'Awsome' })
+  res.status(200).json({ message: 'Ok!' })
 }
 
 const room = { apiGetAllRoutes, apiPostPlaylist, apiGetRoom }
