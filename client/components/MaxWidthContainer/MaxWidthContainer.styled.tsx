@@ -2,7 +2,13 @@ import styled from 'styled-components'
 
 import { maxWidths, sizes, spacings } from '../../styles/variables'
 
-type Size = 'small' | 'medium' | 'large' | undefined
+type Size =
+  | 'extraExtraSmall'
+  | 'extraSmall'
+  | 'small'
+  | 'medium'
+  | 'large'
+  | undefined
 
 export type StyledMaxWidthProps = {
   size?: Size
@@ -10,6 +16,10 @@ export type StyledMaxWidthProps = {
 
 function getMaxWidth(size: Size) {
   switch (size) {
+    case 'extraExtraSmall':
+      return maxWidths.extraExtraSmall
+    case 'extraSmall':
+      return maxWidths.extraSmall
     case 'small':
       return maxWidths.small
     case 'medium':
