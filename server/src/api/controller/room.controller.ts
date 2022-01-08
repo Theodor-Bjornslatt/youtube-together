@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 
-import { BadRequest } from '../../errors'
 import { getAllRooms, postPlayList } from '../services'
 
 const apiGetAllRoutes = (req: Request, res: Response): void => {

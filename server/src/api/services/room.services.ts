@@ -1,7 +1,5 @@
-import { BadRequest } from '../../errors'
 import { getIo } from '../../socket/io'
-// eslint-disable-next-line import/no-cycle
-import { validatePlaylist } from '../../validation/playlist'
+import { PlaylistObject, validatePlaylist } from '../../validation/playlist'
 import { Playlist } from '../models/playlist.model'
 
 type RoomObject = {
@@ -52,27 +50,13 @@ export const getAllRooms = (params?: FilterParams): RoomObject => {
 
   return roomsObj
 }
-export type UrlObject = {
-  id: number
-  url: string
-}
-export type PlaylistObject = {
-  name: string
-  url: UrlObject[]
-}
 
-const validate = async ({ name, url }: PlaylistObject) => {
-  if (!name || !url) throw new BadRequest('missing params')
-}
 export const postPlayList = async (body: PlaylistObject): Promise<void> => {
   const { name, url } = body
-  await validate({ name, url })
+  await validatePlaylist({ name, url })
   const playlist = new Playlist({
     name,
     url
   })
-  // validation
   await playlist.save()
-
-  // validatePlaylist(body)
 }
