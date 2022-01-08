@@ -1,21 +1,15 @@
-import React, {
-  forwardRef,
-  JSXElementConstructor,
-  useEffect,
-  useRef
-} from 'react'
+import React, { JSXElementConstructor, useEffect, useRef } from 'react'
 
 type childrenProps = {
   children: React.ReactElement<unknown, string | JSXElementConstructor<unknown>>
 }
 
-const FocusTrap: React.FC<childrenProps> = forwardRef(({ children }, ref) => {
-  const _ref = useRef<HTMLElement>()
-  const realRef = ref ?? _ref
+const FocusTrap: React.FC<childrenProps> = ({ children }) => {
+  const ref = useRef<HTMLElement>()
 
   useEffect(() => {
-    if (!_ref.current) return
-    const content = _ref.current
+    if (!ref.current) return
+    const content = ref.current
 
     const focusableElements = 'button, [href], input, textarea'
 
@@ -29,9 +23,7 @@ const FocusTrap: React.FC<childrenProps> = forwardRef(({ children }, ref) => {
     const trapFocus = function (e: KeyboardEvent): void {
       const isTabPressed = e.key === 'Tab'
 
-      if (!isTabPressed) {
-        return
-      }
+      if (!isTabPressed) return
 
       if (e.shiftKey) {
         if (document.activeElement === firstFocusableElement) {
@@ -53,7 +45,7 @@ const FocusTrap: React.FC<childrenProps> = forwardRef(({ children }, ref) => {
     }
   }, [])
 
-  return React.cloneElement(children, { ref: realRef })
-})
+  return React.cloneElement(children, { ref: ref })
+}
 FocusTrap.displayName = 'FocusTrapWrapper'
 export default FocusTrap
