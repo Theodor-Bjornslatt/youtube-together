@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 
+import { BadRequest } from '../../errors'
 import { getAllRooms, postPlayList } from '../services'
 
 const apiGetAllRoutes = (req: Request, res: Response): void => {
@@ -12,8 +13,8 @@ const apiGetRoom = (req: Request, res: Response): void => {
   res.json({ room })
 }
 
-const apiPostPlaylist = (req: Request, res: Response): void => {
-  postPlayList(req.body)
+const apiPostPlaylist = async (req: Request, res: Response): Promise<void> => {
+  await postPlayList(req.body)
   res.status(200).json({ message: 'Ok!' })
 }
 

@@ -1,3 +1,4 @@
+import { BadRequest } from '../../errors'
 import { getIo } from '../../socket/io'
 // eslint-disable-next-line import/no-cycle
 import { validatePlaylist } from '../../validation/playlist'
@@ -60,18 +61,18 @@ export type PlaylistObject = {
   url: UrlObject[]
 }
 
+const validate = async ({ name, url }: PlaylistObject) => {
+  if (!name || !url) throw new BadRequest('missing params')
+}
 export const postPlayList = async (body: PlaylistObject): Promise<void> => {
-  try {
-    validatePlaylist(body)
-  } catch (error) {
-    console.log('Error', error)
-  }
-
   const { name, url } = body
+  await validate({ name, url })
   const playlist = new Playlist({
     name,
     url
   })
   // validation
   await playlist.save()
+
+  // validatePlaylist(body)
 }
