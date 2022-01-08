@@ -1,4 +1,3 @@
-
 import styled from 'styled-components'
 
 import { borders, colors, fontWeights, spacings } from '../../styles/variables'
@@ -8,13 +7,12 @@ type PlaylistContainerProps = {
 }
 
 export const PlaylistContainer = styled.div<PlaylistContainerProps>`
- //@TODO update this styling when putting together room
+  cursor: ${(props) => (props.isActive ? 'grabbing' : 'grab')};
 `
 
 type DraggingProps = {
   isActive?: boolean
-  translateX?: number
-  translateY?: number
+  isDragging?: boolean
 }
 
 export const PlaylistItemContainer = styled.div<DraggingProps>`
@@ -29,16 +27,18 @@ export const PlaylistItemContainer = styled.div<DraggingProps>`
   background: ${colors.darkest};
   border: ${borders.light};
   margin: ${spacings.extraSmall} ${spacings.extraExtraSmall};
-  ${props => props.translateX && props.translateY && `
+  ${(props) =>
+    props.isDragging &&
+    `
     position: absolute;
     top: 0;
     left: 0;
     opacity: 0.8;
     pointer-events: none;
     `}
-  cursor: ${props => props.isActive ? 'grabbing' : 'grab'};
+  cursor: ${(props) => (props.isActive ? 'grabbing' : 'grab')};
 
-  :hover{
+  :hover {
     border-left: 2px solid ${colors.lightPink};
   }
 `
