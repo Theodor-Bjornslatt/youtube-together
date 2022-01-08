@@ -1,4 +1,4 @@
-import { HeaderContainer, Title } from './Header.styled'
+import { HeaderContainer } from './Header.styled'
 
 type HeaderProps = {
   title: string
@@ -8,8 +8,8 @@ type HeaderProps = {
 export default function Header({ children, title }: HeaderProps) {
   return (
     <HeaderContainer>
-      <Title>{title}</Title>
-      {children && children}
+      <h5>{title}</h5>
+      {children}
     </HeaderContainer>
   )
 }

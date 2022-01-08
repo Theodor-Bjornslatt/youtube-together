@@ -22,6 +22,7 @@ export const HeaderContainer = styled.div`
   text-transform: uppercase;
   width: 100%;
 
+  h5,
   a {
     font-family: ${fonts.roboto};
     font-weight: ${fontWeights.thin};
@@ -45,16 +46,4 @@ export const MainContentContainer = styled.div`
   font-size: ${fontSizes.small};
   height: 100%;
   justify-content: space-between;
-`
-
-export const Title = styled.h5`
-  font-family: ${fonts.roboto};
-  font-weight: ${fontWeights.thin};
-  font-size: ${fontSizes.medium};
-  line-height: ${lineHeights.medium};
-
-  @media screen and (max-width: ${sizes.mobile}px) {
-    font-size: ${fontSizes.small};
-    line-height: ${lineHeights.small};
-  }
 `
