@@ -8,7 +8,7 @@ import { GlobalContext } from '../../state/GlobalState'
 import { textColors } from '../../styles/variables'
 import Dropdown from '../../components/inputs/Dropdown'
 import FormContainer from '../FormContainer'
-import FocusTrap from '../focusTrap'
+import FocusTrap from '../FocusTrap'
 import { Form, SignupButton } from './Register.styled'
 
 export default function RegisterForm() {
