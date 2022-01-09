@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from 'next'
 
-const ServerSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
+export const serverSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
   const { req } = ctx
   const { cookies } = req
   // @TODO throw different errors depending on case
@@ -18,4 +18,14 @@ const ServerSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
   }
 }
 
-export default ServerSideWhoAmI
+export const serverSideGetRooms = async () => {
+  try {
+    const res = await fetch('http://localhost:8080/api/rooms', {
+      credentials: 'include'
+    })
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
