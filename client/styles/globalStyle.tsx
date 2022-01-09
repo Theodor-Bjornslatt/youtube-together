@@ -66,6 +66,23 @@ export const GlobalStyle = createGlobalStyle`
     line-height: ${lineHeights.small};
   }
 
+  /* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: ${colors.darkest};
+}
+
+::-webkit-scrollbar-thumb {
+  background: ${colors.brown};
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: ${colors.brown};
+}
+
 
   @media screen and (max-width: ${sizes.mobile}px){
     h1 {
