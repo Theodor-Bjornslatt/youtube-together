@@ -7,10 +7,18 @@ type Context = {
   socket: Socket | undefined
   username?: string
   messages?: MessageData[]
+  playlist?: PlaylistData[]
   activeUsers?: User[]
   setMessages: (data: MessageData) => void
+  setPlaylist: (data: PlaylistData) => void
   roomId?: string
   rooms: object
+}
+
+type RoomStateData = {
+  messages: MessageData[]
+  users: User[]
+  playlist: PlaylistData[]
 }
 
 export type MessageData = {
@@ -22,9 +30,9 @@ export type MessageData = {
   room?: string
 }
 
-type RoomStateData = {
-  messages: MessageData[]
-  users: User[]
+export type PlaylistData = {
+  url: string
+  _id: string
 }
 
 const socket =
@@ -33,12 +41,15 @@ const socket =
 const SocketContext = createContext<Context>({
   socket,
   setMessages: () => null,
+  setPlaylist: () => null,
   rooms: {},
-  messages: []
+  messages: [],
+  playlist: []
 })
 
 function SocketsProvider(props: any) {
   const [messages, setMessages] = useState<MessageData[]>([])
+  const [playlist, setPlaylist] = useState<PlaylistData[]>([])
   const [activeUsers, setActiveUsers] = useState<User[]>([])
 
   useEffect(() => {
@@ -51,6 +62,7 @@ function SocketsProvider(props: any) {
       console.log('pre-room', data)
       setMessages((messages) => [...messages, ...data.messages])
       setActiveUsers((users) => [...users, ...data.users])
+      setPlaylist((playlist) => [...playlist, ...data.playlist])
     })
     socket.on('joined-room', (data: User) => {
       console.log('joined-room', data)
@@ -75,8 +87,10 @@ function SocketsProvider(props: any) {
       value={{
         socket,
         messages,
+        playlist,
         activeUsers,
-        setMessages
+        setMessages,
+        setPlaylist
       }}
       {...props}
     />
