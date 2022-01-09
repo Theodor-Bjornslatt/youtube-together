@@ -1,4 +1,6 @@
 import { getIo } from '../../socket/io'
+import { PlaylistObject, validatePlaylist } from '../../validation/playlist'
+import { Playlist } from '../models/playlist.model'
 
 type RoomObject = {
   [key: string]:
@@ -47,4 +49,14 @@ export const getAllRooms = (params?: FilterParams): RoomObject => {
   })
 
   return roomsObj
+}
+
+export const postPlayList = async (body: PlaylistObject): Promise<void> => {
+  const { name, url } = body
+  await validatePlaylist({ name, url })
+  const playlist = new Playlist({
+    name,
+    url
+  })
+  await playlist.save()
 }
