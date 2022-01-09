@@ -7,6 +7,9 @@ import log from '../../logger'
 import { getIo } from '../io'
 
 export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
+  // measure speed
+  const t1 = performance.now()
+
   const {
     room,
     username = `Guest#${(Math.floor(Math.random() * 10000) + 10000)
@@ -59,6 +62,10 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   }
 
   log.info(`${this.data.username} joined ${room}`)
+
+  // measure speed
+  const t2 = performance.now()
+  log.info(`${t2 - t1} milliseconds to join a room`)
 }
 
 export function onLeaveRoom(this: Socket, room: string): void {
