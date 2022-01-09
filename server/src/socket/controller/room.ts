@@ -1,25 +1,27 @@
 import { Socket } from 'socket.io'
 
 import { Message } from '../../api/models'
+import { Room } from '../../api/models/room.model'
 import { IClient, IData } from '../../interfaces'
 import log from '../../logger'
 import { getIo } from '../io'
 
 export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   const {
-    room: roomToJoin,
+    room,
     username = `Guest#${(Math.floor(Math.random() * 10000) + 10000)
       .toString()
       .substring(1)}`,
     color = '#ffff'
   } = data
-  const room = `#${roomToJoin}`
   const io = getIo()
 
   this.data.username = username
   this.data.color = color
 
   const messages = await Message.find({ room })
+  const { playlist } = await Room.findOne({ name: room })
+
   const clients = io.sockets.adapter.rooms.get(room)
   const users: Array<IClient> = []
 
@@ -31,13 +33,19 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
     })
   })
 
+  // refactor
   const alreadyJoined = users.some((user) => {
     return user.username === username
   })
 
+  // refactor
   if (!alreadyJoined) {
     this.join(room)
-    io.to(this.id).emit('pre-room', { users, messages })
+    io.to(this.id).emit('pre-room', {
+      users,
+      messages,
+      playlist
+    })
     this.to(room).emit('joined-room', { username, color })
   } else {
     const filteredUsers = users.filter((user) => {
@@ -45,7 +53,8 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
     })
     io.to(this.id).emit('pre-room', {
       users: filteredUsers,
-      messages
+      messages,
+      playlist
     })
   }
 
@@ -53,7 +62,7 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
 }
 
 export function onLeaveRoom(this: Socket, room: string): void {
-  const roomToLeave = `#${room}`
-  this.leave(roomToLeave)
-  this.to(room).emit(`${this.data.username} left ${roomToLeave}`)
+  const io = getIo()
+  this.leave(room)
+  io.to(room).emit('leave-room', this.data.username)
 }

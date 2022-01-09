@@ -1,62 +1,42 @@
+import { BadRequest } from '../../errors'
+import { IRoom, IRoomObject } from '../../interfaces'
 import { getIo } from '../../socket/io'
-import { PlaylistObject, validatePlaylist } from '../../validation/playlist'
-import { Playlist } from '../models/playlist.model'
+import { validateRoom } from '../../validation/playlist'
+import { Room } from '../models/room.model'
 
-type RoomObject = {
-  [key: string]:
-    | string[]
-    | string
-    | number
-    | { users: string | string[]; size: number }
-}
-
-type FilterParams = {
-  id?: string
-  limit?: string
-  skip?: string
-}
-
-export const getAllRooms = (params?: FilterParams): RoomObject => {
-  const { id } = params || {}
+export const getAllRooms = async (): Promise<IRoomObject> => {
   const io = getIo()
-  const { rooms } = io.sockets.adapter
-  const iterableRooms = [...rooms.entries()]
+  const rooms = await Room.find()
 
-  let userRooms: typeof iterableRooms
-
-  if (id) {
-    userRooms = iterableRooms.filter((ab) => {
-      return ab[0] === `#${id}`
-    })
-  } else {
-    userRooms = iterableRooms.filter((ab) => {
-      return ab[0][0] === '#'
+  return {
+    rooms: rooms.map((room) => {
+      const clients = io.sockets.adapter.rooms.get(room.name)
+      return {
+        name: room.name,
+        playlist: room.playlist,
+        online: clients?.size || 0,
+        nickname: room.nickname
+      }
     })
   }
-
-  if (!userRooms.length) return {}
-
-  const roomsObj: RoomObject = {}
-  userRooms.forEach((room) => {
-    const roomName = room[0]
-    const users = [...room[1]]
-    roomsObj[roomName] = {
-      users: users.map((userId) => {
-        return io.sockets.sockets.get(userId)?.data.username
-      }),
-      size: users.length
-    }
-  })
-
-  return roomsObj
 }
 
-export const postPlayList = async (body: PlaylistObject): Promise<void> => {
-  const { name, url } = body
-  await validatePlaylist({ name, url })
-  const playlist = new Playlist({
+export const getRoomByName = async (name: string): Promise<IRoom> => {
+  if (!name) throw new BadRequest('Missing params')
+  const room = await Room.findOne({ name })
+
+  return room || { size: 0 }
+}
+
+export const postRoom = async (body: IRoom): Promise<IRoom> => {
+  const { name, playlist, nickname } = body
+  await validateRoom({ name, playlist })
+  const room = new Room({
     name,
-    url
+    playlist,
+    nickname
   })
-  await playlist.save()
+
+  const savedRoom = await room.save()
+  return savedRoom
 }

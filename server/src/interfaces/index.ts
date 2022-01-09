@@ -26,3 +26,19 @@ export interface IClient {
 export interface IData extends IClient {
   room: string
 }
+
+export type IPlayList = {
+  _id: string
+  url: string
+}
+export interface IRoom extends Document {
+  _id?: string
+  name: string
+  playlist: IPlayList[]
+  online?: number
+  nickname: string
+}
+
+export interface IRoomObject {
+  rooms: IRoom[] | any[]
+}
