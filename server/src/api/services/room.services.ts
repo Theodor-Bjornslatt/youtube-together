@@ -12,10 +12,11 @@ export const getAllRooms = async (): Promise<IRoomObject> => {
     rooms: rooms.map((room) => {
       const clients = io.sockets.adapter.rooms.get(room.name)
       return {
+        id: room._id,
         name: room.name,
-        playlist: room.playlist,
         online: clients?.size || 0,
-        nickname: room.nickname
+        nickname: room.nickname,
+        playlist: room.playlist
       }
     })
   }

@@ -8,7 +8,8 @@ const apiGetAllRooms = async (req: Request, res: Response): Promise<void> => {
 }
 
 const apiGetRoom = async (req: Request, res: Response): Promise<void> => {
-  const room = await getRoomByName(req.params.id)
+  const name = req.params.id
+  const room = await getRoomByName(name)
   res.json(room)
 }
 
