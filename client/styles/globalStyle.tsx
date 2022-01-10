@@ -6,6 +6,7 @@ import {
   fontSizes,
   fontWeights,
   lineHeights,
+  scrollbarWidths,
   sizes
 } from './variables'
 
@@ -65,6 +66,23 @@ export const GlobalStyle = createGlobalStyle`
     font-size: ${fontSizes.small};
     line-height: ${lineHeights.small};
   }
+
+  /* width */
+::-webkit-scrollbar {
+  width: ${scrollbarWidths.regular};
+}
+
+::-webkit-scrollbar-track {
+  background: ${colors.darkest};
+}
+
+::-webkit-scrollbar-thumb {
+  background: ${colors.brown};
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: ${colors.brown};
+}
 
 
   @media screen and (max-width: ${sizes.mobile}px){

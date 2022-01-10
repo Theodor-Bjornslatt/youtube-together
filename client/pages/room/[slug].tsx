@@ -5,7 +5,7 @@ import Chat from '../../components/Chat'
 import Sidebar from '../../components/Sidebar'
 import { GlobalContext, User } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
-import ServerSideWhoAmI from '../../utils/serverSideWhoAmI'
+import { serverSideWhoAmI } from '../../utils/api'
 import { Aside, ChatContainer, Container } from './room.styled'
 
 type CurrentUserData = {
@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           }
         }
       }
-      userData = await ServerSideWhoAmI(ctx)
+      userData = await serverSideWhoAmI(ctx)
     } catch (e) {
       userData = undefined
     }
