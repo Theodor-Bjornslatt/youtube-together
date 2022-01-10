@@ -45,7 +45,7 @@ export const ContentContainer = styled.div`
   align-items: center;
   display: flex;
   justify-content: space-between;
-  padding: ${spacings.extraExtraSmall} 0 0 0;
+  padding: ${spacings.extraExtraSmall} 0 0;
   width: 100%;
 `
 
