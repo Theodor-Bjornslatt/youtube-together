@@ -1,21 +1,6 @@
-import React, {
-  ReactElement,
-  MutableRefObject,
-  JSXElementConstructor,
-  useRef,
-  useEffect
-} from 'react'
+import { RefObject, useEffect } from 'react'
 
-type FocusTrapProps = {
-  children: ReactElement<
-    { ref: MutableRefObject<HTMLElement | undefined> },
-    string | JSXElementConstructor<any>
-  >
-}
-
-const FocusTrap = ({ children }: FocusTrapProps) => {
-  const ref = useRef<HTMLElement>()
-
+export const useFocustrap = (ref: RefObject<HTMLElement>) => {
   useEffect(() => {
     if (!ref.current) return
     const content = ref.current
@@ -46,6 +31,7 @@ const FocusTrap = ({ children }: FocusTrapProps) => {
         }
       }
     }
+
     document.addEventListener('keydown', trapFocus)
     firstFocusableElement.focus()
 
@@ -53,7 +39,4 @@ const FocusTrap = ({ children }: FocusTrapProps) => {
       document.removeEventListener('keydown', trapFocus)
     }
   }, [ref.current])
-
-  return React.cloneElement(children, { ref: ref })
 }
-export default FocusTrap

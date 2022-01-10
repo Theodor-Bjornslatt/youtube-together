@@ -11,7 +11,7 @@ export const SignupButton = styled(ButtonStyled)`
   margin-top: ${spacings.small};
   font-size: ${fontSizes.small};
   font-family: ${fonts.roboto};
-  margin-bottom: 2rem;
+  margin-bottom: ${spacings.medium};
 
   &:focus {
     border: ${borders.focus};
@@ -20,7 +20,7 @@ export const SignupButton = styled(ButtonStyled)`
 `
 export const Headline = styled.h2`
   font-family: ${fonts.roboto};
-  margin: 2rem 0;
+  margin: ${spacings.medium} 0;
 
   margin-top: ${spacings.extraSmall};
 `
