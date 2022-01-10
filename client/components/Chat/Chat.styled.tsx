@@ -24,8 +24,7 @@ export const MessageListContainer = styled.div`
   height: 500px;
   width: 100%;
   overflow-y: auto;
-  padding: ${spacings.medium} ${spacings.small};
-
+  padding: ${spacings.medium} ${spacings.small} 0 ${spacings.medium};
   @media screen and (max-width: ${sizes.mobile}px) {
     gap: ${spacings.small};
   }
