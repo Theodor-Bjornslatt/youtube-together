@@ -20,31 +20,24 @@ export default function RoomList({ rooms }: RoomsProp) {
     router.push(`/room/${room}`)
   }
 
-  const printRooms = (): JSX.Element | JSX.Element[] => {
-    return (
-      <>
-        {rooms.map((room, i) => (
-          <RoomCard
-            size={'large'}
-            cover={room.cover}
-            key={i}
-            name={room.name}
-            online={room.online}
-            nickname={room.nickname}
-            onClick={() => {
-              handleOnClick(room.name)
-            }}
-          />
-        ))}
-      </>
-    )
-  }
   return (
     <MainContentContainer>
       <MaxWidthContainer size="large">
         <ContentContainer>
           {rooms.length > 0 ? (
-            printRooms()
+            rooms.map((room, i) => (
+              <RoomCard
+                size={'large'}
+                cover={room.cover}
+                key={i}
+                name={room.name}
+                online={room.online}
+                nickname={room.nickname}
+                onClick={() => {
+                  handleOnClick(room.name)
+                }}
+              />
+            ))
           ) : (
             <EmptyCard>
               <h5>No available rooms</h5>
