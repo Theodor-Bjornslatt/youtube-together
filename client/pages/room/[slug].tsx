@@ -7,7 +7,7 @@ import Sidebar from '../../components/Sidebar'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import { serverSideWhoAmI } from '../../utils/api'
-import { Aside, ChatContainer, Container } from './room.styled'
+import { Aside, ChatContainer, Container, Video } from './room.styled'
 
 type CurrentUserData = {
   user?: User
@@ -84,6 +84,7 @@ const Room = ({ user, room }: RoomProps) => {
 
   return (
     <Container>
+      <Video />
       <ChatContainer>
         <Chat room={room} />
       </ChatContainer>

@@ -14,6 +14,7 @@ export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `
 
 export const MessageListContainer = styled.div`
@@ -35,6 +36,7 @@ export const Card = styled.div`
   padding: ${spacings.small} ${spacings.small} ${spacings.medium};
   position: relative;
   border-radius: ${borderRadius.small};
+  // Ta bort padding från sista
 `
 
 export const InfoContainer = styled.div`

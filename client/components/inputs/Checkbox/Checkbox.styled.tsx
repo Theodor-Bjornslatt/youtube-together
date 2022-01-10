@@ -14,7 +14,7 @@ export const Label = styled.label`
   margin-right: ${spacings.extraExtraSmall};
 `
 
-export const StyledCheckbox = styled.input.attrs({ type: 'checkbox' })`
+export const StyledCheckbox = styled.input`
   -webkit-appearance: none;
   background-color: ${colors.lightPink};
   border: ${borders.light};

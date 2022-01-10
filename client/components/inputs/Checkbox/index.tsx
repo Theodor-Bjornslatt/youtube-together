@@ -8,7 +8,13 @@ const Checkbox = ({ label, onClick, checked }: CheckboxProps) => {
   return (
     <CheckboxContainer>
       <Label>{label}</Label>
-      <StyledCheckbox type="checkbox" checked={checked} onClick={onClick} />
+      <StyledCheckbox
+        type="checkbox"
+        checked={checked}
+        onClick={onClick}
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
+        onChange={() => {}}
+      />
     </CheckboxContainer>
   )
 }
