@@ -169,3 +169,11 @@ export const lineHeights: LineHeights = {
   extraLarge: '50px',
   hero: '70px'
 }
+
+type ScrollbarWidths = {
+  regular: '10px'
+}
+
+export const scrollbarWidths: ScrollbarWidths = {
+  regular: '10px'
+}

@@ -6,6 +6,7 @@ import {
   fontSizes,
   fontWeights,
   lineHeights,
+  scrollbarWidths,
   sizes
 } from './variables'
 
@@ -68,7 +69,7 @@ export const GlobalStyle = createGlobalStyle`
 
   /* width */
 ::-webkit-scrollbar {
-  width: 10px;
+  width: ${scrollbarWidths.regular};
 }
 
 ::-webkit-scrollbar-track {
