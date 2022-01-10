@@ -1,26 +1,24 @@
 import React, {
-  forwardRef,
-  JSXElementConstructor,
-  MutableRefObject,
   ReactElement,
-  useEffect,
-  useRef
+  MutableRefObject,
+  JSXElementConstructor,
+  useRef,
+  useEffect
 } from 'react'
 
-type childrenProps = {
+type FocusTrapProps = {
   children: ReactElement<
-    { ref: MutableRefObject<HTMLElement> },
-    string | JSXElementConstructor<unknown>
+    { ref: MutableRefObject<HTMLElement | undefined> },
+    string | JSXElementConstructor<any>
   >
 }
 
-const FocusTrap = forwardRef(({ children }: childrenProps, ref) => {
-  const _ref = useRef<HTMLElement>(null)
-  const realRef = ref ?? _ref
+const FocusTrap = ({ children }: FocusTrapProps) => {
+  const ref = useRef<HTMLElement>()
 
   useEffect(() => {
-    if (!_ref.current) return
-    const content = _ref.current
+    if (!ref.current) return
+    const content = ref.current
 
     const focusableElements = 'button, [href], input, textarea'
 
@@ -31,7 +29,7 @@ const FocusTrap = forwardRef(({ children }: childrenProps, ref) => {
     const firstFocusableElement = focusableContent[0]
     const lastFocusableElement = focusableContent[focusableContent.length - 1]
 
-    function trapFocus(e: KeyboardEvent): void {
+    const trapFocus = (e: KeyboardEvent) => {
       const isTabPressed = e.key === 'Tab'
 
       if (!isTabPressed) return
@@ -54,11 +52,8 @@ const FocusTrap = forwardRef(({ children }: childrenProps, ref) => {
     return () => {
       document.removeEventListener('keydown', trapFocus)
     }
-  }, [])
+  }, [ref.current])
 
-  return React.cloneElement(children, {
-    ref: realRef as MutableRefObject<HTMLElement>
-  })
-})
-FocusTrap.displayName = 'FocusTrap'
+  return React.cloneElement(children, { ref: ref })
+}
 export default FocusTrap
