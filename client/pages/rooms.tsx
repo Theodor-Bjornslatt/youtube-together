@@ -3,15 +3,10 @@ import { GetServerSideProps } from 'next'
 import { serverSideGetRooms } from '../utils/api'
 import RoomList from '../components/RoomList'
 import Header from '../components/Header'
+import { Room } from '../types'
 
 type RoomsProp = {
   rooms: Room[]
-}
-
-type Room = {
-  name: string
-  size: string
-  users: string[]
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {

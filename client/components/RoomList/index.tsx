@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router'
 
+import { Room } from '../../types'
 import MaxWidthContainer from '../MaxWidthContainer'
 import RoomCard from '../RoomCard'
 import {
@@ -12,18 +13,11 @@ type RoomsProp = {
   rooms: Room[]
 }
 
-type Room = {
-  name: string
-  size: string
-  users: string[]
-}
-
 export default function RoomList({ rooms }: RoomsProp) {
   const router = useRouter()
 
   const handleOnClick = (room: string) => {
-    const name = room.substring(1)
-    router.push(`/room/${name}`)
+    router.push(`/room/${room}`)
   }
 
   const printRooms = (): JSX.Element | JSX.Element[] => {
@@ -31,10 +25,12 @@ export default function RoomList({ rooms }: RoomsProp) {
       <>
         {rooms.map((room, i) => (
           <RoomCard
-            size={'small'}
+            size={'large'}
+            cover={room.cover}
             key={i}
-            title={room.name}
-            users={room.size}
+            name={room.name}
+            online={room.online}
+            nickname={room.nickname}
             onClick={() => {
               handleOnClick(room.name)
             }}

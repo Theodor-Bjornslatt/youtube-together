@@ -16,6 +16,7 @@ export const Card = styled.div`
   flex-direction: column;
   justify-content: space-between;
   padding: ${spacings.extraSmall};
+  box-shadow: 6px 8px 50px 0 #ebc9c911;
 
   h5,
   h6 {

@@ -14,6 +14,7 @@ export const ContentContainer = styled.div`
   gap: ${spacings.extraExtraSmall};
   grid-template-columns: repeat(2, auto);
   justify-content: center;
+  margin-top: ${spacings.extraExtraSmall};
   width: 100%;
 
   @media screen and (max-width: ${sizes.mobileSmall}px) {
@@ -26,7 +27,7 @@ export const ContentContainer = styled.div`
 `
 
 export const EmptyCard = styled.div`
+  align-items: center;
   display: flex;
   justify-content: center;
-  align-items: center;
 `

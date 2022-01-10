@@ -5,35 +5,37 @@ import {
   ImageWrapperLarge,
   ImageWrapperSmall
 } from './RoomCard.styled'
-import scary from '../../public/scary.jpg'
+import { Room } from '../../types'
 
 type CardProp = {
-  title: string
-  users: string
   size?: 'small' | 'large'
   onClick?: () => void
-}
+} & Room
 export default function RoomCard({
-  title,
-  users,
+  name,
+  online,
+  nickname,
   size = 'large',
+  cover,
   onClick
 }: CardProp) {
   return (
     <Card onClick={onClick}>
       {size === 'small' ? (
         <ImageWrapperSmall>
-          <NextImage src={scary}></NextImage>
+          <NextImage src={cover}></NextImage>
         </ImageWrapperSmall>
       ) : (
         <ImageWrapperLarge>
-          <NextImage src={scary}></NextImage>
+          <NextImage src={cover}></NextImage>
         </ImageWrapperLarge>
       )}
 
       <ContentContainer>
-        <h5>{title.substring(1)}</h5>
-        <h5>{users} online</h5>
+        <h5>{name}</h5>
+        <h5>
+          {nickname}: {online}
+        </h5>
       </ContentContainer>
     </Card>
   )

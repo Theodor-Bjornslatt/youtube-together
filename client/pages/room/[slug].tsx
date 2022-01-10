@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
           }
         }
       }
-      userData = await ServerSideWhoAmI(ctx)
+      userData = await serverSideWhoAmI(ctx)
     } catch (e) {
       userData = undefined
     }
