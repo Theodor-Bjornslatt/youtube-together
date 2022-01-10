@@ -11,12 +11,15 @@ export const getAllRooms = async (): Promise<IRoomObject> => {
   return {
     rooms: rooms.map((room) => {
       const clients = io.sockets.adapter.rooms.get(room.name)
+      const youtubeId = room.playlist[0]?.url.split('v=')[1]
+      const coverImage = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`
       return {
         id: room._id,
         name: room.name,
         online: clients?.size || 0,
         nickname: room.nickname,
-        playlist: room.playlist
+        playlist: room.playlist,
+        cover: youtubeId ? coverImage : 'null'
       }
     })
   }
