@@ -4,5 +4,8 @@ module.exports = {
   i18n: {
     locales: ['sv-se'],
     defaultLocale: 'sv-se'
+  },
+  images: {
+    domains: ['cdn.vox-cdn.com', 'img.youtube.com']
   }
 }
