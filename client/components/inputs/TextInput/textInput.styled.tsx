@@ -39,9 +39,18 @@ export const Label = styled.label`
   color: ${colors.white};
 `
 
-export const Input = styled.input`
+export type InputStyleProps = {
+  removeBottomRadius?: boolean
+}
+
+export const Input = styled.input<InputStyleProps>`
   ${inputBaseStyle}
   border: ${borders.light};
+  ${(props) =>
+    props.removeBottomRadius &&
+    `
+    border-radius: ${borderRadius.small} ${borderRadius.small} 0 0;
+  `}
 
   &:focus {
     border: ${borders.focus};

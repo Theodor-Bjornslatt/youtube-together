@@ -1,19 +1,17 @@
+import { useState } from 'react'
+
 import { useForm } from '../../hooks/useForm'
-import {
-  validateCreateRoom,
-  validateUrl
-} from '../../utils/formValidationRules'
+import { validateCreateRoom } from '../../utils/formValidationRules'
 import {
   SubmitButton,
   GridContainer,
   CreateRoomFormContainer
 } from './CreateRoomForm.styled'
 import NextImage from '../NextImage'
-// import Playlist from '../Playlist'
+import Playlist, { PlayItem } from '../Playlist'
 import play from '../../public/play.svg'
 import { useSockets } from '../../state/SocketContext'
 import { User } from '../../state/GlobalState'
-import { ButtonStyled } from '../Button/Button.styled'
 import { TextInput } from '../inputs/TextInput'
 import { Form } from './CreateRoomForm.styled'
 
@@ -36,6 +34,9 @@ export default function CreateRoomForm({ user }: CreateRoomProps) {
     validateCreateRoom
   )
   const { socket } = useSockets()
+  const [playlist, setPlaylist] = useState<PlayItem[]>([
+    { id: '1', name: 'HEJ NDWEKLFNE' }
+  ])
 
   // @TODO handle creation of room
   // @TODO evolve playlist component
@@ -59,12 +60,12 @@ export default function CreateRoomForm({ user }: CreateRoomProps) {
     })
   }
 
-  const addToPlaylist = () => {
-    if (!validateUrl(values.url)) return
-    // const obj = { name: values.url, id }
-    // setPlaylist((old) => [...old, obj])
-    // setId((old) => old++)
-  }
+  // const addToPlaylist = () => {
+  //   if (!validateUrl(values.url)) return
+  //   // const obj = { name: values.url, id }
+  //   // setPlaylist((old) => [...old, obj])
+  //   // setId((old) => old++)
+  // }
 
   return (
     <CreateRoomFormContainer>
@@ -78,19 +79,12 @@ export default function CreateRoomForm({ user }: CreateRoomProps) {
               error={errors.name}
               onChange={onChangeHandler}
             />
-            <TextInput
-              label="Paste your youtube video url here"
-              name="url"
-              value={values.url}
-              error={errors.url}
-              onChange={onChangeHandler}
-            />
-            <ButtonStyled onClick={addToPlaylist}>Add URL</ButtonStyled>
+            {/* <ButtonStyled onClick={addToPlaylist}>Add URL</ButtonStyled> */}
           </Form>
         </div>
-        <div>
-          <h5>Order your playlist</h5>
-          {/* <Playlist playlist={playlist} setPlaylist={setPlaylist}></Playlist> */}
+        <div style={{ width: '500px' }}>
+          {/* <h5>Order your playlist</h5> */}
+          <Playlist playlist={playlist} setPlaylist={setPlaylist} />
         </div>
       </GridContainer>
       <SubmitButton onClick={handleSubmit}>
