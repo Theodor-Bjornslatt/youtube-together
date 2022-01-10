@@ -1,7 +1,4 @@
-/* eslint-disable eslint-comments/disable-enable-pair */
-/* eslint-disable @typescript-eslint/naming-convention */
-/* eslint-disable no-underscore-dangle */
-import { BadRequest, Unauthorized } from '../../errors'
+import { BadRequest } from '../../errors'
 import { encrypt } from '../../util'
 import { registerSchema, validate } from '../../validation'
 import { User } from '../models'
@@ -19,6 +16,7 @@ export const loginUserService = async ({
     throw new BadRequest('Bad credentials')
   }
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { password: pwd, createdAt, updatedAt, __v, ...userDTO } = user._doc
   return userDTO
 }
@@ -46,6 +44,7 @@ export const whoamiService = async (
   userId: string | undefined
 ): Promise<IUser> => {
   const user = await User.findOne({ _id: userId })
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { password, createdAt, updatedAt, __v, ...userDTO } = user._doc
   return userDTO
 }

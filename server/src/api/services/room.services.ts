@@ -1,62 +1,65 @@
+import { BadRequest } from '../../errors'
+import { IRoom, IRoomObject } from '../../interfaces'
 import { getIo } from '../../socket/io'
-import { PlaylistObject, validatePlaylist } from '../../validation/playlist'
-import { Playlist } from '../models/playlist.model'
+import { validateRoom } from '../../validation/playlist'
+import { Room } from '../models/room.model'
 
-type RoomObject = {
-  [key: string]:
-    | string[]
-    | string
-    | number
-    | { users: string | string[]; size: number }
-}
-
-type FilterParams = {
-  id?: string
+interface IQueryProp {
   limit?: string
-  skip?: string
+  page?: string
 }
 
-export const getAllRooms = (params?: FilterParams): RoomObject => {
-  const { id } = params || {}
+export const getAllRooms = async ({
+  limit,
+  page
+}: IQueryProp): Promise<IRoomObject> => {
+  // how to rewrite this
+  const parsedLimit = limit && parseInt(limit, 10) ? parseInt(limit, 10) : 10
+  const parsedPage = page && parseInt(page, 10) ? parseInt(page, 10) : 0
+
   const io = getIo()
-  const { rooms } = io.sockets.adapter
-  const iterableRooms = [...rooms.entries()]
+  const rooms = await Room.find()
+    .limit(parsedLimit)
+    .skip(parsedPage * parsedLimit)
 
-  let userRooms: typeof iterableRooms
-
-  if (id) {
-    userRooms = iterableRooms.filter((ab) => {
-      return ab[0] === `#${id}`
-    })
-  } else {
-    userRooms = iterableRooms.filter((ab) => {
-      return ab[0][0] === '#'
-    })
+  return {
+    rooms: rooms.map((room) => {
+      const clients = io.sockets.adapter.rooms.get(room.name)
+      const youtubeId = room.playlist[0]?.url.split('v=')[1]
+      const coverImage = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`
+      return {
+        id: room._id,
+        name: room.name,
+        online: clients?.size || 0,
+        nickname: room.nickname,
+        playlist: room.playlist,
+        cover: youtubeId
+          ? coverImage
+          : 'https://cdn.vox-cdn.com/thumbor/LXvoCd3sbTvxMUpVAd-f4ArjYRA=/0x0:1920x800/1820x1024/filters:focal(694x265:1000x571):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69582511/lotr1_movie_screencaps.com_12025.0.jpg'
+      }
+    }),
+    limit: parsedLimit,
+    page: !parsedPage ? parsedPage + 1 : parsedPage
   }
-
-  if (!userRooms.length) return {}
-
-  const roomsObj: RoomObject = {}
-  userRooms.forEach((room) => {
-    const roomName = room[0]
-    const users = [...room[1]]
-    roomsObj[roomName] = {
-      users: users.map((userId) => {
-        return io.sockets.sockets.get(userId)?.data.username
-      }),
-      size: users.length
-    }
-  })
-
-  return roomsObj
 }
 
-export const postPlayList = async (body: PlaylistObject): Promise<void> => {
-  const { name, url } = body
-  await validatePlaylist({ name, url })
-  const playlist = new Playlist({
+export const getRoomByName = async (name: string): Promise<IRoom> => {
+  if (!name) throw new BadRequest('Missing params')
+
+  const room = await Room.findOne({ name }).select('name -_id')
+
+  return room || { size: 0 }
+}
+
+export const postRoom = async (body: IRoom): Promise<IRoom> => {
+  const { name, playlist, nickname } = body
+  await validateRoom({ name, playlist })
+  const room = new Room({
     name,
-    url
+    playlist,
+    nickname
   })
-  await playlist.save()
+
+  const savedRoom = await room.save()
+  return savedRoom
 }

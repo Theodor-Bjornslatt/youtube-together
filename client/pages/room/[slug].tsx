@@ -12,13 +12,8 @@ type CurrentUserData = {
   user?: User
 }
 
-type RoomData = {
-  users: string[]
-  size: number
-}
-
 type Room = {
-  room?: { [key: string]: RoomData }
+  name?: string
 }
 
 type RoomProps = {
@@ -38,7 +33,14 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       if (!res.ok) return { notFound: true }
 
       currentRoom = await res.json()
-      currentRoom.room && console.log('current Room', currentRoom)
+      if (currentRoom.name !== slug) {
+        return {
+          redirect: {
+            permanent: false,
+            destination: '/'
+          }
+        }
+      }
       userData = await ServerSideWhoAmI(ctx)
     } catch (e) {
       userData = undefined
@@ -48,7 +50,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   //This redirects when no room is returned
   // if (!Object.keys(currentRoom).length) {
   //   return { notFound: true }
-  // }
+  // }s
 
   return {
     props: {

@@ -1,15 +1,13 @@
 import { BadRequest } from '../errors'
+import { IPlayList } from '../interfaces'
 
-export type UrlObject = {
-  id: number
-  url: string
-}
-export type PlaylistObject = {
+export interface IRoomObject {
   name: string
-  url: UrlObject[]
+  playlist: IPlayList[]
+  nickname?: string
 }
 
-const validateUrl = (urlObject: UrlObject[]): boolean => {
+const validatePlaylist = (urlObject: IPlayList[]): boolean => {
   const validRegex =
     /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/
 
@@ -20,19 +18,19 @@ const validateUrl = (urlObject: UrlObject[]): boolean => {
   return validationResults.includes(false)
 }
 
-export const validatePlaylist = async ({
+export const validateRoom = async ({
   name,
-  url
-}: PlaylistObject): Promise<void> => {
+  playlist
+}: IRoomObject): Promise<void> => {
   if (!name) {
-    throw new BadRequest('Please name your playlist')
+    throw new BadRequest('Must provide a name for the room')
   } else if (name.length < 1 || name.length > 15) {
     throw new BadRequest('Name must be between 1 and 15 characters')
   }
 
-  if (!url) {
-    throw new BadRequest('Please enter a valid Url')
-  } else if (validateUrl(url)) {
-    throw new BadRequest(`Url is not valid`)
+  if (!playlist) {
+    throw new BadRequest('Must provide at least one url')
+  } else if (validatePlaylist(playlist)) {
+    throw new BadRequest(`playlist is not valid`)
   }
 }
