@@ -13,13 +13,18 @@ import {
 } from '../../styles/variables'
 import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
+export const FooterPlaceHolder = styled.div`
+  height: ${headerBoxHeights.desktop};
+`
+
 export const FooterContainer = styled.footer`
-  position: absolute;
+  position: fixed;
   bottom: 0;
   width: 100%;
   height: ${headerBoxHeights.desktop};
   display: flex;
   justify-content: center;
+  align-items: center;
   background: ${colors.darkest};
   border: ${borders.light};
 `
