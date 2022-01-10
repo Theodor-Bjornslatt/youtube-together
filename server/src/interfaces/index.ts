@@ -41,4 +41,6 @@ export interface IRoom extends Document {
 
 export interface IRoomObject {
   rooms: IRoom[] | any[]
+  limit?: number
+  page?: number
 }

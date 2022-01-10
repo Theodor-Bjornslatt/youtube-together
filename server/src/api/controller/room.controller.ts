@@ -2,8 +2,14 @@ import { Request, Response } from 'express'
 
 import { getAllRooms, getRoomByName, postRoom } from '../services'
 
+interface IQueryProps {
+  limit?: string
+  page?: string
+}
+
 const apiGetAllRooms = async (req: Request, res: Response): Promise<void> => {
-  const rooms = await getAllRooms()
+  const { limit, page }: IQueryProps = req.query
+  const rooms = await getAllRooms({ limit, page })
   res.json(rooms)
 }
 
