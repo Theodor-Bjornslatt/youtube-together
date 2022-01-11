@@ -10,13 +10,13 @@ import {
 const apiRegisterUser = async (req: Request, res: Response): Promise<void> => {
   const user = await registerUserService(req.body)
   logIn(req, user)
-  res.status(201).json({ user })
+  res.status(201).json({ id: user._id, ...user })
 }
 
 const apiLoginUser = async (req: Request, res: Response): Promise<void> => {
   const user = await loginUserService(req.body)
   logIn(req, user)
-  res.status(200).json({ user })
+  res.status(200).json({ id: user._id, ...user })
 }
 
 const apiLogoutUser = async (req: Request, res: Response): Promise<void> => {
@@ -27,7 +27,7 @@ const apiLogoutUser = async (req: Request, res: Response): Promise<void> => {
 const apiWhoAmI = async (req: Request, res: Response): Promise<void> => {
   const { userId } = req.session
   const user = await whoamiService(userId)
-  res.json({ user })
+  res.json({ id: user._id, ...user })
 }
 
 const auth = {
