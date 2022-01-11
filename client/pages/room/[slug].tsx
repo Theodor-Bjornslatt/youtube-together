@@ -1,13 +1,21 @@
 import { GetServerSideProps } from 'next'
 import router from 'next/router'
-import { useContext, useEffect } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import Chat from '../../components/Chat'
+import Header from '../../components/Header'
 import Sidebar from '../../components/Sidebar'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import { serverSideWhoAmI } from '../../utils/api'
-import { Aside, ChatContainer, Container, Video } from './room.styled'
+import {
+  Aside,
+  Button,
+  ButtonContainer,
+  ChatContainer,
+  Container,
+  Video
+} from './room.styled'
 
 type CurrentUserData = {
   user?: User
@@ -61,6 +69,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 const Room = ({ user, room }: RoomProps) => {
   const { socket, activeUsers, cleanUpSocketStates } = useSockets()
   const { dispatch } = useContext(GlobalContext)
+  const [display, setDisplay] = useState('users')
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -83,15 +92,23 @@ const Room = ({ user, room }: RoomProps) => {
   }, [])
 
   return (
-    <Container>
-      <Video />
-      <ChatContainer>
-        <Chat room={room} />
-      </ChatContainer>
-      <Aside>
-        <Sidebar users={activeUsers} />
-      </Aside>
-    </Container>
+    <>
+      <Header title={(room = room ?? 'My Room')} />
+      <Container>
+        <Video />
+        <ChatContainer>
+          <Chat room={room} />
+        </ChatContainer>
+        <Aside>
+          <ButtonContainer>
+            <Button onClick={() => setDisplay('users')}>Users</Button>
+            <Button onClick={() => setDisplay('playlist')}>Playlist</Button>
+          </ButtonContainer>
+          {display == 'users' && <Sidebar users={activeUsers} />}
+          {/* <Playlist playlist={} /> */}
+        </Aside>
+      </Container>
+    </>
   )
 }
 

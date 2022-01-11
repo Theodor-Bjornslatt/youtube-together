@@ -12,6 +12,7 @@ export const Label = styled.label`
   color: ${colors.white};
   font-family: ${fonts.roboto};
   margin-right: ${spacings.extraExtraSmall};
+  padding-top: ${spacings.extraExtraSmall};
 `
 
 export const StyledCheckbox = styled.input`

@@ -9,8 +9,9 @@ import {
   sizes,
   spacings
 } from '../../styles/variables'
+import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
-export const ChatContainer = styled.div`
+export const ChatContainer = styled(MaxWidthContainerStyled)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -21,11 +22,15 @@ export const MessageListContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  gap: ${spacings.large};
+  gap: ${spacings.extraSmall};
   height: 500px;
   width: 100%;
   overflow-y: auto;
   padding: ${spacings.medium} ${spacings.small} 0 ${spacings.medium};
+
+  &:not(:last-child) {
+    margin-bottom: -${spacings.extraSmall};
+  }
   @media screen and (max-width: ${sizes.mobile}px) {
     gap: ${spacings.small};
   }
@@ -33,10 +38,9 @@ export const MessageListContainer = styled.div`
 
 export const Card = styled.div`
   background: ${colors.dark};
-  padding: ${spacings.small} ${spacings.small} ${spacings.medium};
+  padding: 5px ${spacings.extraSmall};
   position: relative;
   border-radius: ${borderRadius.small};
-  // Ta bort padding från sista
 `
 
 export const InfoContainer = styled.div`
@@ -45,12 +49,12 @@ export const InfoContainer = styled.div`
   width: 100%;
 
   p {
-    font-size: ${fontSizes.extraSmall};
+    font-size: 12px;
   }
 `
 
 export const MessageContainer = styled.div`
-  margin-top: ${spacings.extraSmall};
+  padding: 0 ${spacings.huge} ${spacings.extraExtraSmall} ${spacings.huge};
   p {
     color: ${(props) => props.color};
   }

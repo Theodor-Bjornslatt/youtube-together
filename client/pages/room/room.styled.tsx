@@ -1,16 +1,21 @@
 import styled from 'styled-components'
 
-import { headerBoxHeights, spacings } from '../../styles/variables'
+import { ButtonStyled } from '../../components/Button/Button.styled'
+import {
+  colors,
+  fontSizes,
+  headerBoxHeights,
+  spacings
+} from '../../styles/variables'
 
 export const Container = styled.div`
   box-sizing: border-box;
   display: grid;
-  height: calc(100vh - ${headerBoxHeights.desktop});
+  height: calc(100vh - (${headerBoxHeights.desktop}));
   width: 100%;
   padding: 0 ${spacings.extraSmall};
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  grid-template-columns: 1.1fr 1.1fr 1.1fr 1.1fr 0.6fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
   grid-template-areas:
     'video video video video aside'
     'video video video video aside'
@@ -27,10 +32,22 @@ export const ChatContainer = styled.div`
   display: flex;
   width: 100%;
   grid-area: chat;
+  justify-content: center;
 `
 export const Aside = styled.div`
   width: 100%;
   margin: 0 1rem;
   height: calc(100vh - ${headerBoxHeights.desktop});
   grid-area: aside;
+`
+export const ButtonContainer = styled.div`
+  display: flex;
+  border-bottom: 1px solid ${colors.brown};
+`
+
+export const Button = styled(ButtonStyled)`
+  border-radius: 0;
+  border-left: 1px solid ${colors.brown};
+  font-size: ${fontSizes.small};
+  background: ${colors.dark};
 `
