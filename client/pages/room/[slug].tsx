@@ -1,4 +1,5 @@
 import { GetServerSideProps } from 'next'
+import router from 'next/router'
 import { useContext, useEffect } from 'react'
 
 import Chat from '../../components/Chat'
@@ -41,12 +42,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
       currentRoom = await res.json()
       if (currentRoom.name !== slug) {
-        return {
-          redirect: {
-            permanent: false,
-            destination: '/'
-          }
-        }
+        return { notFound: true }
       }
       userData = await serverSideWhoAmI(ctx)
     } catch (e) {
@@ -54,25 +50,24 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  //This redirects when no room is returned
-  // if (!Object.keys(currentRoom).length) {
-  //   return { notFound: true }
-  // }s
-
   return {
     props: {
       user: userData || null,
-      room: slug || null
+      room: slug
     }
   }
 }
 
 const Room = ({ user, room }: RoomProps) => {
-  const { socket, activeUsers } = useSockets()
+  const { socket, activeUsers, cleanUpSocketStates } = useSockets()
   const { dispatch } = useContext(GlobalContext)
 
   useEffect(() => {
-    if (!room) return
+    const handleRouteChange = () => {
+      socket?.emit('leave', room)
+      cleanUpSocketStates()
+    }
+
     user && dispatch({ type: 'loggedIn', payload: true })
 
     socket?.emit('join', {
@@ -80,7 +75,12 @@ const Room = ({ user, room }: RoomProps) => {
       username: user?.username,
       color: user?.color
     })
-  }, [room])
+
+    router.events.on('routeChangeStart', handleRouteChange)
+    return () => {
+      router.events.off('routeChangeStart', handleRouteChange)
+    }
+  }, [])
 
   return (
     <Container>

@@ -11,6 +11,7 @@ type Context = {
   activeUsers?: User[]
   setMessages: (data: MessageData) => void
   setPlaylist: (data: PlaylistData) => void
+  cleanUpSocketStates: () => void
   roomId?: string
   rooms: object
 }
@@ -42,6 +43,7 @@ const SocketContext = createContext<Context>({
   socket,
   setMessages: () => null,
   setPlaylist: () => null,
+  cleanUpSocketStates: () => null,
   rooms: {},
   messages: [],
   playlist: []
@@ -58,18 +60,18 @@ function SocketsProvider(props: any) {
     socket.on('chat', (data: MessageData) => {
       setMessages((messages) => [...messages, data])
     })
+
     socket.on('pre-room', (data: RoomStateData) => {
-      console.log('pre-room', data)
       setMessages((messages) => [...messages, ...data.messages])
       setActiveUsers((users) => [...users, ...data.users])
       setPlaylist((playlist) => [...playlist, ...data.playlist])
     })
+
     socket.on('joined-room', (data: User) => {
-      console.log('joined-room', data)
       setActiveUsers((users) => [...users, data])
     })
+
     socket.on('leave-room', (data: string) => {
-      console.log('left-room', data)
       setActiveUsers((users) =>
         users.filter(({ username }) => username !== data)
       )
@@ -82,6 +84,12 @@ function SocketsProvider(props: any) {
     return cleanup
   }, [socket])
 
+  const cleanUpSocketStates = (): void => {
+    setPlaylist([])
+    setMessages([])
+    setActiveUsers([])
+  }
+
   return (
     <SocketContext.Provider
       value={{
@@ -90,7 +98,8 @@ function SocketsProvider(props: any) {
         playlist,
         activeUsers,
         setMessages,
-        setPlaylist
+        setPlaylist,
+        cleanUpSocketStates
       }}
       {...props}
     />
