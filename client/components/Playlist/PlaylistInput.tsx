@@ -12,7 +12,11 @@ import { PlayItem } from '.'
 import { useForm } from '../../hooks/useForm'
 import { validateUrl } from '../../utils/formValidationRules'
 import { TextInput } from '../inputs/TextInput'
-import { AddItemContainer, AddItemText } from './Playlist.styled'
+import {
+  AddItemContainer,
+  AddItemText,
+  PlaylistInputContainer
+} from './Playlist.styled'
 
 type PlaylistInputProps = {
   setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
@@ -39,9 +43,7 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
     currentTimeout && clearTimeout(currentTimeout)
 
     const timeout = setTimeout(() => {
-      console.log(values.url)
       const isValid = validateUrl(values.url)
-      console.log(isValid)
       setIsUrlValid(isValid)
       setHasError(!isValid)
       setCurrentTimeout(null)
@@ -51,7 +53,6 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
 
   function handleAnimationEnd(e: AnimationEvent<HTMLDivElement>) {
     if (ref.current === e.target) {
-      console.log('here')
       shouldItemFadeIn
         ? (setShouldTextFadeIn(true), setIsTextVisible(true))
         : setIsVisible(false)
@@ -59,7 +60,6 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
   }
 
   function handleTextAnimationEnd() {
-    console.log('end')
     !shouldTextFadeIn && (setIsTextVisible(false), setShouldItemFadeIn(false))
   }
 
@@ -78,9 +78,9 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
   }, [isTextVisible])
 
   return (
-    <div style={{ position: 'relative', width: '100%' }}>
+    <PlaylistInputContainer>
       <TextInput
-        label="Paste your youtube video url here"
+        label="Paste a youtube video url here"
         name="url"
         value={values.url}
         error={
@@ -117,6 +117,6 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
           </div>
         </AddItemContainer>
       )}
-    </div>
+    </PlaylistInputContainer>
   )
 }

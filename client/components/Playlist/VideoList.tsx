@@ -61,39 +61,43 @@ export default function VideoList({ playlist, setPlaylist }: PlaylistProps) {
   )
 
   return (
-    <PlaylistContainer
-      isActive={draggedItem != undefined}
-      onPointerLeave={() => endDrag('reset')}
-      onPointerMove={(e) => (
-        unFocusElements(),
-        setPointerPosition({
-          x: e.clientX,
-          y: e.clientY
-        })
+    <>
+      <PlaylistContainer
+        isActive={draggedItem != undefined}
+        onPointerLeave={() => endDrag('reset')}
+        onPointerMove={(e) => (
+          unFocusElements(),
+          setPointerPosition({
+            x: e.clientX,
+            y: e.clientY
+          })
+        )}
+        onPointerUp={() => endDrag()}
+      >
+        {draggedItem ? (
+          <>
+            {playlistCopy?.map((item) => (
+              <PlaylistItem
+                startDrag={startDrag}
+                key={item.id}
+                item={item}
+                onPointerEnter={onPointerEnter}
+                isActive={draggedItem != undefined}
+              />
+            ))}
+          </>
+        ) : (
+          mappedPlaylist
+        )}
+      </PlaylistContainer>
+      {draggedItem && (
+        <PlaylistItem
+          startDrag={startDrag}
+          item={draggedItem}
+          translateX={pointerPosition.x - 80}
+          translateY={pointerPosition.y - 20}
+        />
       )}
-      onPointerUp={() => endDrag()}
-    >
-      {draggedItem ? (
-        <>
-          {playlistCopy?.map((item) => (
-            <PlaylistItem
-              startDrag={startDrag}
-              key={item.id}
-              item={item}
-              onPointerEnter={onPointerEnter}
-              isActive={draggedItem != undefined}
-            />
-          ))}
-          <PlaylistItem
-            startDrag={startDrag}
-            item={draggedItem}
-            translateX={pointerPosition.x - 80}
-            translateY={pointerPosition.y - 20}
-          />
-        </>
-      ) : (
-        mappedPlaylist
-      )}
-    </PlaylistContainer>
+    </>
   )
 }

@@ -1,16 +1,36 @@
 import styled, { keyframes } from 'styled-components'
 
-import { borders, colors, fontWeights, spacings } from '../../styles/variables'
+import {
+  borders,
+  colors,
+  fontWeights,
+  headerBoxHeights,
+  spacings
+} from '../../styles/variables'
 
 type PlaylistContainerProps = {
   isActive?: boolean
 }
 
+export const Container = styled.div`
+  width: 100%;
+  height: 100%;
+`
+
 export const PlaylistContainer = styled.div<PlaylistContainerProps>`
   cursor: ${(props) => (props.isActive ? 'grabbing' : 'grab')};
-  height: 1000px;
+  height: calc(100% - 100px);
   width: 100%;
-  padding: 0 ${spacings.extraExtraSmall};
+  max-height: calc(100vh - ${headerBoxHeights.desktop});
+  max-width: 500px;
+  padding: ${spacings.extraExtraSmall} ${spacings.extraExtraSmall};
+  background: ${colors.dark};
+  overflow-y: auto;
+`
+
+export const PlaylistInputContainer = styled.div`
+  width: 100%;
+  height: 100px;
 `
 
 type DraggingProps = {
@@ -95,6 +115,7 @@ type AddItemAnimationProp = {
 export const AddItemContainer = styled(
   PlaylistItemContainer
 )<AddItemAnimationProp>`
+  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;

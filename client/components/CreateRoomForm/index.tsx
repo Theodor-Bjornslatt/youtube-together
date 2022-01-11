@@ -4,8 +4,10 @@ import { useForm } from '../../hooks/useForm'
 import { validateCreateRoom } from '../../utils/formValidationRules'
 import {
   SubmitButton,
-  GridContainer,
-  CreateRoomFormContainer
+  CreateRoomFormContainer,
+  CreateRoomMaxContainer,
+  CreateRoomFlexContainer,
+  PlaylistHeightContainer
 } from './CreateRoomForm.styled'
 import NextImage from '../NextImage'
 import Playlist, { PlayItem } from '../Playlist'
@@ -14,6 +16,7 @@ import { useSockets } from '../../state/SocketContext'
 import { User } from '../../state/GlobalState'
 import { TextInput } from '../inputs/TextInput'
 import { Form } from './CreateRoomForm.styled'
+import Header from '../Header'
 
 // type PlaceHolderType = {
 //   id: number
@@ -40,8 +43,6 @@ export default function CreateRoomForm({ user }: CreateRoomProps) {
 
   // @TODO handle creation of room
   // @TODO evolve playlist component
-  //const [playlist, setPlaylist] = useState<PlaceHolderType[]>([])
-  // const [id, setId] = useState(1)
 
   async function onClickHandler() {
     // const room = { name: values.name, playlist: playlist }
@@ -60,17 +61,11 @@ export default function CreateRoomForm({ user }: CreateRoomProps) {
     })
   }
 
-  // const addToPlaylist = () => {
-  //   if (!validateUrl(values.url)) return
-  //   // const obj = { name: values.url, id }
-  //   // setPlaylist((old) => [...old, obj])
-  //   // setId((old) => old++)
-  // }
-
   return (
     <CreateRoomFormContainer>
-      <GridContainer size={'large'}>
-        <div>
+      <Header title={'Create Room'} />
+      <CreateRoomMaxContainer>
+        <CreateRoomFlexContainer>
           <Form onSubmit={handleSubmit}>
             <TextInput
               label="Name your room"
@@ -79,18 +74,16 @@ export default function CreateRoomForm({ user }: CreateRoomProps) {
               error={errors.name}
               onChange={onChangeHandler}
             />
-            {/* <ButtonStyled onClick={addToPlaylist}>Add URL</ButtonStyled> */}
           </Form>
-        </div>
-        <div style={{ width: '500px' }}>
-          {/* <h5>Order your playlist</h5> */}
-          <Playlist playlist={playlist} setPlaylist={setPlaylist} />
-        </div>
-      </GridContainer>
-      <SubmitButton onClick={handleSubmit}>
-        <h5>START WATCHING TOGETHER</h5>
-        <NextImage src={play} width={34} height={34} />
-      </SubmitButton>
+          <PlaylistHeightContainer>
+            <Playlist playlist={playlist} setPlaylist={setPlaylist} />
+          </PlaylistHeightContainer>
+          <SubmitButton onClick={handleSubmit}>
+            <h5>START WATCHING TOGETHER</h5>
+            <NextImage src={play} width={34} height={34} />
+          </SubmitButton>
+        </CreateRoomFlexContainer>
+      </CreateRoomMaxContainer>
     </CreateRoomFormContainer>
   )
 }
