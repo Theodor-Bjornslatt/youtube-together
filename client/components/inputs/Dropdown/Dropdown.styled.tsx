@@ -15,6 +15,7 @@ type Headline = {
 export const Select = styled.div<Headline>`
   ${inputBaseStyle}
   position: relative;
+  cursor: pointer;
 
   &:focus {
     border-radius: ${borderRadius.small} ${borderRadius.small} 0 0;

@@ -1,14 +1,15 @@
-import React, { useContext } from 'react'
+import React, { useContext, useRef } from 'react'
 import { useRouter } from 'next/router'
 
 import { useForm } from '../../hooks/useForm'
 import { TextInput } from '../inputs/TextInput'
 import { validateSignUp } from '../../utils/formValidationRules'
-import { Form, SignupButton } from './Register.styled'
 import { GlobalContext } from '../../state/GlobalState'
 import { textColors } from '../../styles/variables'
 import Dropdown from '../../components/inputs/Dropdown'
 import FormContainer from '../FormContainer'
+import { Form, SignupButton } from './Register.styled'
+import { useFocustrap } from '../FocusTrap'
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -41,6 +42,8 @@ export default function RegisterForm() {
     dispatch({ type: 'loggedIn', payload: true })
     router.push('/')
   }
+  const ref = useRef<HTMLFormElement>(null)
+  useFocustrap(ref)
 
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
     submitForm,
@@ -50,7 +53,7 @@ export default function RegisterForm() {
 
   return (
     <FormContainer>
-      <Form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit} ref={ref}>
         <TextInput
           placeholder="Username..."
           label="Create a username"
