@@ -3,7 +3,7 @@ import { useContext, useEffect } from 'react'
 
 import Chat from '../../components/Chat'
 import Sidebar from '../../components/Sidebar'
-import { GlobalContext, User } from '../../state/GlobalState'
+import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import { serverSideWhoAmI } from '../../utils/api'
 import { Aside, ChatContainer, Container } from './room.styled'
@@ -19,6 +19,13 @@ type Room = {
 type RoomProps = {
   user: User | null
   room: string | null
+}
+
+type User = {
+  id: string
+  color: string
+  username: string
+  email: string
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -54,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   return {
     props: {
-      user: userData?.user || null,
+      user: userData || null,
       room: slug || null
     }
   }

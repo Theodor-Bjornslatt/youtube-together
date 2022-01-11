@@ -58,3 +58,26 @@ export const FooterLinkSection = styled.div`
     line-height: ${lineHeights.extraSmall};
   }
 `
+
+export const LogoutButton = styled.button`
+  background-color: inherit;
+  border: none;
+  margin: 0;
+  padding: 0;
+  color: ${colors.white};
+  font-family: ${fonts.raleway};
+  font-weight: ${fontWeights.semiBold};
+  font-size: ${fontSizes.medium};
+  line-height: ${lineHeights.medium};
+
+  @media screen and (max-width: ${sizes.mobile}px) {
+    gap: ${spacings.extraSmall};
+    font-size: ${fontSizes.small};
+    line-height: ${lineHeights.small};
+  }
+
+  @media screen and (max-width: ${sizes.mobileSmall}px) {
+    font-size: ${fontSizes.extraSmall};
+    line-height: ${lineHeights.extraSmall};
+  }
+`
