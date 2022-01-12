@@ -50,13 +50,13 @@ export const ContentContainer = styled.div`
 `
 
 export const ImageWrapperLarge = styled.div`
-  height: 470px;
+  height: 460px;
   position: relative;
-  width: 470px;
+  width: 460px;
 
   @media screen and (max-width: ${sizes.tablet}px) {
-    height: 350px;
-    width: 350px;
+    height: 340px;
+    width: 340px;
   }
 
   @media screen and (max-width: ${sizes.mobile}px) {
