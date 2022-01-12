@@ -11,18 +11,29 @@ export const MainContentContainer = styled.div`
 export const ContentContainer = styled.div`
   align-items: center;
   display: grid;
-  gap: ${spacings.extraExtraSmall};
+  gap: ${spacings.extraSmall};
   grid-template-columns: repeat(2, auto);
   justify-content: center;
-  margin-top: ${spacings.extraExtraSmall};
+  margin: ${spacings.extraExtraSmall} 0;
   width: 100%;
 
   @media screen and (max-width: ${sizes.mobileSmall}px) {
     grid-template-columns: auto;
+    gap: ${spacings.extraExtraSmall};
   }
 
   @media screen and (max-width: ${sizes.mobile}px) {
     grid-template-columns: repeat(1, auto);
+    gap: ${spacings.extraExtraSmall};
+  }
+
+  @media screen and (max-width: ${sizes.tablet}px) {
+    gap: ${spacings.extraExtraSmall};
+  }
+
+  @media screen and (min-width: ${sizes.desktopWide}px) {
+    grid-template-columns: repeat(3, auto);
+    gap: ${spacings.large};
   }
 `
 

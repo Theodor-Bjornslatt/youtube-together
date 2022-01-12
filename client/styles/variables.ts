@@ -141,12 +141,16 @@ export const fontSizes: FontSizes = {
 }
 
 type Sizes = {
+  desktopWide: 1600
+  desktop: 1440
   tablet: 1024
   mobile: 768
   mobileSmall: 450
 }
 
 export const sizes: Sizes = {
+  desktopWide: 1600,
+  desktop: 1440,
   tablet: 1024,
   mobile: 768,
   mobileSmall: 450
