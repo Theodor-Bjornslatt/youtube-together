@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useRouter } from 'next/router'
 
 import { useForm } from '../../hooks/useForm'
 import { validateCreateRoom } from '../../utils/formValidationRules'
@@ -12,53 +13,43 @@ import {
 import NextImage from '../NextImage'
 import Playlist, { PlayItem } from '../Playlist'
 import play from '../../public/play.svg'
-import { useSockets } from '../../state/SocketContext'
-import { User } from '../../state/GlobalState'
 import { TextInput } from '../inputs/TextInput'
 import { Form } from './CreateRoomForm.styled'
 import Header from '../Header'
 
-// type PlaceHolderType = {
-//   id: number
-//   name: string
-// }
-
-type CreateRoomProps = {
-  user: User | null
-}
-
-export default function CreateRoomForm({ user }: CreateRoomProps) {
+export default function CreateRoomForm() {
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
     onClickHandler,
     {
       name: '',
-      url: ''
+      nickname: ''
     },
     validateCreateRoom
   )
-  const { socket } = useSockets()
-  const [playlist, setPlaylist] = useState<PlayItem[]>([
-    { id: '1', name: 'HEJ NDWEKLFNE' }
-  ])
+  const [playlist, setPlaylist] = useState<PlayItem[]>([])
+  const router = useRouter()
 
-  // @TODO handle creation of room
-  // @TODO evolve playlist component
+  function onClickHandler() {
+    async function postRoom() {
+      const room = {
+        name: values.name,
+        nickname: values.nickname,
+        playlist: playlist
+      }
 
-  async function onClickHandler() {
-    // const room = { name: values.name, playlist: playlist }
-    // const res = await fetch('http://localhost:8080/api/rooms/playlist', {
-    //   method: 'POST',
-    //   headers: { 'Content-Type': 'application/json' },
-    //   credentials: 'include',
-    //   body: JSON.stringify(room)
-    // })
-    // console.log('res :>> ', res)
+      const res = await fetch('http://localhost:8080/api/rooms', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(room)
+      })
+      if (!res.ok) {
+        return
+      }
+      router.push(`room/${values.name}`)
+    }
 
-    socket?.emit('join', {
-      name: values.name,
-      username: user?.username,
-      color: user?.color
-    })
+    postRoom()
   }
 
   return (
@@ -74,11 +65,18 @@ export default function CreateRoomForm({ user }: CreateRoomProps) {
               error={errors.name}
               onChange={onChangeHandler}
             />
+            <TextInput
+              label="Create a nickname for the people watching"
+              name="nickname"
+              value={values.nickname}
+              error={errors.nickname}
+              onChange={onChangeHandler}
+            />
           </Form>
           <PlaylistHeightContainer>
             <Playlist playlist={playlist} setPlaylist={setPlaylist} />
           </PlaylistHeightContainer>
-          <SubmitButton onClick={handleSubmit}>
+          <SubmitButton onClick={onClickHandler}>
             <h5>START WATCHING TOGETHER</h5>
             <NextImage src={play} width={34} height={34} />
           </SubmitButton>

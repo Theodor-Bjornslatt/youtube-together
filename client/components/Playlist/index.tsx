@@ -5,8 +5,8 @@ import PlaylistInput from './PlaylistInput'
 import VideoList from './VideoList'
 
 export type PlayItem = {
-  id: string
-  name: string
+  id: string | number
+  url: string
 }
 
 export type PlaylistProps = {

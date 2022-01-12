@@ -34,6 +34,7 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
   const [currentTimeout, setCurrentTimeout] = useState<NodeJS.Timeout | null>(
     null
   )
+  const [id, setId] = useState(1)
 
   const ref = useRef<HTMLDivElement>(null)
 
@@ -61,6 +62,12 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
 
   function handleTextAnimationEnd() {
     !shouldTextFadeIn && (setIsTextVisible(false), setShouldItemFadeIn(false))
+  }
+
+  function addItem() {
+    setPlaylist((prev) => [...prev, { id, url: values.url }])
+    setId((prev) => prev + 1)
+    setShouldTextFadeIn(false)
   }
 
   useEffect(() => {
@@ -95,13 +102,7 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
       {isItemVisible && (
         <AddItemContainer
           ref={ref}
-          onClick={() => {
-            setPlaylist((prev) => [
-              ...prev,
-              { id: '123123d', name: values.url }
-            ])
-            setShouldTextFadeIn(false)
-          }}
+          onClick={addItem}
           shouldAddItemFadeIn={shouldItemFadeIn}
           onAnimationEnd={handleAnimationEnd}
         >

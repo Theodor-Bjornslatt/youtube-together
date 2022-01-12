@@ -1,9 +1,9 @@
 import { GetServerSideProps } from 'next'
 import { useContext, useEffect } from 'react'
 
+import { serverSideWhoAmI } from '../utils/api'
 import CreateRoomForm from '../components/CreateRoomForm'
 import { GlobalContext, User } from '../state/GlobalState'
-import ServerSideWhoAmI from '../utils/serverSideWhoAmI'
 
 type UserData = {
   user?: User
@@ -17,7 +17,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let userData: UserData | undefined
 
   try {
-    userData = await ServerSideWhoAmI(ctx)
+    userData = await serverSideWhoAmI(ctx)
   } catch (e) {
     userData = undefined
     return {
@@ -41,5 +41,5 @@ export default function CreateRoom({ user }: RoomProps) {
     dispatch({ type: 'loggedIn', payload: !!user })
   }, [])
 
-  return <CreateRoomForm user={user} />
+  return <CreateRoomForm />
 }
