@@ -17,6 +17,8 @@ type InputProps = {
   onChange?: React.ChangeEventHandler<HTMLInputElement>
   required?: boolean
   type?: string
+  removeBottomRadius?: boolean
+  noAutoComplete?: boolean
 }
 
 export const TextInput = ({
@@ -26,7 +28,9 @@ export const TextInput = ({
   label,
   placeholder,
   onChange,
-  value
+  value,
+  removeBottomRadius,
+  noAutoComplete
 }: InputProps) => {
   return (
     <InputWrapper>
@@ -38,9 +42,11 @@ export const TextInput = ({
           onChange={onChange}
           placeholder={placeholder}
           value={value}
+          removeBottomRadius={removeBottomRadius}
+          autoComplete={noAutoComplete ? 'off' : 'on'}
         />
       </WrapperInner>
-      {error && <ErrMsg>{error}</ErrMsg>}
+      <ErrMsg>{error}</ErrMsg>
     </InputWrapper>
   )
 }

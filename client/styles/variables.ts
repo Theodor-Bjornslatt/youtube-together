@@ -123,6 +123,7 @@ export const fontWeights: FontWeights = {
 }
 
 type FontSizes = {
+  extraExtraSmall: '12px'
   extraSmall: '14px'
   small: '18px'
   medium: '24px'
@@ -132,6 +133,7 @@ type FontSizes = {
 }
 
 export const fontSizes: FontSizes = {
+  extraExtraSmall: '12px',
   extraSmall: '14px',
   small: '18px',
   medium: '24px',

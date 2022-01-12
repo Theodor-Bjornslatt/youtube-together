@@ -5,7 +5,8 @@ import {
   fontWeights,
   colors,
   borderRadius,
-  spacings
+  spacings,
+  fonts
 } from '../../styles/variables'
 
 export const ButtonStyled = styled.button`
@@ -20,6 +21,7 @@ export const ButtonStyled = styled.button`
   font-size: ${fontSizes.medium};
   text-transform: uppercase;
   font-weight: ${fontWeights.bold};
+  font-family: ${fonts.roboto};
 
   &:hover {
     cursor: pointer;

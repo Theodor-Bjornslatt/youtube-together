@@ -56,3 +56,35 @@ export const validateSignIn = (values: GenericObject) => {
 
   return errors
 }
+
+export const validateCreateRoom = (values: GenericObject) => {
+  const urlRegex = /^(https?:\/\/)?((www\.)?youtube\.com|youtu\.be)\/.+$/
+  const nameRegex = /[A-Za-z0-9]+/
+  const errors: GenericObject = {}
+
+  if (!values.url) {
+    errors.url = 'At least one url is required'
+  } else if (!urlRegex.test(values.url)) {
+    errors.url = 'Url is invalid'
+  }
+
+  if (!values.name) {
+    errors.name = 'Name is required'
+  } else if (values.name.length < 4 || values.name.length > 15) {
+    errors.name = 'Name must be between 4 and 15 characters'
+  } else if (!nameRegex.test(values.name)) {
+    errors.name = 'Name is invalid'
+  }
+
+  return errors
+}
+
+export const validateUrl = (url: string) => {
+  const urlRegex = /^(https?:\/\/)?((www\.)?youtube\.com|youtu\.be)\/.+$/
+
+  if (!url || !urlRegex.test(url)) {
+    return false
+  }
+
+  return true
+}
