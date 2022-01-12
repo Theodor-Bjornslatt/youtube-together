@@ -43,7 +43,7 @@ const GlobalReducer = (state: GlobalState, action: SetStateAction) => {
     case 'loggedIn':
       return {
         ...state,
-        user: action.payload
+        loggedIn: action.payload
       }
     default:
       return { ...state }
@@ -51,14 +51,23 @@ const GlobalReducer = (state: GlobalState, action: SetStateAction) => {
 }
 
 type ContextProps = {
+  isLoggedIn: boolean
   children: JSX.Element[] | JSX.Element
 }
 
-export const GlobalContextProvider = ({ children }: ContextProps) => {
+export const GlobalContextProvider = ({
+  isLoggedIn,
+  children
+}: ContextProps) => {
   const windowSize = useWindowSize()
   useEffect(() => {
     dispatch({ type: 'windowWidth', payload: windowSize.width })
   }, [windowSize])
+
+  useEffect(() => {
+    console.log('here', isLoggedIn)
+    dispatch({ type: 'loggedIn', payload: isLoggedIn })
+  }, [isLoggedIn])
 
   const [state, dispatch] = useReducer<
     (state: GlobalState, action: SetStateAction) => GlobalState
