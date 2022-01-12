@@ -1,24 +1,14 @@
 import { GetServerSideProps } from 'next'
 import router from 'next/router'
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useEffect } from 'react'
 
 import Chat from '../../components/Chat'
 import Header from '../../components/Header'
-import Playlist from '../../components/Playlist'
-import { PlaylistContainer } from '../../components/Playlist/Playlist.styled'
 import Sidebar from '../../components/Sidebar'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import { serverSideWhoAmI } from '../../utils/api'
-import {
-  Aside,
-  Button,
-  ButtonContainer,
-  ChatContainer,
-  Container,
-  UsersButton,
-  Video
-} from './room.styled'
+import { Aside, ChatContainer, Container, Video } from './room.styled'
 
 type CurrentUserData = {
   user?: User
@@ -70,10 +60,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 const Room = ({ user, room }: RoomProps) => {
-  const { socket, activeUsers, cleanUpSocketStates, playlist, setPlaylist } =
-    useSockets()
+  const { socket, cleanUpSocketStates, activeUsers } = useSockets()
   const { dispatch } = useContext(GlobalContext)
-  const [display, setDisplay] = useState('users')
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -104,16 +92,7 @@ const Room = ({ user, room }: RoomProps) => {
           <Chat room={room} />
         </ChatContainer>
         <Aside>
-          <ButtonContainer>
-            <UsersButton onClick={() => setDisplay('users')}>Users</UsersButton>
-            <Button onClick={() => setDisplay('playlist')}>Playlist</Button>
-          </ButtonContainer>
-          {display == 'users' && <Sidebar users={activeUsers} />}
-          {display == 'playlist' && playlist && (
-            <PlaylistContainer>
-              <Playlist playlist={playlist} setPlaylist={setPlaylist} />
-            </PlaylistContainer>
-          )}
+          <Sidebar users={activeUsers} />
         </Aside>
       </Container>
     </>
