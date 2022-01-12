@@ -64,8 +64,14 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
     !shouldTextFadeIn && (setIsTextVisible(false), setShouldItemFadeIn(false))
   }
 
-  function addItem() {
-    setPlaylist((prev) => [...prev, { id, url: values.url }])
+  async function addItem() {
+    const res: any = await fetch(`https://noembed.com/embed?url=${values.url}`)
+    const { title } = await res.json()
+
+    setPlaylist((prev) => [
+      ...prev,
+      { id, url: values.url, title: title ? title : 'No Title' }
+    ])
     setId((prev) => prev + 1)
     setShouldTextFadeIn(false)
   }

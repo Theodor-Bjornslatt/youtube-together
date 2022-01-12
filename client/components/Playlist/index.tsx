@@ -7,6 +7,7 @@ import VideoList from './VideoList'
 export type PlayItem = {
   id: string | number
   url: string
+  title: string
 }
 
 export type PlaylistProps = {
