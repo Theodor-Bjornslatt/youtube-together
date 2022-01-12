@@ -7,7 +7,12 @@ const roomSchema = new Schema(
       required: [true, 'Must provide a name for the room'],
       unique: true
     },
-    playlist: [{ url: { type: String, required: [true, 'Must enter URL'] } }],
+    playlist: [
+      {
+        url: { type: String, required: [true, 'Must enter URL'] },
+        title: { type: String, default: 'No title' }
+      }
+    ],
     nickname: { type: String, default: 'members' }
   },
   { timestamps: true }
