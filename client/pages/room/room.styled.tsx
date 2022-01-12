@@ -10,12 +10,13 @@ import {
 
 export const Container = styled.div`
   box-sizing: border-box;
+  margin-bottom: ${spacings.small};
   display: grid;
   height: calc(100vh - (${headerBoxHeights.desktop}));
   width: 100%;
-  padding: 0 ${spacings.extraSmall};
+  padding: 0 ${spacings.huge};
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr;
+  grid-template-rows: 1fr 0.6fr 1.4fr 1fr;
   grid-template-areas:
     'video video video aside'
     'video video video aside'
@@ -39,6 +40,7 @@ export const Aside = styled.div`
   margin: 0 1rem;
   height: calc(100vh - ${headerBoxHeights.desktop});
   grid-area: aside;
+  border-left: 1px solid ${colors.brown};
 `
 export const ButtonContainer = styled.div`
   display: flex;
@@ -50,4 +52,7 @@ export const Button = styled(ButtonStyled)`
   border-left: 1px solid ${colors.brown};
   font-size: ${fontSizes.small};
   background: ${colors.dark};
+`
+export const UsersButton = styled(Button)`
+  border-right: 1px solid ${colors.brown};
 `

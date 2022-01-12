@@ -22,7 +22,6 @@ export const MessageListContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  gap: ${spacings.extraSmall};
   height: 500px;
   width: 100%;
   overflow-y: auto;
@@ -37,26 +36,29 @@ export const MessageListContainer = styled.div`
 `
 
 export const Card = styled.div`
-  background: ${colors.dark};
-  padding: 5px ${spacings.extraSmall};
+  background: ${colors.darkest};
+  padding: 0 ${spacings.extraSmall};
   position: relative;
   border-radius: ${borderRadius.small};
 `
-
 export const InfoContainer = styled.div`
   display: flex;
-  justify-content: space-between;
-  width: 100%;
+`
 
-  p {
-    font-size: 12px;
-  }
+export const Name = styled.p`
+  color: ${colors.white};
+`
+export const Time = styled.p`
+  color: ${colors.white};
+  font-size: 12px;
+  margin-left: ${spacings.extraExtraSmall};
 `
 
 export const MessageContainer = styled.div`
-  padding: 0 ${spacings.huge} ${spacings.extraExtraSmall} ${spacings.huge};
+  padding: 0 ${spacings.large} ${spacings.extraExtraSmall} 0;
   p {
     color: ${(props) => props.color};
+    word-wrap: break-word;
   }
 `
 

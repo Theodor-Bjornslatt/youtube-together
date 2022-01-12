@@ -16,6 +16,7 @@ import {
   ButtonContainer,
   ChatContainer,
   Container,
+  UsersButton,
   Video
 } from './room.styled'
 
@@ -104,7 +105,7 @@ const Room = ({ user, room }: RoomProps) => {
         </ChatContainer>
         <Aside>
           <ButtonContainer>
-            <Button onClick={() => setDisplay('users')}>Users</Button>
+            <UsersButton onClick={() => setDisplay('users')}>Users</UsersButton>
             <Button onClick={() => setDisplay('playlist')}>Playlist</Button>
           </ButtonContainer>
           {display == 'users' && <Sidebar users={activeUsers} />}
