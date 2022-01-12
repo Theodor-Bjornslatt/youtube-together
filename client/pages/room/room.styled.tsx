@@ -1,10 +1,9 @@
 import styled from 'styled-components'
 
-import { ButtonStyled } from '../../components/Button/Button.styled'
 import {
   colors,
-  fontSizes,
   headerBoxHeights,
+  sizes,
   spacings
 } from '../../styles/variables'
 
@@ -14,7 +13,8 @@ export const Container = styled.div`
   display: grid;
   height: calc(100vh - (${headerBoxHeights.desktop}));
   width: 100%;
-  padding: 0 ${spacings.huge};
+  gap: ${spacings.extraExtraSmall};
+  padding: 0 ${spacings.large};
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 0.6fr 1.4fr 1fr;
   grid-template-areas:
@@ -22,6 +22,24 @@ export const Container = styled.div`
     'video video video aside'
     'chat chat chat aside'
     'chat chat chat aside';
+
+  @media screen and (max-width: ${sizes.desktop}px) {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 0.6fr 1.4fr 1fr;
+    grid-template-areas:
+      'video video video'
+      'video video video'
+      'chat chat chat'
+      'chat chat chat';
+  }
+
+  @media screen and (max-width: ${sizes.tablet}px) {
+    padding: 0 ${spacings.medium};
+  }
+
+  @media screen and (max-width: ${sizes.mobile}px) {
+    padding: 0 ${spacings.extraSmall};
+  }
 `
 
 export const Video = styled.div`
@@ -41,18 +59,8 @@ export const Aside = styled.div`
   height: calc(100vh - ${headerBoxHeights.desktop});
   grid-area: aside;
   border-left: 1px solid ${colors.brown};
-`
-export const ButtonContainer = styled.div`
-  display: flex;
-  border-bottom: 1px solid ${colors.brown};
-`
 
-export const Button = styled(ButtonStyled)`
-  border-radius: 0;
-  border-left: 1px solid ${colors.brown};
-  font-size: ${fontSizes.small};
-  background: ${colors.dark};
-`
-export const UsersButton = styled(Button)`
-  border-right: 1px solid ${colors.brown};
+  @media screen and (max-width: ${sizes.desktop}px) {
+    display: none;
+  }
 `

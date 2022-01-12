@@ -42,7 +42,7 @@ const Chat = ({ room }: ChatProps) => {
   }, [messages])
 
   return (
-    <ChatContainer size="extraSmall">
+    <ChatContainer size="extraExtraSmall">
       <MessageListContainer>
         {messages?.map((message) => (
           <ChatMessage message={message} key={message.id} />

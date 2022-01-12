@@ -25,13 +25,19 @@ export const MessageListContainer = styled.div`
   height: 500px;
   width: 100%;
   overflow-y: auto;
-  padding: ${spacings.medium} ${spacings.small} 0 ${spacings.medium};
+  padding: ${spacings.small} ${spacings.small} 0 ${spacings.small};
 
   &:not(:last-child) {
     margin-bottom: -${spacings.extraSmall};
   }
+
   @media screen and (max-width: ${sizes.mobile}px) {
-    gap: ${spacings.small};
+    padding: ${spacings.small} ${spacings.extraSmall} 0
+      ${spacings.extraExtraSmall};
+  }
+
+  @media screen and (max-width: ${sizes.mobileSmall}px) {
+    padding: ${spacings.extraExtraSmall} ${spacings.extraExtraSmall} 0 0;
   }
 `
 
@@ -40,6 +46,7 @@ export const Card = styled.div`
   padding: 0 ${spacings.extraSmall};
   position: relative;
   border-radius: ${borderRadius.small};
+  margin: 5px 0;
 `
 export const InfoContainer = styled.div`
   display: flex;
@@ -55,7 +62,6 @@ export const Time = styled.p`
 `
 
 export const MessageContainer = styled.div`
-  padding: 0 ${spacings.large} ${spacings.extraExtraSmall} 0;
   p {
     color: ${(props) => props.color};
     word-wrap: break-word;
