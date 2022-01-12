@@ -14,7 +14,6 @@ function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
     async function getUser() {
       try {
-        //look at res
         const user = await whoAmI()
         if (user.id) setLoggedIn(true)
       } catch (e) {
