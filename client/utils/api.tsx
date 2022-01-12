@@ -18,6 +18,18 @@ export const serverSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
   }
 }
 
+export const whoAmI = async () => {
+  try {
+    const res = await fetch('http://localhost:8080/api/whoami', {
+      credentials: 'include'
+    })
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
 export const serverSideGetRooms = async () => {
   try {
     const res = await fetch('http://localhost:8080/api/rooms', {
