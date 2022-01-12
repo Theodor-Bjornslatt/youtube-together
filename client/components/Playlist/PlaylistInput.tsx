@@ -1,14 +1,5 @@
-import {
-  AnimationEvent,
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState
-} from 'react'
+import { AnimationEvent, ChangeEvent, useEffect, useRef, useState } from 'react'
 
-import { PlayItem } from '.'
 import { useForm } from '../../hooks/useForm'
 import { validateUrl } from '../../utils/formValidationRules'
 import { TextInput } from '../inputs/TextInput'
@@ -19,7 +10,7 @@ import {
 } from './Playlist.styled'
 
 type PlaylistInputProps = {
-  setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
+  setPlaylist: any
 }
 
 export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {

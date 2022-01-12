@@ -4,6 +4,8 @@ import { useContext, useEffect, useState } from 'react'
 
 import Chat from '../../components/Chat'
 import Header from '../../components/Header'
+import Playlist from '../../components/Playlist'
+import { PlaylistContainer } from '../../components/Playlist/Playlist.styled'
 import Sidebar from '../../components/Sidebar'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
@@ -67,7 +69,8 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 const Room = ({ user, room }: RoomProps) => {
-  const { socket, activeUsers, cleanUpSocketStates } = useSockets()
+  const { socket, activeUsers, cleanUpSocketStates, playlist, setPlaylist } =
+    useSockets()
   const { dispatch } = useContext(GlobalContext)
   const [display, setDisplay] = useState('users')
 
@@ -105,7 +108,11 @@ const Room = ({ user, room }: RoomProps) => {
             <Button onClick={() => setDisplay('playlist')}>Playlist</Button>
           </ButtonContainer>
           {display == 'users' && <Sidebar users={activeUsers} />}
-          {/* <Playlist playlist={} /> */}
+          {display == 'playlist' && playlist && (
+            <PlaylistContainer>
+              <Playlist playlist={playlist} setPlaylist={setPlaylist} />
+            </PlaylistContainer>
+          )}
         </Aside>
       </Container>
     </>

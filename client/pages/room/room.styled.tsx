@@ -14,13 +14,13 @@ export const Container = styled.div`
   height: calc(100vh - (${headerBoxHeights.desktop}));
   width: 100%;
   padding: 0 ${spacings.extraSmall};
-  grid-template-columns: 1.1fr 1.1fr 1.1fr 1.1fr 0.6fr;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr 1fr;
   grid-template-areas:
-    'video video video video aside'
-    'video video video video aside'
-    'chat chat chat chat aside'
-    'chat chat chat chat aside';
+    'video video video aside'
+    'video video video aside'
+    'chat chat chat aside'
+    'chat chat chat aside';
 `
 
 export const Video = styled.div`
