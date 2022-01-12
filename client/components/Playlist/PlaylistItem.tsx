@@ -42,7 +42,7 @@ export default function PlaylistItem({
       }}
     >
       <PlaylistTextContainer>
-        <h4>{item.name}</h4>
+        <h4>{item.title}</h4>
       </PlaylistTextContainer>
       <PlaylistIconContainer>
         <NextImage src={play} width={34} height={34} />
