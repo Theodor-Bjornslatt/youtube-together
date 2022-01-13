@@ -4,7 +4,7 @@ import session, { Store } from 'express-session'
 import morgan from 'morgan'
 
 import { SESSION_OPTIONS, CORS_OPTIONS } from './config'
-import { authRoutes, roomRoutes } from './api/routes'
+import { authRoutes, messageRoutes, roomRoutes } from './api/routes'
 import { handleError } from './middleware'
 
 export const createApp = (store: Store): Express => {
@@ -22,6 +22,7 @@ export const createApp = (store: Store): Express => {
   // routes
   app.use('/api', authRoutes)
   app.use('/api', roomRoutes)
+  app.use('/api', messageRoutes)
 
   // 404 - no route in use
   app.use((req: Request, res: Response) => {

@@ -10,15 +10,17 @@ interface IQueryProp {
   page?: string
   name?: string
   item?: IPlayList
+  random?: string
 }
 
 interface IMessageObject {
   messages: IMessage[]
-  limit: number
-  page: number
-  room: string
+  limit?: number
+  page?: number
+  room?: string
   name?: string
   list?: string[]
+  query?: { [key: string]: string | number }
 }
 
 const DEFAULT_COVER =
@@ -83,15 +85,28 @@ export const postRoom = async (body: IRoom): Promise<IRoom> => {
 export const getMessages = async ({
   name,
   limit,
-  page
+  page,
+  random
 }: IQueryProp): Promise<IMessageObject> => {
-  if (!name) throw new BadRequest('Specify name')
+  const parsedRandom = random && parseInt(random, 10)
+  if (parsedRandom && !name) {
+    const defaultRandom = parsedRandom > 10 ? 10 : parsedRandom
+    const messages = await Message.aggregate([
+      { $sample: { size: defaultRandom } }
+    ])
+
+    return {
+      messages,
+      query: { random: parsedRandom }
+    }
+  }
 
   const parsedLimit = limit && parseInt(limit, 10)
   const parsedPage = page && parseInt(page, 10)
-
   const defaultLimit = parsedLimit || 10
   const defaultPage = parsedPage || 1
+
+  if (!name) throw new BadRequest('Specify name')
 
   const messages = await Message.find({ room: name })
     .limit(defaultLimit)
