@@ -12,6 +12,7 @@ import {
 interface IQueryProps {
   limit?: string
   page?: string
+  random?: string
 }
 
 const apiGetAllRooms = async (req: Request, res: Response): Promise<void> => {
@@ -33,10 +34,10 @@ const apiPostRoom = async (req: Request, res: Response): Promise<void> => {
 
 const apiGetMessages = async (req: Request, res: Response): Promise<void> => {
   const name = req.params.id
-  const { limit, page }: IQueryProps = req.query
+  const { limit, page, random }: IQueryProps = req.query
 
-  const messages = await getMessages({ name, limit, page })
-  res.status(200).json(messages)
+  const messages = await getMessages({ name, limit, page, random })
+  res.status(200).json({ ...messages })
 }
 
 const apiAddToPlaylist = async (req: Request, res: Response): Promise<void> => {
