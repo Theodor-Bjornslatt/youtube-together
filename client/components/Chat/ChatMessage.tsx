@@ -19,7 +19,10 @@ const ChatMessage = ({ message: msg }: ChatMessageProps) => {
   function getTimeString() {
     const date = new Date(timestamp)
     const hour = date.getHours()
-    return `${hour < 10 ? '0' + hour : hour}:${date.getMinutes()}`
+    const minutes = date.getMinutes()
+    return `${hour < 10 ? '0' + hour : hour}:${
+      minutes < 10 ? '0' + minutes : minutes
+    }`
   }
 
   return (

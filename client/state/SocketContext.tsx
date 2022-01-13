@@ -16,11 +16,10 @@ type Context = {
   messages?: MessageData[]
   playlist?: PlaylistData[]
   activeUsers?: User[]
-  setMessages: (data: MessageData) => void
+  setMessages: Dispatch<SetStateAction<MessageData[]>>
   setPlaylist: Dispatch<SetStateAction<PlaylistData[]>>
   cleanUpSocketStates: () => void
   roomId?: string
-  rooms: object
 }
 
 type RoomStateData = {
@@ -52,12 +51,15 @@ const SocketContext = createContext<Context>({
   setMessages: () => null,
   setPlaylist: () => null,
   cleanUpSocketStates: () => null,
-  rooms: {},
   messages: [],
   playlist: []
 })
+type SocketProviderProps = {
+  isLoggedIn: boolean
+  children: JSX.Element[] | JSX.Element
+}
 
-function SocketsProvider(props: any) {
+function SocketsProvider({ children }: SocketProviderProps) {
   const [messages, setMessages] = useState<MessageData[]>([])
   const [playlist, setPlaylist] = useState<PlaylistData[]>([])
   const [activeUsers, setActiveUsers] = useState<User[]>([])
@@ -108,8 +110,9 @@ function SocketsProvider(props: any) {
         setPlaylist,
         cleanUpSocketStates
       }}
-      {...props}
-    />
+    >
+      {children}
+    </SocketContext.Provider>
   )
 }
 
