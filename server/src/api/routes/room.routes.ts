@@ -12,4 +12,8 @@ router
 
 router.route('/rooms/:id').get(catchAsync(RoomController.apiGetRoom))
 
+router
+  .route('/rooms/:id/messages')
+  .get(catchAsync(RoomController.apiGetMessages))
+
 export default router

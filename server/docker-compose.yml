@@ -8,7 +8,7 @@ services:
       - 6379:6379
     restart: on-failure
     volumes:
-      - ./data/cache:/data:db
+      - ./data/cache:/data/db
     command: ['--requirepass "secret"']
     env_file:
       - .env
