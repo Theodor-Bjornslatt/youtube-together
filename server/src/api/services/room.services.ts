@@ -1,26 +1,37 @@
 import { BadRequest } from '../../errors'
-import { IRoom, IRoomObject } from '../../interfaces'
+import { IRoom, IRoomObject, IMessage } from '../../interfaces'
 import { getIo } from '../../socket/io'
 import { validateRoom } from '../../validation/playlist'
+import { Message } from '../models'
 import { Room } from '../models/room.model'
 
 interface IQueryProp {
   limit?: string
   page?: string
+  name?: string
+}
+
+interface IMessageObject {
+  messages: IMessage[]
+  limit: number
+  page: number
+  room: string
 }
 
 export const getAllRooms = async ({
   limit,
   page
 }: IQueryProp): Promise<IRoomObject> => {
-  // how to rewrite this
-  const parsedLimit = limit && parseInt(limit, 10) ? parseInt(limit, 10) : 10
-  const parsedPage = page && parseInt(page, 10) ? parseInt(page, 10) : 0
+  const parsedLimit = limit && parseInt(limit, 10)
+  const parsedPage = page && parseInt(page, 10)
+
+  const defaultLimit = parsedLimit || 10
+  const defaultPage = parsedPage || 1
 
   const io = getIo()
   const rooms = await Room.find()
-    .limit(parsedLimit)
-    .skip(parsedPage * parsedLimit)
+    .limit(defaultLimit)
+    .skip((defaultPage - 1) * defaultLimit)
 
   return {
     rooms: rooms.map((room) => {
@@ -38,8 +49,8 @@ export const getAllRooms = async ({
           : 'https://cdn.vox-cdn.com/thumbor/LXvoCd3sbTvxMUpVAd-f4ArjYRA=/0x0:1920x800/1820x1024/filters:focal(694x265:1000x571):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69582511/lotr1_movie_screencaps.com_12025.0.jpg'
       }
     }),
-    limit: parsedLimit,
-    page: !parsedPage ? parsedPage + 1 : parsedPage
+    limit: defaultLimit,
+    page: defaultPage
   }
 }
 
@@ -62,4 +73,30 @@ export const postRoom = async (body: IRoom): Promise<IRoom> => {
 
   const savedRoom = await room.save()
   return savedRoom
+}
+
+export const getMessages = async ({
+  name,
+  limit,
+  page
+}: IQueryProp): Promise<IMessageObject> => {
+  if (!name) throw new BadRequest('Specify name')
+
+  const parsedLimit = limit && parseInt(limit, 10)
+  const parsedPage = page && parseInt(page, 10)
+
+  const defaultLimit = parsedLimit || 10
+  const defaultPage = parsedPage || 1
+
+  const messages = await Message.find({ room: name })
+    .limit(defaultLimit)
+    .skip((defaultPage - 1) * defaultLimit)
+    .select('-_id -room -__v')
+
+  return {
+    messages,
+    room: name,
+    limit: defaultLimit,
+    page: defaultPage
+  }
 }
