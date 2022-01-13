@@ -38,6 +38,14 @@ export interface IRoom extends Document {
   online?: number
   nickname: string
 }
+export interface IMessage extends Document {
+  id: string
+  username: string
+  message: string
+  color: string
+  timestamp: number
+  room?: string
+}
 
 export interface IRoomObject {
   rooms: IRoom[] | any[]

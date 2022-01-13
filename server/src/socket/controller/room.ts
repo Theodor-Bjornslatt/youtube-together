@@ -23,7 +23,10 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   this.data.color = color
 
   const messages = await Message.find({ room })
-  const { playlist } = await Room.findOne({ name: room })
+    .limit(10)
+    .skip(0)
+    .select('-_id -room -__v')
+  const { playlist } = await Room.findOne({ name: room }).select('playlist')
 
   const clients = io.sockets.adapter.rooms.get(room)
   const users: Array<IClient> = []

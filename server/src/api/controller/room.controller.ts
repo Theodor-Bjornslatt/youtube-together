@@ -1,6 +1,6 @@
 import { Request, Response } from 'express'
 
-import { getAllRooms, getRoomByName, postRoom } from '../services'
+import { getAllRooms, getRoomByName, postRoom, getMessages } from '../services'
 
 interface IQueryProps {
   limit?: string
@@ -24,6 +24,19 @@ const apiPostRoom = async (req: Request, res: Response): Promise<void> => {
   res.status(200).json({ message: 'Ok!' })
 }
 
-const RoomController = { apiGetAllRooms, apiPostRoom, apiGetRoom }
+const apiGetMessages = async (req: Request, res: Response): Promise<void> => {
+  const name = req.params.id
+  const { limit, page }: IQueryProps = req.query
+
+  const messages = await getMessages({ name, limit, page })
+  res.status(200).json(messages)
+}
+
+const RoomController = {
+  apiGetAllRooms,
+  apiPostRoom,
+  apiGetRoom,
+  apiGetMessages
+}
 
 export default RoomController
