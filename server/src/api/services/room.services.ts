@@ -106,7 +106,8 @@ export const getMessages = async ({
   const defaultLimit = parsedLimit || 10
   const defaultPage = parsedPage || 1
 
-  if (!name) throw new BadRequest('Specify name')
+  if (!name)
+    throw new BadRequest('Specify name of the room where you want the messages')
 
   const messages = await Message.find({ room: name })
     .limit(defaultLimit)
