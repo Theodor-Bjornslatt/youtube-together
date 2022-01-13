@@ -27,9 +27,11 @@ export interface IData extends IClient {
   room: string
 }
 
-export type IPlayList = {
+export interface IPlayList {
   _id: string
   url: string
+  title: string
+  position?: number
 }
 export interface IRoom extends Document {
   _id?: string

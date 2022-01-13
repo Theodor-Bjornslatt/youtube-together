@@ -1,6 +1,13 @@
 import { Request, Response } from 'express'
 
-import { getAllRooms, getRoomByName, postRoom, getMessages } from '../services'
+import {
+  getAllRooms,
+  getRoomByName,
+  postRoom,
+  addToPlaylist,
+  updatePlaylist,
+  getMessages
+} from '../services'
 
 interface IQueryProps {
   limit?: string
@@ -32,11 +39,31 @@ const apiGetMessages = async (req: Request, res: Response): Promise<void> => {
   res.status(200).json(messages)
 }
 
+const apiAddToPlaylist = async (req: Request, res: Response): Promise<void> => {
+  const name = req.params.id
+  const { item } = req.body
+
+  await addToPlaylist({ name, item })
+  res.status(200).json({ message: 'Ok!' })
+}
+
+const apiUpdatePlaylist = async (
+  req: Request,
+  res: Response
+): Promise<void> => {
+  const name = req.params.id
+
+  await updatePlaylist({ name, item: req.body })
+  res.status(200).json({ message: 'Ok!' })
+}
+
 const RoomController = {
   apiGetAllRooms,
   apiPostRoom,
   apiGetRoom,
-  apiGetMessages
+  apiGetMessages,
+  apiAddToPlaylist,
+  apiUpdatePlaylist
 }
 
 export default RoomController

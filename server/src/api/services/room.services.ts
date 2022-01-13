@@ -1,14 +1,15 @@
 import { BadRequest } from '../../errors'
-import { IRoom, IRoomObject, IMessage } from '../../interfaces'
 import { getIo } from '../../socket/io'
-import { validateRoom } from '../../validation/playlist'
 import { Message } from '../models'
+import { IPlayList, IRoom, IRoomObject, IMessage } from '../../interfaces'
+import { validatePlaylistItem, validateRoom } from '../../validation/playlist'
 import { Room } from '../models/room.model'
 
 interface IQueryProp {
   limit?: string
   page?: string
   name?: string
+  item?: IPlayList
 }
 
 interface IMessageObject {
@@ -16,7 +17,12 @@ interface IMessageObject {
   limit: number
   page: number
   room: string
+  name?: string
+  list?: string[]
 }
+
+const DEFAULT_COVER =
+  'https://cdn.vox-cdn.com/thumbor/LXvoCd3sbTvxMUpVAd-f4ArjYRA=/0x0:1920x800/1820x1024/filters:focal(694x265:1000x571):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69582511/lotr1_movie_screencaps.com_12025.0.jpg'
 
 export const getAllRooms = async ({
   limit,
@@ -44,9 +50,7 @@ export const getAllRooms = async ({
         online: clients?.size || 0,
         nickname: room.nickname,
         playlist: room.playlist,
-        cover: youtubeId
-          ? coverImage
-          : 'https://cdn.vox-cdn.com/thumbor/LXvoCd3sbTvxMUpVAd-f4ArjYRA=/0x0:1920x800/1820x1024/filters:focal(694x265:1000x571):format(webp)/cdn.vox-cdn.com/uploads/chorus_image/image/69582511/lotr1_movie_screencaps.com_12025.0.jpg'
+        cover: youtubeId ? coverImage : DEFAULT_COVER
       }
     }),
     limit: defaultLimit,
@@ -65,6 +69,7 @@ export const getRoomByName = async (name: string): Promise<IRoom> => {
 export const postRoom = async (body: IRoom): Promise<IRoom> => {
   const { name, playlist, nickname } = body
   await validateRoom({ name, playlist })
+
   const room = new Room({
     name,
     playlist,
@@ -99,4 +104,50 @@ export const getMessages = async ({
     limit: defaultLimit,
     page: defaultPage
   }
+}
+
+export const addToPlaylist = async ({
+  name,
+  item
+}: IQueryProp): Promise<void> => {
+  if (!name) throw new BadRequest('Params missing')
+  await validatePlaylistItem(item)
+
+  const updatedRoom = await Room.updateOne(
+    { name },
+    {
+      $push: {
+        playlist: item
+      }
+    }
+  )
+
+  // TODO - to generic
+  if (updatedRoom.modifiedCount === 0) throw new Error()
+}
+
+export const updatePlaylist = async ({
+  name,
+  item
+}: IQueryProp): Promise<void> => {
+  if (!name) throw new BadRequest('Params missing')
+  await validatePlaylistItem(item)
+
+  await Room.updateOne(
+    { name },
+    {
+      $pull: {
+        playlist: { _id: item?._id }
+      }
+    }
+  )
+
+  await Room.updateOne(
+    { name },
+    {
+      $push: {
+        playlist: { $each: [item], $position: item?.position }
+      }
+    }
+  )
 }
