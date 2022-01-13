@@ -46,14 +46,17 @@ export const Card = styled.div`
   padding: 0 ${spacings.extraSmall};
   position: relative;
   border-radius: ${borderRadius.small};
-  margin: 5px 0;
+  margin: ${spacings.extraExtraSmall} 0;
 `
 export const InfoContainer = styled.div`
   display: flex;
+  justify-content: space-between;
 `
 
 export const Name = styled.p`
   color: ${colors.white};
+  font-style: italic;
+  font-size: 16px;
 `
 export const Time = styled.p`
   color: ${colors.white};
@@ -62,6 +65,7 @@ export const Time = styled.p`
 `
 
 export const MessageContainer = styled.div`
+  margin-top: ${spacings.tiny};
   p {
     color: ${(props) => props.color};
     word-wrap: break-word;

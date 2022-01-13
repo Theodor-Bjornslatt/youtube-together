@@ -2,7 +2,11 @@ import React from 'react'
 
 import { CheckboxContainer, Label, StyledCheckbox } from './Checkbox.styled'
 
-type CheckboxProps = any
+type CheckboxProps = {
+  label: string
+  onClick: () => void
+  checked: boolean
+}
 
 const Checkbox = ({ label, onClick, checked }: CheckboxProps) => {
   return (

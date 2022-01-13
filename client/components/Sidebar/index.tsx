@@ -16,16 +16,16 @@ type SidebarProp = {
   users: User[] | undefined
 }
 function Sidebar({ users }: SidebarProp) {
-  const [display, setDisplay] = useState('users')
+  const [display, setDisplay] = useState(true)
   const { playlist, setPlaylist } = useSockets()
   return (
     <Container>
       <ButtonContainer>
-        <UsersButton onClick={() => setDisplay('users')}>Users</UsersButton>
-        <Button onClick={() => setDisplay('playlist')}>Playlist</Button>
+        <UsersButton onClick={() => setDisplay(true)}>Users</UsersButton>
+        <Button onClick={() => setDisplay(false)}>Playlist</Button>
       </ButtonContainer>
-      {display == 'users' && <ActiveUsers users={users} />}
-      {display == 'playlist' && playlist && (
+      {display && <ActiveUsers users={users} />}
+      {!display && playlist && (
         <PlaylistContainer>
           <Playlist playlist={playlist} setPlaylist={setPlaylist} />
         </PlaylistContainer>

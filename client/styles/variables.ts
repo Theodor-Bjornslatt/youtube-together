@@ -63,6 +63,7 @@ export const borderRadius: BorderRadius = {
 }
 
 type Spacings = {
+  tiny: '5px'
   extraExtraSmall: '10px'
   extraSmall: '18px'
   small: '24px'
@@ -74,6 +75,7 @@ type Spacings = {
 }
 
 export const spacings: Spacings = {
+  tiny: '5px',
   extraExtraSmall: '10px',
   extraSmall: '18px',
   small: '24px',

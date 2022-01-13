@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import io, { Socket } from 'socket.io-client'
 
 import { User } from './GlobalState'
@@ -10,7 +17,7 @@ type Context = {
   playlist?: PlaylistData[]
   activeUsers?: User[]
   setMessages: (data: MessageData) => void
-  setPlaylist: (data: PlaylistData) => void
+  setPlaylist: Dispatch<SetStateAction<PlaylistData[]>>
   cleanUpSocketStates: () => void
   roomId?: string
   rooms: object
@@ -54,7 +61,6 @@ function SocketsProvider(props: any) {
   const [messages, setMessages] = useState<MessageData[]>([])
   const [playlist, setPlaylist] = useState<PlaylistData[]>([])
   const [activeUsers, setActiveUsers] = useState<User[]>([])
-
   useEffect(() => {
     if (!socket) return
 
