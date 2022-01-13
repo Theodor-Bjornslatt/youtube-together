@@ -70,17 +70,9 @@ export const postRoom = async (body: IRoom): Promise<IRoom> => {
   const { name, playlist, nickname } = body
   await validateRoom({ name, playlist })
 
-  // on backend or on frontend
-  const updatedPlaylist = playlist.map((item, i) => {
-    return {
-      ...item,
-      order: i
-    }
-  })
-
   const room = new Room({
     name,
-    playlist: updatedPlaylist,
+    playlist,
     nickname
   })
 

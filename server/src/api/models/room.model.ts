@@ -10,8 +10,7 @@ const roomSchema = new Schema(
     playlist: [
       {
         url: { type: String, required: [true, 'Must enter URL'] },
-        title: { type: String, default: 'No title' },
-        order: { type: Number }
+        title: { type: String, default: 'No title' }
       }
     ],
     nickname: { type: String, default: 'members' }
