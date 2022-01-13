@@ -51,7 +51,7 @@ export default function VideoList({ playlist, setPlaylist }: PlaylistProps) {
       playlist.map((item) => (
         <PlaylistItem
           startDrag={startDrag}
-          key={item.id}
+          key={item.id || item._id}
           item={item}
           onPointerEnter={onPointerEnter}
           isActive={draggedItem != undefined}
@@ -79,7 +79,7 @@ export default function VideoList({ playlist, setPlaylist }: PlaylistProps) {
             {playlistCopy?.map((item) => (
               <PlaylistItem
                 startDrag={startDrag}
-                key={item.id}
+                key={item.id || item._id}
                 item={item}
                 onPointerEnter={onPointerEnter}
                 isActive={draggedItem != undefined}

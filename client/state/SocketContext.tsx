@@ -32,8 +32,9 @@ export type MessageData = {
 }
 
 export type PlaylistData = {
+  _id?: string
   url: string
-  _id: string
+  title: string
 }
 
 const socket =
