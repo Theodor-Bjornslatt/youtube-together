@@ -16,4 +16,9 @@ router
   .route('/rooms/:id/messages')
   .get(catchAsync(RoomController.apiGetMessages))
 
+router
+  .route('/rooms/:id/playlist')
+  .post(catchAsync(RoomController.apiAddToPlaylist))
+  .patch(catchAsync(RoomController.apiUpdatePlaylist))
+
 export default router
