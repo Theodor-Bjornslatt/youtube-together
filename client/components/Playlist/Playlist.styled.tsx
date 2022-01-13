@@ -3,6 +3,9 @@ import styled, { keyframes } from 'styled-components'
 import {
   borders,
   colors,
+  fonts,
+  lineHeights,
+  fontSizes,
   fontWeights,
   headerBoxHeights,
   spacings
@@ -49,6 +52,7 @@ export const PlaylistItemContainer = styled.div<DraggingProps>`
   background: ${colors.darkest};
   border: ${borders.light};
   margin: ${spacings.extraSmall} 0;
+  padding: ${spacings.extraSmall};
   ${(props) =>
     props.isDragging &&
     `
@@ -66,14 +70,19 @@ export const PlaylistItemContainer = styled.div<DraggingProps>`
   }
 `
 
-export const PlaylistTextContainer = styled.div`
+export const PlaylistText = styled.h4`
+  overflow: hidden;
+  text-overflow: ellipsis;
   max-width: 100%;
-  padding: ${spacings.extraSmall};
+  white-space: nowrap;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: ${fontWeights.regular};
 
-  h4 {
-    overflow: hidden;
-    font-weight: ${fontWeights.bold};
-    word-wrap: wrap;
+  span {
+    font-family: ${fonts.roboto};
+    font-weight: ${fontWeights.regular};
+    font-size: ${fontSizes.medium};
+    line-height: ${lineHeights.medium};
   }
 `
 
