@@ -2,19 +2,22 @@ import { ProgressBar } from './VideoController.styled'
 
 type VideoControllerProps = {
   duration: number | undefined
-  currentSeek: number
+  currentTimestamp: number
+  onChange: (e: any) => void
 }
 
 export default function VideoController({
   duration,
-  currentSeek
+  currentTimestamp,
+  onChange
 }: VideoControllerProps) {
   return (
     <ProgressBar
       type="range"
       min={0}
       max={duration}
-      value={currentSeek}
+      value={currentTimestamp}
+      onChange={onChange}
     ></ProgressBar>
   )
 }

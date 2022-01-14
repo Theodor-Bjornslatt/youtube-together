@@ -87,7 +87,7 @@ export const spacings: Spacings = {
 }
 
 export const shadows = {
-  slider: '1px 1px 1px #50555c',
+  slider: '5px 6px 5px rgba(235, 201, 201, 0.08)',
   small: '5px 6px 30px rgba(235, 201, 201, 0.08)',
   large: '6px 8px 50px rgba(235, 201, 201, 0.03)'
 }

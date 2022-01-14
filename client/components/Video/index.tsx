@@ -10,7 +10,7 @@ export default function Video() {
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
   const urls = playlist?.map((item) => item.url)
-  const [currentSeek, setCurrentSeek] = useState(0)
+  const [currentTimestamp, setCurrentTimestamp] = useState(0)
 
   const youtubeConfig = {
     youtube: {
@@ -26,7 +26,12 @@ export default function Video() {
   }
 
   const handleProgress = (e: any) => {
-    setCurrentSeek(e.playedSeconds)
+    setCurrentTimestamp(e.playedSeconds)
+  }
+
+  const handleTimestampChange = (e: any): void => {
+    setCurrentTimestamp(e.target.value)
+    player && player.seekTo(e.target.value)
   }
 
   if (player) player.allowFullscreen = 0
@@ -47,7 +52,8 @@ export default function Video() {
       </div>
       <VideoController
         duration={player?.getDuration || 100}
-        currentSeek={currentSeek}
+        currentTimestamp={currentTimestamp}
+        onChange={handleTimestampChange}
       />
       <button onClick={() => setIsPlaying((prev) => !prev)}>
         {isPlaying ? 'Pause' : 'Play'}
