@@ -3,7 +3,7 @@ import { ChangeEvent, MouseEvent, TouchEvent } from 'react'
 import { ProgressBar } from './VideoController.styled'
 
 type VideoControllerProps = {
-  duration: number | undefined
+  duration: number
   currentTimestamp: number
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   syncTimestamp: (e: MouseEvent | TouchEvent) => void

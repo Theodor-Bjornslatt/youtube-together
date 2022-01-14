@@ -55,7 +55,7 @@ export default function Video() {
         )} */}
       </div>
       <VideoController
-        duration={player?.getDuration || 100}
+        duration={player ? player.getDuration() : 100}
         currentTimestamp={currentTimestamp}
         onChange={handleTimestampChange}
         syncTimestamp={handleBroadCastSync}
