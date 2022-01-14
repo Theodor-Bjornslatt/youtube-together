@@ -24,10 +24,8 @@ export const ProgressBar = styled.input`
     width: 100%;
     height: ${lineHeights.extraExtraSmall};
     cursor: pointer;
-
     box-shadow: ${shadows.small};
     background: ${colors.transparentBrown};
-
     border-radius: ${borderRadius.small};
   }
 
@@ -40,6 +38,7 @@ export const ProgressBar = styled.input`
     transition-duration: 0.2s;
     transition-delay: 0.2s;
     -webkit-appearance: none;
+
     &:hover {
       height: ${lineHeights.extraSmall};
       margin-top: -5px;
@@ -66,6 +65,7 @@ export const ProgressBar = styled.input`
     background: ${colors.atriumWhite};
     cursor: pointer;
     -webkit-appearance: none;
+
     &:hover {
       height: ${lineHeights.extraSmall};
       margin-top: -5px;
@@ -88,6 +88,7 @@ export const ProgressBar = styled.input`
     background: ${colors.atriumWhite};
     cursor: pointer;
     -webkit-appearance: none;
+
     &:hover {
       height: ${lineHeights.extraSmall};
       margin-top: -5px;
@@ -96,12 +97,14 @@ export const ProgressBar = styled.input`
 
   @media screen and (max-width: ${sizes.tablet}px) {
     height: ${lineHeights.extraSmall};
+
     ::-webkit-slider-runnable-track {
       height: ${lineHeights.extraSmall};
     }
 
     ::-webkit-slider-thumb {
       height: ${lineHeights.extraSmall};
+
       &:hover {
         margin-top: 0px;
       }
@@ -114,6 +117,7 @@ export const ProgressBar = styled.input`
       height: ${lineHeights.extraSmall};
       width: ${spacings.medium};
       border-radius: ${borderRadius.large};
+
       &:hover {
         margin-top: 0px;
       }
@@ -126,6 +130,7 @@ export const ProgressBar = styled.input`
     ::-ms-thumb {
       height: ${lineHeights.extraSmall};
       width: ${spacings.large};
+
       &:hover {
         margin-top: 0px;
       }
