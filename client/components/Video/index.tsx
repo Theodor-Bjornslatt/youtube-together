@@ -1,9 +1,9 @@
 import { useState, useRef, ChangeEvent } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
+import VideoController from './VideoController'
 import { VideoPlayer } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
-import VideoController from '../VideoController'
 
 export default function Video() {
   const { playlist } = useSockets()
