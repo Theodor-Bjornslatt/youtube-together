@@ -1,6 +1,6 @@
 import { ISocket } from '../../interfaces'
 
-export const verify = (socket: ISocket, next: any): void => {
+export const verify = (socket: ISocket, next: () => void): void => {
   // eslint-disable-next-line no-param-reassign
   socket.username = socket.handshake.query.username
   // eslint-disable-next-line no-param-reassign

@@ -1,4 +1,11 @@
-import { createContext, useContext, useEffect, useState } from 'react'
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useEffect,
+  useState
+} from 'react'
 import io, { Socket } from 'socket.io-client'
 
 import { User } from './GlobalState'
@@ -9,11 +16,10 @@ type Context = {
   messages?: MessageData[]
   playlist?: PlaylistData[]
   activeUsers?: User[]
-  setMessages: (data: MessageData) => void
-  setPlaylist: (data: PlaylistData) => void
+  setMessages: Dispatch<SetStateAction<MessageData[]>>
+  setPlaylist: Dispatch<SetStateAction<PlaylistData[]>>
   cleanUpSocketStates: () => void
   roomId?: string
-  rooms: object
 }
 
 type RoomStateData = {
@@ -32,8 +38,9 @@ export type MessageData = {
 }
 
 export type PlaylistData = {
+  _id?: string
   url: string
-  _id: string
+  title: string
 }
 
 const socket =
@@ -44,16 +51,18 @@ const SocketContext = createContext<Context>({
   setMessages: () => null,
   setPlaylist: () => null,
   cleanUpSocketStates: () => null,
-  rooms: {},
   messages: [],
   playlist: []
 })
+type SocketProviderProps = {
+  isLoggedIn: boolean
+  children: JSX.Element[] | JSX.Element
+}
 
-function SocketsProvider(props: any) {
+function SocketsProvider({ children }: SocketProviderProps) {
   const [messages, setMessages] = useState<MessageData[]>([])
   const [playlist, setPlaylist] = useState<PlaylistData[]>([])
   const [activeUsers, setActiveUsers] = useState<User[]>([])
-
   useEffect(() => {
     if (!socket) return
 
@@ -102,8 +111,9 @@ function SocketsProvider(props: any) {
         setPlaylist,
         cleanUpSocketStates
       }}
-      {...props}
-    />
+    >
+      {children}
+    </SocketContext.Provider>
   )
 }
 

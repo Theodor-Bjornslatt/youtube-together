@@ -5,13 +5,7 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "react",
-    "unused-imports",
-    "import",
-    "jsx-a11y",
-    "prettier"
-  ],
+  "plugins": ["react", "unused-imports", "import", "jsx-a11y", "prettier"],
   "extends": [
     "eslint:recommended",
     "plugin:import/errors",
@@ -23,10 +17,7 @@
   ],
   "settings": {
     "import/parsers": {
-      "@typescript-eslint/parser": [
-        ".ts",
-        ".tsx"
-      ]
+      "@typescript-eslint/parser": [".ts", ".tsx"]
     },
     "import/resolver": {
       "typescript": {}
@@ -45,9 +36,7 @@
     "import/order": [
       "error",
       {
-        "groups": [
-          ["builtin", "external"]
-        ],
+        "groups": [["builtin", "external"]],
         "newlines-between": "always"
       }
     ],
@@ -59,7 +48,7 @@
       "error",
       {
         "required": {
-          "every": ["nesting","id"]
+          "every": ["nesting", "id"]
         }
       }
     ],
@@ -71,6 +60,6 @@
     "react/react-in-jsx-scope": "off",
     "unused-imports/no-unused-imports-ts": "error",
     "unused-imports/no-unused-vars-ts": "error",
-    "@typescript-eslint/no-explicit-any": "off"
+    "@typescript-eslint/no-explicit-any": "warn"
   }
 }

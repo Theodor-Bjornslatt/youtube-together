@@ -8,6 +8,7 @@ type ColorProp = {
 
 export const Container = styled.div`
   width: 100%;
+  padding: ${spacings.extraSmall};
 `
 
 export const UserContainer = styled.div`

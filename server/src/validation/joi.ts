@@ -15,8 +15,7 @@ export const validate = async (
   try {
     await schema.validateAsync(payload, { abortEarly: false })
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    // eslint-disable-next-line @typescript-eslint/no-throw-literal
-    throw new BadRequest(error.message)
+  } catch (error) {
+    if (error instanceof Error) throw new BadRequest(error.message)
   }
 }

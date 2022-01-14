@@ -9,49 +9,66 @@ import {
   sizes,
   spacings
 } from '../../styles/variables'
+import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
-export const ChatContainer = styled.div`
+export const ChatContainer = styled(MaxWidthContainerStyled)`
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 `
 
 export const MessageListContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  gap: ${spacings.large};
   height: 500px;
   width: 100%;
   overflow-y: auto;
-  padding: ${spacings.medium} ${spacings.small};
+  padding: ${spacings.small} ${spacings.small} 0 ${spacings.small};
+
+  &:not(:last-child) {
+    margin-bottom: -${spacings.extraSmall};
+  }
 
   @media screen and (max-width: ${sizes.mobile}px) {
-    gap: ${spacings.small};
+    padding: ${spacings.small} ${spacings.extraSmall} 0
+      ${spacings.extraExtraSmall};
+  }
+
+  @media screen and (max-width: ${sizes.mobileSmall}px) {
+    padding: ${spacings.extraExtraSmall} ${spacings.extraExtraSmall} 0 0;
   }
 `
 
 export const Card = styled.div`
-  background: ${colors.dark};
-  padding: ${spacings.small} ${spacings.small} ${spacings.medium};
+  background: ${colors.darkest};
+  padding: 0 ${spacings.extraSmall};
   position: relative;
   border-radius: ${borderRadius.small};
+  margin: ${spacings.extraExtraSmall} 0;
 `
-
 export const InfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
-  width: 100%;
+`
 
-  p {
-    font-size: ${fontSizes.extraSmall};
-  }
+export const Name = styled.p`
+  color: ${colors.white};
+  font-style: italic;
+  font-size: 16px;
+`
+export const Time = styled.p`
+  color: ${colors.white};
+  font-size: 12px;
+  margin-left: ${spacings.extraExtraSmall};
 `
 
 export const MessageContainer = styled.div`
-  margin-top: ${spacings.extraSmall};
+  margin-top: ${spacings.tiny};
   p {
     color: ${(props) => props.color};
+    word-wrap: break-word;
   }
 `
 

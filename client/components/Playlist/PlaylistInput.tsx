@@ -65,7 +65,7 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
   }
 
   async function addItem() {
-    const res: any = await fetch(`https://noembed.com/embed?url=${values.url}`)
+    const res = await fetch(`https://noembed.com/embed?url=${values.url}`)
     const { title } = await res.json()
 
     setPlaylist((prev) => [
