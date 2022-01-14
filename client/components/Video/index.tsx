@@ -34,6 +34,10 @@ export default function Video() {
     player && player.seekTo(e.target.value)
   }
 
+  const handleBroadCastSync = (e: any): void => {
+    console.log('broadcast', e.target.value)
+  }
+
   if (player) player.allowFullscreen = 0
   const [isPlaying, setIsPlaying] = useState(false)
   return (
@@ -54,6 +58,7 @@ export default function Video() {
         duration={player?.getDuration || 100}
         currentTimestamp={currentTimestamp}
         onChange={handleTimestampChange}
+        syncTimestamp={handleBroadCastSync}
       />
       <button onClick={() => setIsPlaying((prev) => !prev)}>
         {isPlaying ? 'Pause' : 'Play'}

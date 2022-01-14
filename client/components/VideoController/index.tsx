@@ -4,12 +4,14 @@ type VideoControllerProps = {
   duration: number | undefined
   currentTimestamp: number
   onChange: (e: any) => void
+  syncTimestamp: (e: any) => void
 }
 
 export default function VideoController({
   duration,
   currentTimestamp,
-  onChange
+  onChange,
+  syncTimestamp
 }: VideoControllerProps) {
   return (
     <ProgressBar
@@ -18,6 +20,8 @@ export default function VideoController({
       max={duration}
       value={currentTimestamp}
       onChange={onChange}
+      onMouseUp={syncTimestamp}
+      onTouchEnd={syncTimestamp}
     ></ProgressBar>
   )
 }
