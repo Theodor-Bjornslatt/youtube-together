@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState, useRef, ChangeEvent } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
 import { VideoPlayer } from './Video.styled'
@@ -29,8 +29,8 @@ export default function Video() {
     setCurrentTimestamp(e.playedSeconds)
   }
 
-  const handleTimestampChange = (e: any): void => {
-    setCurrentTimestamp(e.target.value)
+  const handleTimestampChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setCurrentTimestamp(Number(e.target.value))
     player && player.seekTo(e.target.value)
   }
 
