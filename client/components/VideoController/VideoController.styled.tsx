@@ -5,6 +5,7 @@ import {
   colors,
   lineHeights,
   shadows,
+  sizes,
   spacings
 } from '../../styles/variables'
 
@@ -83,6 +84,35 @@ export const ProgressBar = styled.input`
     &:hover {
       height: ${lineHeights.extraSmall};
       margin-top: -5px;
+    }
+  }
+
+  @media screen and (max-width: ${sizes.tablet}px) {
+    height: ${lineHeights.extraSmall};
+    ::-webkit-slider-runnable-track {
+      height: ${lineHeights.extraSmall};
+    }
+
+    ::-webkit-slider-thumb {
+      height: ${lineHeights.extraSmall};
+    }
+    ::-moz-range-track {
+      height: ${lineHeights.extraSmall};
+    }
+
+    ::-moz-range-thumb {
+      height: ${lineHeights.extraSmall};
+      width: ${spacings.medium};
+      border-radius: ${borderRadius.large};
+    }
+
+    ::-ms-track {
+      height: ${lineHeights.extraSmall};
+    }
+
+    ::-ms-thumb {
+      height: ${lineHeights.extraSmall};
+      width: ${spacings.large};
     }
   }
 `
