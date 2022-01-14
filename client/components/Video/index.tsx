@@ -2,8 +2,11 @@ import { useState, useRef, ChangeEvent } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
 import VideoController from './VideoController'
-import { VideoPlayer } from './Video.styled'
+import { PlayButton, VideoPlayer } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
+import NextImage from '../NextImage'
+import start from '../../public/play.png'
+import pause from '../../public/pause.png'
 
 export default function Video() {
   const { playlist } = useSockets()
@@ -60,9 +63,14 @@ export default function Video() {
         onChange={handleTimestampChange}
         syncTimestamp={handleBroadCastSync}
       />
-      <button onClick={() => setIsPlaying((prev) => !prev)}>
-        {isPlaying ? 'Pause' : 'Play'}
-      </button>
+      <PlayButton onClick={() => setIsPlaying((prev) => !prev)}>
+        {isPlaying ? (
+          <NextImage src={pause} width={30} height={30} />
+        ) : (
+          <NextImage src={start} width={30} height={30} />
+        )}
+      </PlayButton>
     </>
   )
 }
+// emitta till rummet att man startat/pausar

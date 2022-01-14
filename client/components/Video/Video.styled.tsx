@@ -15,3 +15,8 @@ export const PauseOverlay = styled.div`
   bottom: 0;
   color: ${colors.white};
 `
+
+export const PlayButton = styled.button`
+  background-color: inherit;
+  border: none;
+`
