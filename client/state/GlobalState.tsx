@@ -65,7 +65,6 @@ export const GlobalContextProvider = ({
   }, [windowSize])
 
   useEffect(() => {
-    console.log('here', isLoggedIn)
     dispatch({ type: 'loggedIn', payload: isLoggedIn })
   }, [isLoggedIn])
 
