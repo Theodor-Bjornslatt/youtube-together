@@ -31,14 +31,14 @@ export default function Footer() {
           <FooterLinkSection>
             <Link href={'/'}>Home</Link>
             <Link href={'/rooms'}>Rooms</Link>
+            {state.loggedIn && <Link href={'/create-room'}>Create Room</Link>}
+          </FooterLinkSection>
+          <FooterLinkSection>
             {!state.loggedIn ? (
               <Link href={'/login'}>Login</Link>
             ) : (
               <LogoutButton onClick={handleLogout}>Logout</LogoutButton>
             )}
-          </FooterLinkSection>
-          <FooterLinkSection>
-            {state.loggedIn && <Link href={'/create-room'}>Create Room</Link>}
           </FooterLinkSection>
         </FooterContentContainer>
       </FooterContainer>
