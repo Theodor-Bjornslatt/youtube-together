@@ -3,12 +3,14 @@ import ReactPlayer from 'react-player/lazy'
 
 import { VideoPlayer } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
+import VideoController from '../VideoController'
 
 export default function Video() {
   const { playlist } = useSockets()
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
   const urls = playlist?.map((item) => item.url)
+  const [currentSeek, setCurrentSeek] = useState(0)
 
   const youtubeConfig = {
     youtube: {
@@ -23,6 +25,10 @@ export default function Video() {
     }
   }
 
+  const handleProgress = (e: any) => {
+    setCurrentSeek(e.playedSeconds)
+  }
+
   if (player) player.allowFullscreen = 0
   const [isPlaying, setIsPlaying] = useState(false)
   return (
@@ -33,11 +39,16 @@ export default function Video() {
           ref={ref}
           playing={isPlaying}
           config={youtubeConfig}
+          onProgress={handleProgress}
         />
         {/* {!isPlaying && (
           <PauseOverlay>The host has paused this video</PauseOverlay>
         )} */}
       </div>
+      <VideoController
+        duration={player?.getDuration || 100}
+        currentSeek={currentSeek}
+      />
       <button onClick={() => setIsPlaying((prev) => !prev)}>
         {isPlaying ? 'Pause' : 'Play'}
       </button>
