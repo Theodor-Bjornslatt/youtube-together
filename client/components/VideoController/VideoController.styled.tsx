@@ -25,7 +25,8 @@ export const ProgressBar = styled.input`
     cursor: pointer;
 
     box-shadow: ${shadows.small};
-    background: ${colors.transparentDark};
+    background: ${colors.transparentBrown};
+
     border-radius: ${borderRadius.small};
   }
 
@@ -33,12 +34,12 @@ export const ProgressBar = styled.input`
     height: ${lineHeights.extraExtraSmall};
     width: ${spacings.medium};
     border-radius: ${borderRadius.large};
-    background: ${colors.brown};
+    background: ${colors.atriumWhite};
     cursor: pointer;
     -webkit-appearance: none;
 
     :focus::-webkit-slider-runnable-track {
-      background: ${colors.transparentDark};
+      background: ${colors.transparentBrown};
     }
 
     ::-moz-range-track {
@@ -46,7 +47,7 @@ export const ProgressBar = styled.input`
       height: ${lineHeights.extraExtraSmall};
       cursor: pointer;
       box-shadow: ${shadows.small};
-      background: ${colors.transparentDark};
+      background: ${colors.transparentBrown};
       border-radius: ${borderRadius.small};
     }
 
@@ -54,7 +55,7 @@ export const ProgressBar = styled.input`
       height: ${lineHeights.extraExtraSmall};
       width: ${spacings.medium};
       border-radius: ${borderRadius.large};
-      background: ${colors.brown};
+      background: ${colors.atriumWhite};
       cursor: pointer;
       -webkit-appearance: none;
     }
@@ -72,7 +73,7 @@ export const ProgressBar = styled.input`
       height: ${lineHeights.extraExtraSmall};
       width: ${spacings.medium};
       border-radius: ${borderRadius.large};
-      background: ${colors.brown};
+      background: ${colors.atriumWhite};
       cursor: pointer;
       -webkit-appearance: none;
     }
