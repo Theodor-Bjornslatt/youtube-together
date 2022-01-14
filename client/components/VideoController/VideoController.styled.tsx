@@ -40,47 +40,54 @@ export const ProgressBar = styled.input`
     transition-duration: 0.2s;
     transition-delay: 0.2s;
     -webkit-appearance: none;
-
-    :focus::-webkit-slider-runnable-track {
-      background: ${colors.transparentBrown};
+    &:hover {
+      height: ${lineHeights.extraSmall};
+      margin-top: -5px;
     }
+  }
 
-    ::-moz-range-track {
-      width: 100%;
-      height: ${lineHeights.extraExtraSmall};
-      cursor: pointer;
-      box-shadow: ${shadows.small};
-      background: ${colors.transparentBrown};
-      border-radius: ${borderRadius.small};
+  :focus::-webkit-slider-runnable-track {
+    background: ${colors.transparentBrown};
+  }
+
+  ::-moz-range-track {
+    width: 100%;
+    height: ${lineHeights.extraExtraSmall};
+    cursor: pointer;
+    box-shadow: ${shadows.small};
+    background: ${colors.transparentBrown};
+    border-radius: ${borderRadius.small};
+  }
+
+  ::-moz-range-thumb {
+    height: ${lineHeights.extraExtraSmall};
+    width: ${spacings.medium};
+    border-radius: ${borderRadius.large};
+    background: ${colors.atriumWhite};
+    cursor: pointer;
+    -webkit-appearance: none;
+    &:hover {
+      height: ${lineHeights.extraSmall};
+      margin-top: -5px;
     }
+  }
 
-    ::-moz-range-thumb {
-      height: ${lineHeights.extraExtraSmall};
-      width: ${spacings.medium};
-      border-radius: ${borderRadius.large};
-      background: ${colors.atriumWhite};
-      cursor: pointer;
-      -webkit-appearance: none;
-    }
+  ::-ms-track {
+    height: ${lineHeights.extraExtraSmall};
+    width: 100%;
+    cursor: pointer;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
 
-    ::-ms-track {
-      height: ${lineHeights.extraExtraSmall};
-      width: 100%;
-      cursor: pointer;
-      background: transparent;
-      border-color: transparent;
-      color: transparent;
-    }
-
-    ::-ms-thumb {
-      height: ${lineHeights.extraExtraSmall};
-      width: ${spacings.medium};
-      border-radius: ${borderRadius.large};
-      background: ${colors.atriumWhite};
-      cursor: pointer;
-      -webkit-appearance: none;
-    }
-
+  ::-ms-thumb {
+    height: ${lineHeights.extraExtraSmall};
+    width: ${spacings.medium};
+    border-radius: ${borderRadius.large};
+    background: ${colors.atriumWhite};
+    cursor: pointer;
+    -webkit-appearance: none;
     &:hover {
       height: ${lineHeights.extraSmall};
       margin-top: -5px;
@@ -95,6 +102,9 @@ export const ProgressBar = styled.input`
 
     ::-webkit-slider-thumb {
       height: ${lineHeights.extraSmall};
+      &:hover {
+        margin-top: 0px;
+      }
     }
     ::-moz-range-track {
       height: ${lineHeights.extraSmall};
@@ -104,6 +114,9 @@ export const ProgressBar = styled.input`
       height: ${lineHeights.extraSmall};
       width: ${spacings.medium};
       border-radius: ${borderRadius.large};
+      &:hover {
+        margin-top: 0px;
+      }
     }
 
     ::-ms-track {
@@ -113,10 +126,9 @@ export const ProgressBar = styled.input`
     ::-ms-thumb {
       height: ${lineHeights.extraSmall};
       width: ${spacings.large};
-    }
-
-    &:hover {
-      height: ${lineHeights.extraSmall};
+      &:hover {
+        margin-top: 0px;
+      }
     }
   }
 `
