@@ -1,6 +1,6 @@
 import {
   PlaylistItemContainer,
-  PlaylistTextContainer,
+  PlaylistText,
   PlaylistIconContainer
 } from './Playlist.styled'
 import NextImage from '../NextImage'
@@ -41,9 +41,9 @@ export default function PlaylistItem({
         }`
       }}
     >
-      <PlaylistTextContainer>
-        <h4>{item.title}</h4>
-      </PlaylistTextContainer>
+      <PlaylistText>
+        <span>{item.title}</span>
+      </PlaylistText>
       <PlaylistIconContainer>
         <NextImage src={play} width={34} height={34} />
       </PlaylistIconContainer>
