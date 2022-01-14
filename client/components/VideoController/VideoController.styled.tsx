@@ -36,6 +36,8 @@ export const ProgressBar = styled.input`
     border-radius: ${borderRadius.large};
     background: ${colors.atriumWhite};
     cursor: pointer;
+    transition-duration: 0.2s;
+    transition-delay: 0.2s;
     -webkit-appearance: none;
 
     :focus::-webkit-slider-runnable-track {
@@ -76,6 +78,11 @@ export const ProgressBar = styled.input`
       background: ${colors.atriumWhite};
       cursor: pointer;
       -webkit-appearance: none;
+    }
+
+    &:hover {
+      height: ${lineHeights.extraSmall};
+      margin-top: -5px;
     }
   }
 `
