@@ -16,6 +16,7 @@ export default function VideoController({
   return (
     <ProgressBar
       type="range"
+      step="0.1"
       min={0}
       max={duration}
       value={currentTimestamp}

@@ -114,5 +114,9 @@ export const ProgressBar = styled.input`
       height: ${lineHeights.extraSmall};
       width: ${spacings.large};
     }
+
+    &:hover {
+      height: ${lineHeights.extraSmall};
+    }
   }
 `
