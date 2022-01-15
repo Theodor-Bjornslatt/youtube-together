@@ -3,5 +3,6 @@ export const SOCKET_EVENT = {
   DISCONNECT: 'disconnecting',
   JOIN: 'join',
   LEAVE: 'leave',
-  CHAT: 'chat'
+  CHAT: 'chat',
+  STATUS: 'status'
 }

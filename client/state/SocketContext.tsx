@@ -70,6 +70,11 @@ function SocketsProvider({ children }: SocketProviderProps) {
       setMessages((messages) => [...messages, data])
     })
 
+    socket.on('status', (data: number) => {
+      console.log('Playing = 1, Paus = 2')
+      console.log(data)
+    })
+
     socket.on('pre-room', (data: RoomStateData) => {
       // console.log('data :>> ', data)
       setMessages((messages) => [...messages, ...data.messages])

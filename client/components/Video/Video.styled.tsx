@@ -19,4 +19,5 @@ export const PauseOverlay = styled.div`
 export const PlayButton = styled.button`
   background-color: inherit;
   border: none;
+  cursor: pointer;
 `
