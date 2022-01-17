@@ -20,9 +20,13 @@ import {
 
 type PlaylistInputProps = {
   setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
+  onVideoAdd?: (item: PlayItem) => Promise<void>
 }
 
-export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
+export default function PlaylistInput({
+  setPlaylist,
+  onVideoAdd
+}: PlaylistInputProps) {
   const { values, onChangeHandler } = useForm(() => null, { url: '' })
 
   const [isUrlValid, setIsUrlValid] = useState(false)
@@ -74,6 +78,12 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
     ])
     setId((prev) => prev + 1)
     setShouldTextFadeIn(false)
+
+    onVideoAdd &&
+      onVideoAdd({
+        url: values.url,
+        title: title
+      })
   }
 
   useEffect(() => {

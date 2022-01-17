@@ -18,8 +18,9 @@ type SidebarProp = {
     item: PlayItem | undefined,
     playlist: PlayItem[]
   ) => Promise<void>
+  onVideoAdd: (item: PlayItem) => Promise<void>
 }
-function Sidebar({ users, onEndDrag }: SidebarProp) {
+function Sidebar({ users, onEndDrag, onVideoAdd }: SidebarProp) {
   const [display, setDisplay] = useState(true)
   const { playlist, setPlaylist } = useSockets()
   return (
@@ -32,6 +33,7 @@ function Sidebar({ users, onEndDrag }: SidebarProp) {
       {!display && playlist && (
         <PlaylistContainer>
           <Playlist
+            onVideoAdd={onVideoAdd}
             playlist={playlist}
             setPlaylist={setPlaylist}
             onEndDrag={onEndDrag}

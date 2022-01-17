@@ -16,16 +16,18 @@ export type PlaylistProps = {
     item: PlayItem | undefined,
     playlist: PlayItem[]
   ) => Promise<void>
+  onVideoAdd?: (item: PlayItem) => Promise<void>
 }
 
 export default function Playlist({
   playlist,
   setPlaylist,
-  onEndDrag
+  onEndDrag,
+  onVideoAdd
 }: PlaylistProps) {
   return (
     <Container>
-      <PlaylistInput setPlaylist={setPlaylist} />
+      <PlaylistInput onVideoAdd={onVideoAdd} setPlaylist={setPlaylist} />
       <VideoList
         playlist={playlist}
         setPlaylist={setPlaylist}

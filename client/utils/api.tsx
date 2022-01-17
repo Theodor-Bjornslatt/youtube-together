@@ -62,3 +62,20 @@ export const apiSaveNewPlaylistOrder = async (room: string, data: any) => {
     body: JSON.stringify(data)
   })
 }
+
+export const apiPostPlaylistItem = async (room: string, data: any) => {
+  try {
+    const res = await fetch(
+      `http://localhost:8080/api/rooms/${room}/playlist`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item: data })
+      }
+    )
+    if (!res.ok) console.log('res :>> ', res)
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}

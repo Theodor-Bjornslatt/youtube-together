@@ -9,7 +9,11 @@ import Sidebar from '../../components/Sidebar'
 import Video from '../../components/Video'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
-import { apiSaveNewPlaylistOrder, serverSideWhoAmI } from '../../utils/api'
+import {
+  apiPostPlaylistItem,
+  apiSaveNewPlaylistOrder,
+  serverSideWhoAmI
+} from '../../utils/api'
 import { Aside, ChatContainer, Container } from './room.styled'
 
 type CurrentUserData = {
@@ -94,6 +98,14 @@ const Room = ({ user, room }: RoomProps) => {
     const index = playlist.findIndex((it) => it._id === item._id)
     await apiSaveNewPlaylistOrder(room, { position: index, ...item })
   }
+
+  const handleVideoAdd = async (item: PlayItem) => {
+    try {
+      // eslint-disable-next-line unused-imports/no-unused-vars-ts
+      const response = await apiPostPlaylistItem(room, item)
+      // eslint-disable-next-line no-empty
+    } catch (error) {}
+  }
   return (
     <>
       <Header title={(room = room ?? 'My Room')} />
@@ -105,7 +117,11 @@ const Room = ({ user, room }: RoomProps) => {
           </ChatContainer>
         </div>
         <Aside>
-          <Sidebar users={activeUsers} onEndDrag={handlePlaylistChange} />
+          <Sidebar
+            users={activeUsers}
+            onEndDrag={handlePlaylistChange}
+            onVideoAdd={handleVideoAdd}
+          />
         </Aside>
       </Container>
     </>
