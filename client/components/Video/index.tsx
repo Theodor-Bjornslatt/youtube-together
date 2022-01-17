@@ -62,7 +62,7 @@ export default function Video({ room }: VideoProps) {
   }
 
   const handleUserVideoChange = async (value: string) => {
-    if (!playlist || !player) return
+    if (!playlist || playlist.length < 2 || !player) return
 
     const item = value === 'next' ? playlist[0] : playlist[playlist.length - 1]
     setPlaylist((old) => sortPlaylist(old, value))
