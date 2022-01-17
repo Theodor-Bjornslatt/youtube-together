@@ -70,6 +70,10 @@ export const LogoutButton = styled.button`
   font-size: ${fontSizes.medium};
   line-height: ${lineHeights.medium};
 
+  &:hover {
+    cursor: pointer;
+  }
+
   @media screen and (max-width: ${sizes.mobile}px) {
     gap: ${spacings.extraSmall};
     font-size: ${fontSizes.small};

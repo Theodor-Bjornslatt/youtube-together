@@ -1,36 +1,32 @@
 import styled from 'styled-components'
 
-import {
-  colors,
-  headerBoxHeights,
-  sizes,
-  spacings
-} from '../../styles/variables'
+import { colors, sizes, spacings } from '../../styles/variables'
 
 export const Container = styled.div`
   box-sizing: border-box;
-  margin-bottom: ${spacings.small};
   display: grid;
-  height: calc(100vh - (${headerBoxHeights.desktop}));
+  height: 100%;
   width: 100%;
   gap: ${spacings.extraExtraSmall};
   padding: 0 ${spacings.large};
-  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-columns: 3fr 1fr;
+  grid-auto-flow: column;
+  /* grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr 0.6fr 1.4fr 1fr;
   grid-template-areas:
     'video video video aside'
     'video video video aside'
     'chat chat chat aside'
-    'chat chat chat aside';
+    'chat chat chat aside'; */
 
   @media screen and (max-width: ${sizes.desktop}px) {
-    grid-template-columns: 1fr 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 0.6fr 1.4fr 1fr;
     grid-template-areas:
       'video video video'
       'video video video'
       'chat chat chat'
-      'chat chat chat';
+      'chat chat chat'; */
   }
 
   @media screen and (max-width: ${sizes.tablet}px) {
@@ -50,14 +46,14 @@ export const Video = styled.div`
 export const ChatContainer = styled.div`
   display: flex;
   width: 100%;
-  grid-area: chat;
+  /* grid-area: chat; */
   justify-content: center;
 `
 export const Aside = styled.div`
   width: 100%;
   margin: 0 1rem;
-  height: calc(100vh - ${headerBoxHeights.desktop});
-  grid-area: aside;
+  height: 100%;
+  /* grid-area: aside; */
   border-left: 1px solid ${colors.brown};
 
   @media screen and (max-width: ${sizes.desktop}px) {

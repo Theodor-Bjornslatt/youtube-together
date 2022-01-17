@@ -5,10 +5,11 @@ import { useContext, useEffect } from 'react'
 import Chat from '../../components/Chat'
 import Header from '../../components/Header'
 import Sidebar from '../../components/Sidebar'
+import Video from '../../components/Video'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import { serverSideWhoAmI } from '../../utils/api'
-import { Aside, ChatContainer, Container, Video } from './room.styled'
+import { Aside, ChatContainer, Container } from './room.styled'
 
 type CurrentUserData = {
   user?: User
@@ -61,6 +62,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Room = ({ user, room }: RoomProps) => {
   const { socket, cleanUpSocketStates, activeUsers } = useSockets()
+
   const { dispatch } = useContext(GlobalContext)
 
   useEffect(() => {
@@ -87,10 +89,12 @@ const Room = ({ user, room }: RoomProps) => {
     <>
       <Header title={(room = room ?? 'My Room')} />
       <Container>
-        <Video />
-        <ChatContainer>
-          <Chat room={room} />
-        </ChatContainer>
+        <div>
+          <Video />
+          <ChatContainer>
+            <Chat room={room} />
+          </ChatContainer>
+        </div>
         <Aside>
           <Sidebar users={activeUsers} />
         </Aside>

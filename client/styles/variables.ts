@@ -47,8 +47,10 @@ export const colors = {
   dark: '#1E1C1C',
   brown: '#2D2828',
   white: '#FFFFFF',
+  atriumWhite: '#F2EEE7',
   transparentDark: '#2D282880',
   transparentPink: '#FBECEC33',
+  transparentBrown: '#443f3f8a',
   danger: '#FF1A1A'
 }
 
@@ -87,6 +89,7 @@ export const spacings: Spacings = {
 }
 
 export const shadows = {
+  slider: '5px 6px 5px rgba(235, 201, 201, 0.08)',
   small: '5px 6px 30px rgba(235, 201, 201, 0.08)',
   large: '6px 8px 50px rgba(235, 201, 201, 0.03)'
 }
@@ -161,6 +164,7 @@ export const sizes: Sizes = {
 }
 
 type LineHeights = {
+  extraExtraSmall: '10px'
   extraSmall: '20px'
   small: '24px'
   medium: '32px'
@@ -170,6 +174,7 @@ type LineHeights = {
 }
 
 export const lineHeights: LineHeights = {
+  extraExtraSmall: '10px',
   extraSmall: '20px',
   small: '24px',
   medium: '32px',
