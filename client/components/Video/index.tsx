@@ -125,14 +125,9 @@ export default function Video({ room }: VideoProps) {
           <NextImage src={play} width={30} height={30} />
         )}
       </ControlButton>
-      <button onClick={() => setIsPlaying((prev) => !prev)}>
-        {isPlaying ? 'Pause' : 'Play'}
-      </button>
-
       <ControlButton value={'next'} onClick={playNextVideo}>
         <NextImage height={30} width={30} src={next} />
       </ControlButton>
-
       <ControlButton value={'previous'} onClick={playPreviousVideo}>
         <NextImage height={30} width={30} src={previous} />
       </ControlButton>
