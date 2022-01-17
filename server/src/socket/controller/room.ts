@@ -6,8 +6,45 @@ import { IClient, IData } from '../../interfaces'
 import log from '../../logger'
 import { getIo } from '../io'
 
+const getOnlineUsers = (room: string) => {
+  const io = getIo()
+  const clients = io.sockets.adapter.rooms.get(room)
+  const users: Array<IClient> = []
+
+  clients?.forEach((id: string) => {
+    const clientSocket = <Socket>io.sockets.sockets.get(id)
+    users.push({
+      username: clientSocket.data.username,
+      color: clientSocket.data.color
+    })
+  })
+  return users
+}
+
+const joinRoom = (socket: Socket, room: string, users: Array<IClient>) => {
+  const alreadyJoined = users.some((user) => {
+    return user.username === socket.data.username
+  })
+
+  if (!alreadyJoined) {
+    socket.join(room)
+    socket.to(room).emit('joined-room', {
+      username: socket.data.username,
+      color: socket.data.color
+    })
+  }
+}
+
+const getCurrentStateInRoom = async (room: string) => {
+  const messages = await Message.find({ room })
+    .limit(10)
+    .skip(0)
+    .select('-_id -room -__v')
+  const { playlist } = await Room.findOne({ name: room }).select('playlist')
+  return { messages, playlist }
+}
+
 export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
-  // measure speed
   const t1 = performance.now()
 
   const {
@@ -22,49 +59,18 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   this.data.username = username
   this.data.color = color
 
-  const messages = await Message.find({ room })
-    .limit(10)
-    .skip(0)
-    .select('-_id -room -__v')
-  const { playlist } = await Room.findOne({ name: room }).select('playlist')
+  const { messages, playlist } = await getCurrentStateInRoom(room)
+  const users = getOnlineUsers(room)
 
-  const clients = io.sockets.adapter.rooms.get(room)
-  const users: Array<IClient> = []
+  joinRoom(this, room, users)
 
-  clients?.forEach((id: string) => {
-    const clientSocket = <Socket>io.sockets.sockets.get(id)
-    users.push({
-      username: clientSocket.data.username,
-      color: clientSocket.data.color
-    })
-  })
-
-  // refactor
-  const alreadyJoined = users.some((user) => {
-    return user.username === username
-  })
-
-  // refactor
-  if (!alreadyJoined) {
-    this.join(room)
-    io.to(this.id).emit('pre-room', {
-      users,
-      messages,
-      playlist
-    })
-    this.to(room).emit('joined-room', { username, color })
-  } else {
-    const filteredUsers = users.filter((user) => {
+  io.to(this.id).emit('pre-room', {
+    users: users.filter((user) => {
       return user.username !== username
-    })
-    io.to(this.id).emit('pre-room', {
-      users: filteredUsers,
-      messages,
-      playlist
-    })
-  }
-
-  log.info(`${this.data.username} joined ${room}`)
+    }),
+    messages,
+    playlist
+  })
 
   // measure speed
   const t2 = performance.now()
