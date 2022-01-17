@@ -107,7 +107,7 @@ export default function Video({ room }: VideoProps) {
         )} */}
       </div>
       <VideoController
-        duration={player ? player.getDuration() : 100}
+        duration={player?.getDuration ? player.getDuration() : 100}
         currentTimestamp={currentTimestamp}
         onChange={handleTimestampChange}
         syncTimestamp={handleBroadCastSync}
