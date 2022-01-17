@@ -61,10 +61,9 @@ export default function Video({ room }: VideoProps) {
     console.log('broadcast', e.target.value)
   }
 
-  const handleUserVideoChange = async (e: any) => {
+  const handleUserVideoChange = async (value: string) => {
     if (!playlist || !player) return
 
-    const value = e.target.value
     const item = value === 'next' ? playlist[0] : playlist[playlist.length - 1]
     setPlaylist((old) => sortPlaylist(old, value))
 
@@ -87,7 +86,7 @@ export default function Video({ room }: VideoProps) {
     } else {
       newList = [...previousList]
       const item = newList.pop()
-      item && newList.push(item)
+      item && newList.unshift(item)
     }
     return newList
   }
@@ -120,10 +119,16 @@ export default function Video({ room }: VideoProps) {
           <NextImage src={play} width={30} height={30} />
         )}
       </ControlButton>
-      <ControlButton value={'previous'} onClick={handleUserVideoChange}>
+      <ControlButton
+        value={'previous'}
+        onClick={() => handleUserVideoChange('previous')}
+      >
         <NextImage height={30} width={30} src={previous} />
       </ControlButton>
-      <ControlButton value={'next'} onClick={handleUserVideoChange}>
+      <ControlButton
+        value={'next'}
+        onClick={() => handleUserVideoChange('next')}
+      >
         <NextImage height={30} width={30} src={next} />
       </ControlButton>
     </>
