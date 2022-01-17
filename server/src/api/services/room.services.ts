@@ -174,7 +174,6 @@ export const updatePlaylist = async ({
   item
 }: IQueryProp): Promise<void> => {
   if (!name) throw new BadRequest('Params missing')
-  await validatePlaylistItem(item)
 
   await Room.updateOne(
     { name },
