@@ -20,12 +20,19 @@ type Context = {
   setPlaylist: Dispatch<SetStateAction<PlaylistData[]>>
   cleanUpSocketStates: () => void
   roomId?: string
+  host: string
 }
 
 type RoomStateData = {
   messages: MessageData[]
   users: User[]
   playlist: PlaylistData[]
+  host: string
+}
+
+type LeaveStateData = {
+  user: string
+  newHost: string
 }
 
 export type MessageData = {
@@ -52,7 +59,8 @@ const SocketContext = createContext<Context>({
   setPlaylist: () => null,
   cleanUpSocketStates: () => null,
   messages: [],
-  playlist: []
+  playlist: [],
+  host: ''
 })
 type SocketProviderProps = {
   isLoggedIn: boolean
@@ -63,6 +71,8 @@ function SocketsProvider({ children }: SocketProviderProps) {
   const [messages, setMessages] = useState<MessageData[]>([])
   const [playlist, setPlaylist] = useState<PlaylistData[]>([])
   const [activeUsers, setActiveUsers] = useState<User[]>([])
+  const [host, setHost] = useState('')
+
   useEffect(() => {
     if (!socket) return
 
@@ -80,16 +90,18 @@ function SocketsProvider({ children }: SocketProviderProps) {
       setMessages((messages) => [...messages, ...data.messages])
       setActiveUsers((users) => [...users, ...data.users])
       setPlaylist((playlist) => [...playlist, ...data.playlist])
+      setHost(data.host)
     })
 
     socket.on('joined-room', (data: User) => {
       setActiveUsers((users) => [...users, data])
     })
 
-    socket.on('leave-room', (data: string) => {
+    socket.on('leave-room', (data: LeaveStateData) => {
       setActiveUsers((users) =>
-        users.filter(({ username }) => username !== data)
+        users.filter(({ username }) => username !== data.user)
       )
+      setHost(data.newHost)
     })
 
     function cleanup() {
@@ -112,6 +124,7 @@ function SocketsProvider({ children }: SocketProviderProps) {
         messages,
         playlist,
         activeUsers,
+        host,
         setMessages,
         setPlaylist,
         cleanUpSocketStates
