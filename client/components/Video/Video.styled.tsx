@@ -20,4 +20,8 @@ export const PlayButton = styled.button`
   background-color: inherit;
   border: none;
   cursor: pointer;
+
+  &:hover {
+    cursor: pointer;
+  }
 `

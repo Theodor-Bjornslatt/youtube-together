@@ -1,11 +1,11 @@
-import { useState, useRef, ChangeEvent } from 'react'
+import { useState, useRef, ChangeEvent, BaseSyntheticEvent } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
 import VideoController from './VideoController'
 import { PlayButton, VideoPlayer } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
-import start from '../../public/play.png'
+import play from '../../public/play.png'
 import pause from '../../public/pause.png'
 
 type VideoProps = {
@@ -21,9 +21,9 @@ export default function Video({ room }: VideoProps) {
   const [currentTimestamp, setCurrentTimestamp] = useState(0)
   const { socket } = useSockets()
 
-  const onClickHandler = () => {
-    setIsPlaying((prev) => !prev)
+  const handleStartStop = () => {
     const status = player?.getPlayerState()
+    setIsPlaying((prev) => !prev)
     const playerStatus = {
       room,
       status
@@ -44,7 +44,7 @@ export default function Video({ room }: VideoProps) {
     }
   }
 
-  const handleProgress = (e: any) => {
+  const handleProgress = (e: { [key: string]: number }) => {
     setCurrentTimestamp(e.playedSeconds)
   }
 
@@ -53,7 +53,7 @@ export default function Video({ room }: VideoProps) {
     player && player.seekTo(e.target.value)
   }
 
-  const handleBroadCastSync = (e: any): void => {
+  const handleBroadCastSync = (e: BaseSyntheticEvent): void => {
     console.log('broadcast', e.target.value)
   }
 
@@ -78,11 +78,11 @@ export default function Video({ room }: VideoProps) {
         onChange={handleTimestampChange}
         syncTimestamp={handleBroadCastSync}
       />
-      <PlayButton onClick={onClickHandler}>
+      <PlayButton onClick={handleStartStop}>
         {isPlaying ? (
           <NextImage src={pause} width={30} height={30} />
         ) : (
-          <NextImage src={start} width={30} height={30} />
+          <NextImage src={play} width={30} height={30} />
         )}
       </PlayButton>
     </>
