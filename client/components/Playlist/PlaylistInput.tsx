@@ -70,7 +70,7 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
 
     setPlaylist((prev) => [
       ...prev,
-      { id, url: values.url, title: title ? title : 'No Title' }
+      { _id: id, url: values.url, title: title ? title : 'No Title' }
     ])
     setId((prev) => prev + 1)
     setShouldTextFadeIn(false)

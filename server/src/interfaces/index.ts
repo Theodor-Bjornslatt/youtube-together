@@ -32,6 +32,7 @@ export interface IPlayList {
   url: string
   title: string
   position?: number
+  id?: string
 }
 export interface IRoom extends Document {
   _id?: string

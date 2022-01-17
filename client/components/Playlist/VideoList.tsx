@@ -37,10 +37,10 @@ export default function VideoList({ playlist, setPlaylist }: PlaylistProps) {
   }
 
   function onPointerEnter(item: PlayItem) {
-    if (!draggedItem || draggedItem.id === item.id) return
-    const hoveredItemIndex = playlistCopy.findIndex((it) => it.id === item.id)
+    if (!draggedItem || draggedItem._id === item._id) return
+    const hoveredItemIndex = playlistCopy.findIndex((it) => it._id === item._id)
     const newPlaylist = [
-      ...playlistCopy.filter((item) => item.id !== draggedItem.id)
+      ...playlistCopy.filter((item) => item._id !== draggedItem._id)
     ]
     newPlaylist.splice(hoveredItemIndex, 0, draggedItem)
     setPlaylistCopy(newPlaylist)
@@ -51,7 +51,7 @@ export default function VideoList({ playlist, setPlaylist }: PlaylistProps) {
       playlist.map((item) => (
         <PlaylistItem
           startDrag={startDrag}
-          key={item.id || item._id}
+          key={item._id || item._id}
           item={item}
           onPointerEnter={onPointerEnter}
           isActive={draggedItem != undefined}
@@ -79,7 +79,7 @@ export default function VideoList({ playlist, setPlaylist }: PlaylistProps) {
             {playlistCopy?.map((item) => (
               <PlaylistItem
                 startDrag={startDrag}
-                key={item.id || item._id}
+                key={item._id || item._id}
                 item={item}
                 onPointerEnter={onPointerEnter}
                 isActive={draggedItem != undefined}
