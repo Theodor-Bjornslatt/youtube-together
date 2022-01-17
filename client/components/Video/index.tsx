@@ -8,9 +8,9 @@ import NextImage from '../NextImage'
 import play from '../../public/play.png'
 import pause from '../../public/pause.png'
 import { PlayItem } from '../Playlist'
-import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import next from '../../public/next.png'
 import previous from '../../public/previous.png'
+import { apiSaveNewPlaylistOrder } from '../../utils/api'
 
 type VideoProps = {
   room: string
@@ -61,40 +61,35 @@ export default function Video({ room }: VideoProps) {
     console.log('broadcast', e.target.value)
   }
 
-  const playNextVideo = async () => {
-    let firstItem: PlayItem | undefined
-    setPlaylist((old) => {
-      const newOrder = [...old]
-      firstItem = newOrder.shift()
-      firstItem && newOrder.push(firstItem)
-      return newOrder
-    })
+  const handleUserVideoChange = async (e: any) => {
+    if (!playlist || !player) return
+
+    const value = e.target.value
+    const item = value === 'next' ? playlist[0] : playlist[playlist.length - 1]
+    setPlaylist((old) => sortPlaylist(old, value))
 
     await apiSaveNewPlaylistOrder(room, {
-      ...firstItem,
-      position: playlist?.length
+      ...item,
+      position: value === 'next' ? playlist.length : 0
     })
 
     // emit new order
-    player?.nextVideo()
+
+    player.nextVideo()
   }
 
-  const playPreviousVideo = async () => {
-    let lastItem: PlayItem | undefined
-    setPlaylist((old) => {
-      const newOrder = [...old]
-      lastItem = newOrder.pop()
-      lastItem && newOrder.push(lastItem)
-      return newOrder
-    })
-
-    await apiSaveNewPlaylistOrder(room, {
-      ...lastItem,
-      position: 0
-    })
-
-    // emit new order
-    player?.nextVideo()
+  function sortPlaylist(previousList: PlayItem[], event: string) {
+    let newList: PlayItem[]
+    if (event === 'next') {
+      newList = [...previousList]
+      const item = newList.shift()
+      item && newList.push(item)
+    } else {
+      newList = [...previousList]
+      const item = newList.pop()
+      item && newList.push(item)
+    }
+    return newList
   }
 
   if (player) player.allowFullscreen = 0
@@ -125,10 +120,10 @@ export default function Video({ room }: VideoProps) {
           <NextImage src={play} width={30} height={30} />
         )}
       </ControlButton>
-      <ControlButton value={'previous'} onClick={playPreviousVideo}>
+      <ControlButton value={'previous'} onClick={handleUserVideoChange}>
         <NextImage height={30} width={30} src={previous} />
       </ControlButton>
-      <ControlButton value={'next'} onClick={playNextVideo}>
+      <ControlButton value={'next'} onClick={handleUserVideoChange}>
         <NextImage height={30} width={30} src={next} />
       </ControlButton>
     </>
