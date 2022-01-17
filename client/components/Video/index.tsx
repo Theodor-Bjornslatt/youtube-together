@@ -23,6 +23,7 @@ import next from '../../public/next.png'
 import previous from '../../public/previous.png'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import { ContentContainer } from './Video.styled'
+import VolumeSlider from './VolumeSlider'
 
 type VideoProps = {
   room: string
@@ -32,6 +33,7 @@ export default function Video({ room }: VideoProps) {
   const { playlist, setPlaylist, socket, status, timestamp, setTimestamp } =
     useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
+  const [volume, setVolume] = useState(0.4)
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
   const urls = playlist?.map((item) => item.url)
@@ -112,6 +114,10 @@ export default function Video({ room }: VideoProps) {
     player.nextVideo()
   }
 
+  const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setVolume(Number(e.target.value))
+  }
+
   function sortPlaylist(previousList: PlayItem[], event: string) {
     let newList: PlayItem[]
     if (event === 'next') {
@@ -127,6 +133,7 @@ export default function Video({ room }: VideoProps) {
   }
 
   if (player) player.allowFullscreen = 0
+
   return (
     <ContentContainer>
       <VideoBoundary>
@@ -172,6 +179,7 @@ export default function Video({ room }: VideoProps) {
         >
           <NextImage height={30} width={30} src={next} />
         </ControlButton>
+        <VolumeSlider onChange={handleVolumeChange} volume={volume} />
       </div>
     </ContentContainer>
   )
