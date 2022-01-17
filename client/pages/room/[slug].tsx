@@ -90,7 +90,7 @@ const Room = ({ user, room }: RoomProps) => {
       <Header title={(room = room ?? 'My Room')} />
       <Container>
         <div>
-          <Video />
+          <Video room={room} />
           <ChatContainer>
             <Chat room={room} />
           </ChatContainer>

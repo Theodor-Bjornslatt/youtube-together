@@ -1,16 +1,35 @@
-import { useState, useRef, ChangeEvent } from 'react'
+import { useState, useRef, ChangeEvent, BaseSyntheticEvent } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
 import VideoController from './VideoController'
-import { VideoPlayer } from './Video.styled'
+import { PlayButton, VideoPlayer } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
+import NextImage from '../NextImage'
+import play from '../../public/play.png'
+import pause from '../../public/pause.png'
 
-export default function Video() {
+type VideoProps = {
+  room: string | null
+}
+
+export default function Video({ room }: VideoProps) {
   const { playlist } = useSockets()
+  const [isPlaying, setIsPlaying] = useState(false)
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
   const urls = playlist?.map((item) => item.url)
   const [currentTimestamp, setCurrentTimestamp] = useState(0)
+  const { socket } = useSockets()
+
+  const handleStartStop = () => {
+    const status = player?.getPlayerState()
+    setIsPlaying((prev) => !prev)
+    const playerStatus = {
+      room,
+      status
+    }
+    socket?.emit('status', playerStatus)
+  }
 
   const youtubeConfig = {
     youtube: {
@@ -25,7 +44,7 @@ export default function Video() {
     }
   }
 
-  const handleProgress = (e: any) => {
+  const handleProgress = (e: { [key: string]: number }) => {
     setCurrentTimestamp(e.playedSeconds)
   }
 
@@ -34,12 +53,11 @@ export default function Video() {
     player && player.seekTo(e.target.value)
   }
 
-  const handleBroadCastSync = (e: any): void => {
+  const handleBroadCastSync = (e: BaseSyntheticEvent): void => {
     console.log('broadcast', e.target.value)
   }
 
   if (player) player.allowFullscreen = 0
-  const [isPlaying, setIsPlaying] = useState(false)
   return (
     <>
       <div style={{ position: 'relative' }}>
@@ -60,9 +78,13 @@ export default function Video() {
         onChange={handleTimestampChange}
         syncTimestamp={handleBroadCastSync}
       />
-      <button onClick={() => setIsPlaying((prev) => !prev)}>
-        {isPlaying ? 'Pause' : 'Play'}
-      </button>
+      <PlayButton onClick={handleStartStop}>
+        {isPlaying ? (
+          <NextImage src={pause} width={30} height={30} />
+        ) : (
+          <NextImage src={play} width={30} height={30} />
+        )}
+      </PlayButton>
     </>
   )
 }
