@@ -4,7 +4,11 @@ import { PlaylistContainer } from './Playlist.styled'
 import PlaylistItem from './PlaylistItem'
 import { PlayItem, PlaylistProps } from '.'
 
-export default function VideoList({ playlist, setPlaylist }: PlaylistProps) {
+export default function VideoList({
+  playlist,
+  setPlaylist,
+  onEndDrag
+}: PlaylistProps) {
   const [pointerPosition, setPointerPosition] = useState({ x: 0, y: 0 })
   const [draggedItem, setDraggedItem] = useState<PlayItem | undefined>()
   const [playlistCopy, setPlaylistCopy] = useState<PlayItem[]>([...playlist])
@@ -28,6 +32,7 @@ export default function VideoList({ playlist, setPlaylist }: PlaylistProps) {
       setPlaylistCopy([...playlist])
     } else {
       setPlaylist([...playlistCopy])
+      onEndDrag && onEndDrag(draggedItem, playlistCopy)
       setDraggedItem(undefined)
     }
   }

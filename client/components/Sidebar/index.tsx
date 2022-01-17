@@ -8,14 +8,18 @@ import {
 } from './Sidebar.styled'
 import ActiveUsers from '../ActiveUsers/index'
 import { User } from '../../state/GlobalState'
-import Playlist from '../Playlist'
+import Playlist, { PlayItem } from '../Playlist'
 import { PlaylistContainer } from '../Playlist/Playlist.styled'
 import { useSockets } from '../../state/SocketContext'
 
 type SidebarProp = {
   users: User[] | undefined
+  onEndDrag?: (
+    item: PlayItem | undefined,
+    playlist: PlayItem[]
+  ) => Promise<void>
 }
-function Sidebar({ users }: SidebarProp) {
+function Sidebar({ users, onEndDrag }: SidebarProp) {
   const [display, setDisplay] = useState(true)
   const { playlist, setPlaylist } = useSockets()
   return (
@@ -27,7 +31,11 @@ function Sidebar({ users }: SidebarProp) {
       {display && <ActiveUsers users={users} />}
       {!display && playlist && (
         <PlaylistContainer>
-          <Playlist playlist={playlist} setPlaylist={setPlaylist} />
+          <Playlist
+            playlist={playlist}
+            setPlaylist={setPlaylist}
+            onEndDrag={onEndDrag}
+          />
         </PlaylistContainer>
       )}
     </Container>

@@ -12,13 +12,25 @@ export type PlayItem = {
 export type PlaylistProps = {
   playlist: PlayItem[]
   setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
+  onEndDrag?: (
+    item: PlayItem | undefined,
+    playlist: PlayItem[]
+  ) => Promise<void>
 }
 
-export default function Playlist({ playlist, setPlaylist }: PlaylistProps) {
+export default function Playlist({
+  playlist,
+  setPlaylist,
+  onEndDrag
+}: PlaylistProps) {
   return (
     <Container>
       <PlaylistInput setPlaylist={setPlaylist} />
-      <VideoList playlist={playlist} setPlaylist={setPlaylist} />
+      <VideoList
+        playlist={playlist}
+        setPlaylist={setPlaylist}
+        onEndDrag={onEndDrag}
+      />
     </Container>
   )
 }
