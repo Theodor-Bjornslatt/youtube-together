@@ -16,10 +16,9 @@ export const PauseOverlay = styled.div`
   color: ${colors.white};
 `
 
-export const PlayButton = styled.button`
-  background-color: inherit;
+export const ControlButton = styled.button`
+  background-color: transparent;
   border: none;
-  cursor: pointer;
 
   &:hover {
     cursor: pointer;
