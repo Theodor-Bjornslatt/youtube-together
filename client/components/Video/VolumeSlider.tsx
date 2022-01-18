@@ -1,5 +1,7 @@
 import { ChangeEvent } from 'react'
 
+import { VolumeBar } from './VolumeSlider.styled'
+
 type VolumeSliderProps = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void
   volume: number
@@ -7,7 +9,7 @@ type VolumeSliderProps = {
 
 export default function VolumeSlider({ onChange, volume }: VolumeSliderProps) {
   return (
-    <input
+    <VolumeBar
       type="range"
       step="0.1"
       min={0}
