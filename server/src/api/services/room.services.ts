@@ -121,7 +121,9 @@ export const postRoom = async (body: IRoom): Promise<IRoom> => {
 
   const room = new Room({
     name,
-    playlist,
+    playlist: playlist.map(({ url, title }) => {
+      return { url, title }
+    }),
     nickname
   })
 

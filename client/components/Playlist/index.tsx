@@ -16,7 +16,7 @@ export type PlaylistProps = {
     item: PlayItem | undefined,
     playlist: PlayItem[]
   ) => Promise<void>
-  onVideoAdd?: (item: PlayItem) => Promise<void>
+  onVideoAdd?: (item: PlayItem) => Promise<boolean>
 }
 
 export default function Playlist({

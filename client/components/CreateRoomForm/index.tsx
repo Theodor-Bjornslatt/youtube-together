@@ -34,7 +34,7 @@ export default function CreateRoomForm() {
       const room = {
         name: values.name,
         nickname: values.nickname,
-        playlist: playlist
+        playlist
       }
 
       const res = await fetch('http://localhost:8080/api/rooms', {

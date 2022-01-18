@@ -20,7 +20,7 @@ import {
 
 type PlaylistInputProps = {
   setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
-  onVideoAdd?: (item: PlayItem) => Promise<void>
+  onVideoAdd?: (item: PlayItem) => Promise<boolean>
 }
 
 export default function PlaylistInput({
@@ -71,19 +71,21 @@ export default function PlaylistInput({
   async function addItem() {
     const res = await fetch(`https://noembed.com/embed?url=${values.url}`)
     const { title } = await res.json()
-
-    setPlaylist((prev) => [
-      ...prev,
-      { _id: id, url: values.url, title: title ? title : 'No Title' }
-    ])
-    setId((prev) => prev + 1)
-    setShouldTextFadeIn(false)
-
-    onVideoAdd &&
+    const success =
+      onVideoAdd &&
       onVideoAdd({
         url: values.url,
         title: title
       })
+
+    if (success || !onVideoAdd) {
+      setPlaylist((prev) => [
+        ...prev,
+        { _id: id, url: values.url, title: title ? title : 'No Title' }
+      ])
+      setId((prev) => prev + 1)
+      setShouldTextFadeIn(false)
+    }
   }
 
   useEffect(() => {

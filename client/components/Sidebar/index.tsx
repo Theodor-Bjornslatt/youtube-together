@@ -14,12 +14,10 @@ import { useSockets } from '../../state/SocketContext'
 
 type SidebarProp = {
   users: User[] | undefined
-  onEndDrag?: (
-    item: PlayItem | undefined,
-    playlist: PlayItem[]
-  ) => Promise<void>
-  onVideoAdd: (item: PlayItem) => Promise<void>
+  onEndDrag: (item: PlayItem | undefined, playlist: PlayItem[]) => Promise<void>
+  onVideoAdd: (item: PlayItem) => Promise<boolean>
 }
+
 function Sidebar({ users, onEndDrag, onVideoAdd }: SidebarProp) {
   const [display, setDisplay] = useState(true)
   const { playlist, setPlaylist } = useSockets()

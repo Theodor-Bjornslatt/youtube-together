@@ -101,10 +101,11 @@ const Room = ({ user, room }: RoomProps) => {
 
   const handleVideoAdd = async (item: PlayItem) => {
     try {
-      // eslint-disable-next-line unused-imports/no-unused-vars-ts
-      const response = await apiPostPlaylistItem(room, item)
-      // eslint-disable-next-line no-empty
-    } catch (error) {}
+      await apiPostPlaylistItem(room, item)
+      return true
+    } catch (error) {
+      return false
+    }
   }
   return (
     <>
