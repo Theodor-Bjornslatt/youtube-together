@@ -66,9 +66,10 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 const Room = ({ user, room }: RoomProps) => {
-  const { socket, cleanUpSocketStates, activeUsers } = useSockets()
+  const { socket, cleanUpSocketStates, activeUsers, timestamp, host } =
+    useSockets()
 
-  const { dispatch } = useContext(GlobalContext)
+  const { dispatch, state } = useContext(GlobalContext)
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -80,7 +81,7 @@ const Room = ({ user, room }: RoomProps) => {
 
     socket?.emit('join', {
       room,
-      username: user?.username,
+      username: user?.username || state.defaultUsername,
       color: user?.color
     })
 
@@ -89,6 +90,17 @@ const Room = ({ user, room }: RoomProps) => {
       router.events.off('routeChangeStart', handleRouteChange)
     }
   }, [])
+
+  useEffect(() => {
+    if (user?.username !== host && state.defaultUsername !== host) return
+
+    if (Math.round(timestamp) % 5 === 0) {
+      socket?.emit('status', {
+        room: room,
+        status: { type: 'time', timestamp }
+      })
+    }
+  }, [timestamp])
 
   const handlePlaylistChange = async (
     item: PlayItem | undefined,

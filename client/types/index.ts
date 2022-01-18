@@ -11,3 +11,9 @@ export type Playlist = {
   id: string
   title: string
 }
+
+export type SocketStatus = {
+  type?: string
+  event?: number
+  timestamp?: number
+}

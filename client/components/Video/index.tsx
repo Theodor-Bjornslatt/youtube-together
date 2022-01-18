@@ -1,4 +1,10 @@
-import { useState, useRef, ChangeEvent, BaseSyntheticEvent } from 'react'
+import {
+  useState,
+  useRef,
+  ChangeEvent,
+  BaseSyntheticEvent,
+  useEffect
+} from 'react'
 import ReactPlayer from 'react-player/lazy'
 
 import VideoController from './VideoController'
@@ -17,20 +23,40 @@ type VideoProps = {
 }
 
 export default function Video({ room }: VideoProps) {
-  const { playlist, setPlaylist } = useSockets()
-  const [isPlaying, setIsPlaying] = useState(false)
+  const { playlist, setPlaylist, socket, status, timestamp, setTimestamp } =
+    useSockets()
+  const [isPlaying, setIsPlaying] = useState(true)
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
   const urls = playlist?.map((item) => item.url)
-  const [currentTimestamp, setCurrentTimestamp] = useState(0)
-  const { socket } = useSockets()
+
+  useEffect(() => {
+    switch (status?.type) {
+      case 'player':
+        if (status?.event == 1) setIsPlaying(false)
+        if (status?.event == 2) setIsPlaying(true)
+        status.timestamp && setTimestamp(status.timestamp)
+        player && player.seekTo(status?.timestamp)
+        break
+      case 'time':
+        status.timestamp && setTimestamp(status.timestamp)
+        player && player.seekTo(status?.timestamp)
+        break
+    }
+  }, [status])
 
   const handleStartStop = () => {
-    const status = player?.getPlayerState()
     setIsPlaying((prev) => !prev)
+    const status = player?.getPlayerState()
+    const event = !status ? 2 : status
+
     const playerStatus = {
       room,
-      status
+      status: {
+        type: 'player',
+        event: event === -1 ? 2 : event,
+        timestamp
+      }
     }
     socket?.emit('status', playerStatus)
   }
@@ -43,22 +69,26 @@ export default function Video({ room }: VideoProps) {
         modestbranding: 1,
         iv_load_policy: 3,
         loop: 0,
-        controls: 0
+        controls: 0,
+        mute: true
       }
     }
   }
 
   const handleProgress = (e: { [key: string]: number }) => {
-    setCurrentTimestamp(e.playedSeconds)
+    setTimestamp(e.playedSeconds)
   }
 
   const handleTimestampChange = (e: ChangeEvent<HTMLInputElement>): void => {
-    setCurrentTimestamp(Number(e.target.value))
+    setTimestamp(Number(e.target.value))
     player && player.seekTo(e.target.value)
   }
 
   const handleBroadCastSync = (e: BaseSyntheticEvent): void => {
-    console.log('broadcast', e.target.value)
+    socket?.emit('status', {
+      room,
+      status: { type: 'time', timestamp: e.target.value }
+    })
   }
 
   const handleUserVideoChange = async (value: string) => {
@@ -108,7 +138,7 @@ export default function Video({ room }: VideoProps) {
       </div>
       <VideoController
         duration={player?.getDuration ? player.getDuration() : 100}
-        currentTimestamp={currentTimestamp}
+        currentTimestamp={timestamp}
         onChange={handleTimestampChange}
         syncTimestamp={handleBroadCastSync}
       />
