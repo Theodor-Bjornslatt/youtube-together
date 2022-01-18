@@ -28,15 +28,18 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
+  console.log(userData)
+
   return {
     props: {
-      user: userData?.user || null
+      user: userData
     }
   }
 }
 
 export default function CreateRoom({ user }: RoomProps) {
   const { dispatch } = useContext(GlobalContext)
+
   useEffect(() => {
     dispatch({ type: 'loggedIn', payload: !!user })
   }, [])
