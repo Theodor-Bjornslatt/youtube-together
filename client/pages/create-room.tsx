@@ -28,8 +28,6 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     }
   }
 
-  console.log(userData)
-
   return {
     props: {
       user: userData
