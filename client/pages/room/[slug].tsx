@@ -4,11 +4,16 @@ import { useContext, useEffect } from 'react'
 
 import Chat from '../../components/Chat'
 import Header from '../../components/Header'
+import { PlayItem } from '../../components/Playlist'
 import Sidebar from '../../components/Sidebar'
 import Video from '../../components/Video'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
-import { serverSideWhoAmI } from '../../utils/api'
+import {
+  apiPostPlaylistItem,
+  apiSaveNewPlaylistOrder,
+  serverSideWhoAmI
+} from '../../utils/api'
 import { Aside, ChatContainer, Container } from './room.styled'
 
 type CurrentUserData = {
@@ -21,7 +26,7 @@ type Room = {
 
 type RoomProps = {
   user: User | null
-  room: string | null
+  room: string
 }
 
 type User = {
@@ -85,6 +90,23 @@ const Room = ({ user, room }: RoomProps) => {
     }
   }, [])
 
+  const handlePlaylistChange = async (
+    item: PlayItem | undefined,
+    playlist: PlayItem[]
+  ) => {
+    if (!item) return
+    const index = playlist.findIndex((it) => it._id === item._id)
+    await apiSaveNewPlaylistOrder(room, { position: index, ...item })
+  }
+
+  const handleVideoAdd = async (item: PlayItem) => {
+    try {
+      await apiPostPlaylistItem(room, item)
+      return true
+    } catch (error) {
+      return false
+    }
+  }
   return (
     <>
       <Header title={(room = room ?? 'My Room')} />
@@ -96,7 +118,11 @@ const Room = ({ user, room }: RoomProps) => {
           </ChatContainer>
         </div>
         <Aside>
-          <Sidebar users={activeUsers} />
+          <Sidebar
+            users={activeUsers}
+            onEndDrag={handlePlaylistChange}
+            onVideoAdd={handleVideoAdd}
+          />
         </Aside>
       </Container>
     </>

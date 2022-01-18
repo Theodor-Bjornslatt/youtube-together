@@ -38,7 +38,7 @@ export type MessageData = {
 }
 
 export type PlaylistData = {
-  _id?: string
+  _id?: string | number
   url: string
   title: string
 }

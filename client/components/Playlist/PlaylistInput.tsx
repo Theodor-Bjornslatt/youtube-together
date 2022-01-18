@@ -20,9 +20,13 @@ import {
 
 type PlaylistInputProps = {
   setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
+  onVideoAdd?: (item: PlayItem) => Promise<boolean>
 }
 
-export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
+export default function PlaylistInput({
+  setPlaylist,
+  onVideoAdd
+}: PlaylistInputProps) {
   const { values, onChangeHandler } = useForm(() => null, { url: '' })
 
   const [isUrlValid, setIsUrlValid] = useState(false)
@@ -67,13 +71,21 @@ export default function PlaylistInput({ setPlaylist }: PlaylistInputProps) {
   async function addItem() {
     const res = await fetch(`https://noembed.com/embed?url=${values.url}`)
     const { title } = await res.json()
+    const success =
+      onVideoAdd &&
+      onVideoAdd({
+        url: values.url,
+        title: title
+      })
 
-    setPlaylist((prev) => [
-      ...prev,
-      { id, url: values.url, title: title ? title : 'No Title' }
-    ])
-    setId((prev) => prev + 1)
-    setShouldTextFadeIn(false)
+    if (success || !onVideoAdd) {
+      setPlaylist((prev) => [
+        ...prev,
+        { _id: id, url: values.url, title: title ? title : 'No Title' }
+      ])
+      setId((prev) => prev + 1)
+      setShouldTextFadeIn(false)
+    }
   }
 
   useEffect(() => {
