@@ -4,18 +4,25 @@ import { TextAreaInput } from '../inputs/TextAreaInput'
 import ChatMessage from './ChatMessage'
 import { ChatContainer, MessageListContainer, ChatButton } from './Chat.styled'
 import { useSockets } from '../../state/SocketContext'
+import { usePagination } from '../../hooks/usePagination'
 import Checkbox from '../inputs/Checkbox'
+import { useObserver } from '../../hooks/useObserver'
 
 type ChatProps = {
   room: string | null
 }
 
 const Chat = ({ room }: ChatProps) => {
-  const { socket, messages } = useSockets()
+  const { socket, messages, setMessages } = useSockets()
+  const { more, apiFetch } = usePagination({ updateList: setMessages })
   const [message, setMessage] = useState('')
   const [autoScroll, setAutoScroll] = useState(true)
 
+  const root = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const topRef = useRef<HTMLDivElement>(null)
+
+  const onScreen = useObserver(topRef, root)
 
   const handleCheckboxClick = () => {
     setAutoScroll((prev) => !prev)
@@ -29,6 +36,7 @@ const Chat = ({ room }: ChatProps) => {
     socket?.emit('chat', obj)
     setMessage('')
   }
+
   const sendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       if (document.activeElement instanceof HTMLElement) {
@@ -37,17 +45,25 @@ const Chat = ({ room }: ChatProps) => {
       onClickHandler()
     }
   }
+
+  useEffect(() => {
+    if (!onScreen) return
+    more && apiFetch(`http://localhost:8080/api/rooms/${room}/messages`)
+  }, [onScreen])
+
   useEffect(() => {
     if (autoScroll) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   return (
     <ChatContainer size="extraExtraSmall">
-      <MessageListContainer>
+      <MessageListContainer ref={root}>
+        <div style={{ height: '0' }} ref={topRef} />
+
         {messages?.map((message) => (
           <ChatMessage message={message} key={message.id} />
         ))}
-        <div ref={bottomRef} />
+        <div style={{ height: '0' }} ref={bottomRef} />
       </MessageListContainer>
       <Checkbox
         label="Auto scroll"
