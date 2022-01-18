@@ -18,6 +18,13 @@ export const Card = styled.div`
   padding: ${spacings.extraSmall};
   box-shadow: 6px 8px 50px 0 #ebc9c911;
 
+  -webkit-transition: 0.4s; /* Safari */
+  transition: 0.4s all;
+
+  &:active {
+    transform: scale(0.88);
+  }
+
   h5,
   h6 {
     font-family: ${fonts.roboto};
