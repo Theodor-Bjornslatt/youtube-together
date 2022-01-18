@@ -1,14 +1,14 @@
 import connectRedis from 'connect-redis'
 import dotenv from 'dotenv'
 import session from 'express-session'
-import Redis from 'ioredis'
 
 import { createApp } from './app'
-import { APP_PORT, REDIS_OPTIONS, MONGO_URI } from './config'
+import { APP_PORT, MONGO_URI } from './config'
 import log from './logger'
 import connectMongoDB from './db/mongodb'
 import { createServer } from './server'
 import { initSocket } from './socket'
+import { getRedis } from './db/redis'
 
 dotenv.config({
   path: '.env'
@@ -16,7 +16,7 @@ dotenv.config({
 
 try {
   const RedisStore = connectRedis(session)
-  const client = new Redis(REDIS_OPTIONS)
+  const client = getRedis()
   const store = new RedisStore({ client })
   const app = createApp(store)
   const server = createServer(app)

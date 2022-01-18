@@ -2,6 +2,7 @@ import { Socket } from 'socket.io'
 
 import { Message } from '../../api/models'
 import { Room } from '../../api/models/room.model'
+import { getRedis } from '../../db'
 import { IClient, IData } from '../../interfaces'
 import log from '../../logger'
 import { getIo } from '../io'
@@ -9,6 +10,7 @@ import { getIo } from '../io'
 const getOnlineUsers = (room: string) => {
   const io = getIo()
   const clients = io.sockets.adapter.rooms.get(room)
+
   const users: Array<IClient> = []
 
   clients?.forEach((id: string) => {
@@ -21,11 +23,14 @@ const getOnlineUsers = (room: string) => {
   return users
 }
 
-const joinRoom = (socket: Socket, room: string, users: Array<IClient>) => {
+const joinRoom = async (
+  socket: Socket,
+  room: string,
+  users: Array<IClient>
+) => {
   const alreadyJoined = users.some((user) => {
     return user.username === socket.data.username
   })
-
   if (!alreadyJoined) {
     socket.join(room)
     socket.to(room).emit('joined-room', {
@@ -61,15 +66,22 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
 
   const { messages, playlist } = await getCurrentStateInRoom(room)
   const users = getOnlineUsers(room)
+  const redis = getRedis()
+  if (!users.length) {
+    redis.set(room, username)
+  }
 
   joinRoom(this, room, users)
+
+  const host = await redis.get(room)
 
   io.to(this.id).emit('pre-room', {
     users: users.filter((user) => {
       return user.username !== username
     }),
     messages,
-    playlist
+    playlist,
+    host
   })
 
   // measure speed
@@ -77,8 +89,24 @@ export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   log.info(`${t2 - t1} milliseconds to join a room`)
 }
 
-export function onLeaveRoom(this: Socket, room: string): void {
+export async function onLeaveRoom(this: Socket, room: string): Promise<void> {
   const io = getIo()
   this.leave(room)
-  io.to(room).emit('leave-room', this.data.username)
+  const newHost = await findNewHost(room)
+  io.to(room).emit('leave-room', { user: this.data.username, newHost })
+}
+
+export async function findNewHost(room: string): Promise<string> {
+  const io = getIo()
+  const redis = getRedis()
+  const host = await redis.get(room)
+  const clients = io.sockets.adapter.rooms.get(room)
+
+  if (!host || !clients) return ''
+
+  const newHostId = [...clients][0]
+  const newHostName = io.sockets.sockets.get(newHostId)?.data.username as string
+  redis.set(room, newHostName)
+
+  return newHostName
 }
