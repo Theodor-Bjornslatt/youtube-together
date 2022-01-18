@@ -11,6 +11,20 @@ body,
 a {
   color: inherit;
   text-decoration: none;
+  -webkit-transition: 0.4s; /* Safari */
+  transition: 0.4s all;
+}
+a:active {
+  transform: scale(0.78);
+}
+button {
+  color: inherit;
+  text-decoration: none;
+  -webkit-transition: 0.4s; /* Safari */
+  transition: 0.4s all;
+}
+button:active {
+  transform: scale(0.94);
 }
 
 * {
