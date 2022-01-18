@@ -9,11 +9,12 @@ export async function onDisconnect(this: Socket): Promise<void> {
 
   log.info(`${this.data.username} disconnected`)
 
-  let currentRoom = ''
-  this.rooms.forEach((room) => {
-    if (this.id === room) return
-    currentRoom = room
+  const currentRoom = [...this.rooms].find((room) => {
+    return this.id !== room
   })
+
+  if (!currentRoom) return
+
   const newHost = await findNewHost(currentRoom)
   io.to(currentRoom).emit('leave-room', { user: this.data.username, newHost })
 }
