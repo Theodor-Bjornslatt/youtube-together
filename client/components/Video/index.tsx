@@ -2,18 +2,22 @@ import { useState, useRef, ChangeEvent, BaseSyntheticEvent } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
 import VideoController from './VideoController'
-import { PlayButton, VideoPlayer } from './Video.styled'
+import { VideoPlayer, ControlButton } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
 import play from '../../public/play.png'
 import pause from '../../public/pause.png'
+import { PlayItem } from '../Playlist'
+import next from '../../public/next.png'
+import previous from '../../public/previous.png'
+import { apiSaveNewPlaylistOrder } from '../../utils/api'
 
 type VideoProps = {
-  room: string | null
+  room: string
 }
 
 export default function Video({ room }: VideoProps) {
-  const { playlist } = useSockets()
+  const { playlist, setPlaylist } = useSockets()
   const [isPlaying, setIsPlaying] = useState(false)
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
@@ -57,6 +61,36 @@ export default function Video({ room }: VideoProps) {
     console.log('broadcast', e.target.value)
   }
 
+  const handleUserVideoChange = async (value: string) => {
+    if (!playlist || playlist.length < 2 || !player) return
+
+    const item = value === 'next' ? playlist[0] : playlist[playlist.length - 1]
+    setPlaylist((old) => sortPlaylist(old, value))
+
+    await apiSaveNewPlaylistOrder(room, {
+      ...item,
+      position: value === 'next' ? playlist.length : 0
+    })
+
+    // emit new order
+
+    player.nextVideo()
+  }
+
+  function sortPlaylist(previousList: PlayItem[], event: string) {
+    let newList: PlayItem[]
+    if (event === 'next') {
+      newList = [...previousList]
+      const item = newList.shift()
+      item && newList.push(item)
+    } else {
+      newList = [...previousList]
+      const item = newList.pop()
+      item && newList.unshift(item)
+    }
+    return newList
+  }
+
   if (player) player.allowFullscreen = 0
   return (
     <>
@@ -78,13 +112,25 @@ export default function Video({ room }: VideoProps) {
         onChange={handleTimestampChange}
         syncTimestamp={handleBroadCastSync}
       />
-      <PlayButton onClick={handleStartStop}>
+      <ControlButton onClick={handleStartStop}>
         {isPlaying ? (
           <NextImage src={pause} width={30} height={30} />
         ) : (
           <NextImage src={play} width={30} height={30} />
         )}
-      </PlayButton>
+      </ControlButton>
+      <ControlButton
+        value={'previous'}
+        onClick={() => handleUserVideoChange('previous')}
+      >
+        <NextImage height={30} width={30} src={previous} />
+      </ControlButton>
+      <ControlButton
+        value={'next'}
+        onClick={() => handleUserVideoChange('next')}
+      >
+        <NextImage height={30} width={30} src={next} />
+      </ControlButton>
     </>
   )
 }

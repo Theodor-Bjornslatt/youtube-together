@@ -54,3 +54,11 @@ export const logout = async () => {
     throw new Error()
   }
 }
+
+export const apiSaveNewPlaylistOrder = async (room: string, data: any) => {
+  await fetch(`http://localhost:8080/api/rooms/${room}/playlist`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  })
+}

@@ -9,4 +9,5 @@ export type Room = {
 export type Playlist = {
   url: string
   id: string
+  title: string
 }
