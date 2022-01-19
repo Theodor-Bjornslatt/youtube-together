@@ -21,7 +21,8 @@ export const Container = styled.div`
 `
 
 export const PlaylistContainer = styled.div<PlaylistContainerProps>`
-  cursor: ${(props) => (props.isActive ? 'grabbing' : 'grab')};
+  position: relative;
+  cursor: ${(props) => (props.isActive ? 'grabbing' : 'default')};
   height: calc(100% - 100px);
   width: 100%;
   max-height: calc(100vh - ${headerBoxHeights.desktop});
@@ -29,6 +30,7 @@ export const PlaylistContainer = styled.div<PlaylistContainerProps>`
   padding: ${spacings.extraExtraSmall} ${spacings.extraExtraSmall};
   background: ${colors.dark};
   overflow-y: auto;
+  overflow-x: hidden;
 `
 
 export const PlaylistInputContainer = styled.div`
@@ -66,7 +68,7 @@ export const PlaylistItemContainer = styled.div<DraggingProps>`
   ${(props) => !props.isDragging && `transition: 0.3s ease-in;`}
 
   :hover {
-    border-left: 2px solid ${colors.lightPink};
+    border-left: 1px solid ${colors.lightPink};
   }
 `
 
@@ -77,6 +79,7 @@ export const PlaylistText = styled.h4`
   white-space: nowrap;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: ${fontWeights.regular};
+  pointer-events: none;
 
   span {
     font-family: ${fonts.roboto};

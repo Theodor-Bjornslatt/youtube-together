@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo, useRef, PointerEvent } from 'react'
 
 import { PlaylistContainer } from './Playlist.styled'
 import PlaylistItem from './PlaylistItem'
@@ -10,8 +10,10 @@ export default function VideoList({
   onEndDrag
 }: PlaylistProps) {
   const [pointerPosition, setPointerPosition] = useState({ x: 0, y: 0 })
+  const [itemPointerOffset, setItemPointerOffset] = useState({ x: 0, y: 0 })
   const [draggedItem, setDraggedItem] = useState<PlayItem | undefined>()
   const [playlistCopy, setPlaylistCopy] = useState<PlayItem[]>([...playlist])
+  const playlistRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     window.addEventListener('pointerup', () => setDraggedItem(undefined))
@@ -25,6 +27,15 @@ export default function VideoList({
     if (document.getSelection()) {
       document.getSelection()?.empty()
     }
+  }
+
+  function updatePointerPosition(e: PointerEvent<HTMLDivElement>) {
+    if (!playlistRef?.current) return
+
+    const rect = playlistRef.current.getBoundingClientRect()
+    const offsetX = e.clientX - rect.left
+    const offsetY = e.clientY - rect.top
+    setPointerPosition({ x: offsetX, y: offsetY })
   }
 
   function endDrag(reset?: 'reset') {
@@ -51,10 +62,20 @@ export default function VideoList({
     setPlaylistCopy(newPlaylist)
   }
 
+  function setItemOffset(e: PointerEvent<HTMLDivElement>) {
+    if (draggedItem) return
+
+    const rect = e.currentTarget.getBoundingClientRect()
+    const offsetX = e.clientX - rect.left
+    const offsetY = e.clientY - rect.top
+    setItemPointerOffset({ x: offsetX, y: offsetY })
+  }
+
   const mappedPlaylist = useMemo(
     () =>
       playlist.map((item) => (
         <PlaylistItem
+          onPointerMove={setItemOffset}
           startDrag={startDrag}
           key={item._id}
           item={item}
@@ -68,15 +89,10 @@ export default function VideoList({
   return (
     <>
       <PlaylistContainer
+        ref={playlistRef}
         isActive={draggedItem != undefined}
         onPointerLeave={() => endDrag('reset')}
-        onPointerMove={(e) => (
-          unFocusElements(),
-          setPointerPosition({
-            x: e.clientX,
-            y: e.clientY
-          })
-        )}
+        onPointerMove={(e) => (unFocusElements(), updatePointerPosition(e))}
         onPointerUp={() => endDrag()}
       >
         {draggedItem ? (
@@ -94,15 +110,21 @@ export default function VideoList({
         ) : (
           mappedPlaylist
         )}
+        {draggedItem && (
+          <PlaylistItem
+            startDrag={startDrag}
+            item={draggedItem}
+            translateX={
+              pointerPosition.x - itemPointerOffset.x ||
+              pointerPosition.x - itemPointerOffset.x - 0.5
+            }
+            translateY={
+              pointerPosition.y - itemPointerOffset.y - 20 ||
+              pointerPosition.y - itemPointerOffset.y - 20.5
+            }
+          />
+        )}
       </PlaylistContainer>
-      {draggedItem && (
-        <PlaylistItem
-          startDrag={startDrag}
-          item={draggedItem}
-          translateX={pointerPosition.x - 80}
-          translateY={pointerPosition.y - 20}
-        />
-      )}
     </>
   )
 }
