@@ -34,7 +34,7 @@ export default function Video({ room }: VideoProps) {
     switch (status?.type) {
       case 'player':
         if (status?.event == 1) setIsPlaying(false)
-        if (status?.event == 2) setIsPlaying(true)
+        else if (status?.event == 2) setIsPlaying(true)
         status.timestamp && setTimestamp(status.timestamp)
         player && player.seekTo(status?.timestamp)
         break
@@ -48,7 +48,7 @@ export default function Video({ room }: VideoProps) {
   const handleStartStop = () => {
     setIsPlaying((prev) => !prev)
     const status = player?.getPlayerState()
-    const event = !status ? 2 : status
+    const event = status ?? 2
 
     const playerStatus = {
       room,
@@ -69,8 +69,7 @@ export default function Video({ room }: VideoProps) {
         modestbranding: 1,
         iv_load_policy: 3,
         loop: 0,
-        controls: 0,
-        mute: true
+        controls: 0
       }
     }
   }
