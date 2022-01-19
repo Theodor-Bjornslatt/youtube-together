@@ -1,3 +1,5 @@
+import { RefObject, PointerEvent } from 'react'
+
 import {
   PlaylistItemContainer,
   PlaylistText,
@@ -14,6 +16,8 @@ type PlaylistItemProps = {
   onPointerEnter?: (item: PlayItem) => void
   translateX?: number
   translateY?: number
+  ref?: RefObject<HTMLDivElement>
+  onPointerMove?: (e: PointerEvent<HTMLDivElement>) => void
 }
 
 export default function PlaylistItem({
@@ -22,14 +26,18 @@ export default function PlaylistItem({
   startDrag,
   onPointerEnter,
   translateX,
-  translateY
+  translateY,
+  ref,
+  onPointerMove
 }: PlaylistItemProps) {
   return (
     <PlaylistItemContainer
+      ref={ref}
       onPointerDown={(e) => {
         e.stopPropagation(), startDrag(item)
       }}
       onPointerEnter={() => onPointerEnter && onPointerEnter(item)}
+      onPointerMove={onPointerMove}
       onDragStart={(e) => e.preventDefault()}
       isActive={isActive}
       isDragging={translateX && translateY ? true : false}
