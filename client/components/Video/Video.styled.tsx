@@ -52,6 +52,10 @@ export const ControlButton = styled.button`
     cursor: pointer;
   }
 `
+export const TimeDisplay = styled.div`
+  color: grey;
+`
+
 type AnimationProps = {
   isFadingIn: boolean
 }
