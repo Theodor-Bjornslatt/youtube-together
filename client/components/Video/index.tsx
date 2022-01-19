@@ -167,7 +167,7 @@ export default function Video({ room }: VideoProps) {
   return (
     <div>
       <VideoBoundary>
-        <VideoContainer>
+        <VideoContainer onClick={handleShowControls}>
           <VideoPlayer
             url={urls}
             ref={ref}
@@ -178,48 +178,50 @@ export default function Video({ room }: VideoProps) {
             height={'100%'}
             volume={volume}
           />
-        </VideoContainer>
-      </VideoBoundary>
 
-      {/* {!isPlaying && (
+          {/* {!isPlaying && (
           <PauseOverlay>The host has paused this video</PauseOverlay>
         )} */}
-      <ControlPanelContainer>
-        <VideoController
-          duration={player?.getDuration ? player.getDuration() : 100}
-          currentTimestamp={timestamp}
-          onChange={handleTimestampChange}
-          syncTimestamp={handleBroadCastSync}
-        />
-        <ButtonPanelContainer>
-          <div>
-            <ControlButton onClick={handleStartStop}>
-              {isPlaying ? (
-                <NextImage src={pause} width={30} height={30} />
-              ) : (
-                <NextImage src={play} width={30} height={30} />
-              )}
-            </ControlButton>
-            <ControlButton
-              value={'previous'}
-              onClick={() => handleUserVideoChange('previous')}
-            >
-              <NextImage height={30} width={30} src={previous} />
-            </ControlButton>
-            <ControlButton
-              value={'next'}
-              onClick={() => handleUserVideoChange('next')}
-            >
-              <NextImage height={30} width={30} src={next} />
-            </ControlButton>
-          </div>
-          <VolumeController
-            setVolume={setVolume}
-            volume={volume}
-            handleVolumeChange={handleVolumeChange}
-          />
-        </ButtonPanelContainer>
-      </ControlPanelContainer>
+          {showControls && (
+            <ControlPanelContainer shouldControlsFadeIn={shouldControlsFadeIn}>
+              <VideoController
+                duration={player?.getDuration ? player.getDuration() : 100}
+                currentTimestamp={timestamp}
+                onChange={handleTimestampChange}
+                syncTimestamp={handleBroadCastSync}
+              />
+              <ButtonPanelContainer>
+                <div>
+                  <ControlButton onClick={handleStartStop}>
+                    {isPlaying ? (
+                      <NextImage src={pause} width={30} height={30} />
+                    ) : (
+                      <NextImage src={play} width={30} height={30} />
+                    )}
+                  </ControlButton>
+                  <ControlButton
+                    value={'previous'}
+                    onClick={() => handleUserVideoChange('previous')}
+                  >
+                    <NextImage height={30} width={30} src={previous} />
+                  </ControlButton>
+                  <ControlButton
+                    value={'next'}
+                    onClick={() => handleUserVideoChange('next')}
+                  >
+                    <NextImage height={30} width={30} src={next} />
+                  </ControlButton>
+                </div>
+                <VolumeController
+                  setVolume={setVolume}
+                  volume={volume}
+                  handleVolumeChange={handleVolumeChange}
+                />
+              </ButtonPanelContainer>
+            </ControlPanelContainer>
+          )}
+        </VideoContainer>
+      </VideoBoundary>
     </div>
   )
 }
