@@ -11,12 +11,16 @@ export type User = {
 
 const initialState = {
   windowWidth: 0,
-  loggedIn: false
+  loggedIn: false,
+  defaultUsername: `Guest#${(Math.floor(Math.random() * 10000) + 10000)
+    .toString()
+    .substring(1)}`
 }
 
 type GlobalState = {
   windowWidth: number
   loggedIn: boolean
+  defaultUsername: string
 }
 
 type SetStateAction =
@@ -45,6 +49,7 @@ const GlobalReducer = (state: GlobalState, action: SetStateAction) => {
         ...state,
         loggedIn: action.payload
       }
+
     default:
       return { ...state }
   }

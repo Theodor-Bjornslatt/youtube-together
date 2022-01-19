@@ -52,13 +52,7 @@ const getCurrentStateInRoom = async (room: string) => {
 export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
   const t1 = performance.now()
 
-  const {
-    room,
-    username = `Guest#${(Math.floor(Math.random() * 10000) + 10000)
-      .toString()
-      .substring(1)}`,
-    color = '#ffff'
-  } = data
+  const { room, username, color = '#ffff' } = data
   const io = getIo()
 
   this.data.username = username

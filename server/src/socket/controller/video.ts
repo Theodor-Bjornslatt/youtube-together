@@ -1,12 +1,16 @@
-import { getIo } from '../io'
+import { Socket } from 'socket.io'
 
+interface ISocketStatus {
+  type: string
+  event?: number
+  timestamp?: number
+}
 interface SocketData {
   room: string
-  status: number
+  status: ISocketStatus
 }
 
-export function onStatusChange(data: SocketData): void {
+export function onStatusChange(this: Socket, data: SocketData): void {
   const { room, status } = data
-  const io = getIo()
-  io.to(room).emit('status', status)
+  this.broadcast.to(room).emit('status', status)
 }

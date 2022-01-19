@@ -19,7 +19,7 @@ export interface IUser extends Document {
 }
 
 export interface IClient {
-  username: string | string[] | undefined
+  username: string | string[]
   color: string | string[] | undefined
 }
 

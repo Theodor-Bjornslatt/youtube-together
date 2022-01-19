@@ -8,6 +8,7 @@ import {
 } from 'react'
 import io, { Socket } from 'socket.io-client'
 
+import { SocketStatus } from '../types'
 import { User } from './GlobalState'
 
 type Context = {
@@ -21,6 +22,9 @@ type Context = {
   cleanUpSocketStates: () => void
   roomId?: string
   host: string
+  status: SocketStatus
+  timestamp: number
+  setTimestamp: Dispatch<SetStateAction<number>>
 }
 
 type RoomStateData = {
@@ -60,7 +64,10 @@ const SocketContext = createContext<Context>({
   cleanUpSocketStates: () => null,
   messages: [],
   playlist: [],
-  host: ''
+  host: '',
+  status: {},
+  timestamp: 0,
+  setTimestamp: () => null
 })
 type SocketProviderProps = {
   isLoggedIn: boolean
@@ -71,7 +78,9 @@ function SocketsProvider({ children }: SocketProviderProps) {
   const [messages, setMessages] = useState<MessageData[]>([])
   const [playlist, setPlaylist] = useState<PlaylistData[]>([])
   const [activeUsers, setActiveUsers] = useState<User[]>([])
+  const [status, setStatus] = useState<SocketStatus>()
   const [host, setHost] = useState('')
+  const [timestamp, setTimestamp] = useState(0)
 
   useEffect(() => {
     if (!socket) return
@@ -80,13 +89,11 @@ function SocketsProvider({ children }: SocketProviderProps) {
       setMessages((messages) => [...messages, data])
     })
 
-    socket.on('status', (data: number) => {
-      console.log('Playing = 1, Paus = 2')
-      console.log(data)
+    socket.on('status', (data: SocketStatus) => {
+      setStatus(data)
     })
 
     socket.on('pre-room', (data: RoomStateData) => {
-      // console.log('data :>> ', data)
       setMessages((messages) => [...messages, ...data.messages])
       setActiveUsers((users) => [...users, ...data.users])
       setPlaylist((playlist) => [...playlist, ...data.playlist])
@@ -127,7 +134,10 @@ function SocketsProvider({ children }: SocketProviderProps) {
         host,
         setMessages,
         setPlaylist,
-        cleanUpSocketStates
+        cleanUpSocketStates,
+        timestamp,
+        setTimestamp,
+        status
       }}
     >
       {children}
