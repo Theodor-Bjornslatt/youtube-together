@@ -164,6 +164,7 @@ export const sizes: Sizes = {
 }
 
 type LineHeights = {
+  extraExtraExtraSmall: '5px'
   extraExtraSmall: '10px'
   extraSmall: '20px'
   small: '24px'
@@ -174,6 +175,7 @@ type LineHeights = {
 }
 
 export const lineHeights: LineHeights = {
+  extraExtraExtraSmall: '5px',
   extraExtraSmall: '10px',
   extraSmall: '20px',
   small: '24px',

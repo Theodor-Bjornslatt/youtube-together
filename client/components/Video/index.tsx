@@ -7,7 +7,7 @@ import {
 } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
-import VideoController from './VideoController'
+import VideoController from './ProgressBar'
 import {
   VideoPlayer,
   ControlButton,
@@ -18,11 +18,12 @@ import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
 import play from '../../public/play.png'
 import pause from '../../public/pause.png'
-import { PlayItem } from '../Playlist'
 import next from '../../public/next.png'
 import previous from '../../public/previous.png'
+import { PlayItem } from '../Playlist'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import { ContentContainer } from './Video.styled'
+import VolumeController from './VolumeController'
 
 type VideoProps = {
   room: string
@@ -32,6 +33,7 @@ export default function Video({ room }: VideoProps) {
   const { playlist, setPlaylist, socket, status, timestamp, setTimestamp } =
     useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
+  const [volume, setVolume] = useState(0.4)
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
   const urls = playlist?.map((item) => item.url)
@@ -112,6 +114,10 @@ export default function Video({ room }: VideoProps) {
     player.nextVideo()
   }
 
+  const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setVolume(Number(e.target.value))
+  }
+
   function sortPlaylist(previousList: PlayItem[], event: string) {
     let newList: PlayItem[]
     if (event === 'next') {
@@ -127,6 +133,7 @@ export default function Video({ room }: VideoProps) {
   }
 
   if (player) player.allowFullscreen = 0
+
   return (
     <ContentContainer>
       <VideoBoundary>
@@ -139,6 +146,7 @@ export default function Video({ room }: VideoProps) {
             onProgress={handleProgress}
             width={'100%'}
             height={'100%'}
+            volume={volume}
           />
         </VideoContainer>
       </VideoBoundary>
@@ -153,25 +161,34 @@ export default function Video({ room }: VideoProps) {
           onChange={handleTimestampChange}
           syncTimestamp={handleBroadCastSync}
         />
-        <ControlButton onClick={handleStartStop}>
-          {isPlaying ? (
-            <NextImage src={pause} width={30} height={30} />
-          ) : (
-            <NextImage src={play} width={30} height={30} />
-          )}
-        </ControlButton>
-        <ControlButton
-          value={'previous'}
-          onClick={() => handleUserVideoChange('previous')}
-        >
-          <NextImage height={30} width={30} src={previous} />
-        </ControlButton>
-        <ControlButton
-          value={'next'}
-          onClick={() => handleUserVideoChange('next')}
-        >
-          <NextImage height={30} width={30} src={next} />
-        </ControlButton>
+        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+          <div>
+            <ControlButton onClick={handleStartStop}>
+              {isPlaying ? (
+                <NextImage src={pause} width={30} height={30} />
+              ) : (
+                <NextImage src={play} width={30} height={30} />
+              )}
+            </ControlButton>
+            <ControlButton
+              value={'previous'}
+              onClick={() => handleUserVideoChange('previous')}
+            >
+              <NextImage height={30} width={30} src={previous} />
+            </ControlButton>
+            <ControlButton
+              value={'next'}
+              onClick={() => handleUserVideoChange('next')}
+            >
+              <NextImage height={30} width={30} src={next} />
+            </ControlButton>
+          </div>
+          <VolumeController
+            setVolume={setVolume}
+            volume={volume}
+            handleVolumeChange={handleVolumeChange}
+          />
+        </div>
       </div>
     </ContentContainer>
   )

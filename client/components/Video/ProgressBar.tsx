@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, TouchEvent } from 'react'
 
-import { ProgressBar } from './VideoController.styled'
+import { ProgressBar } from './ProgresBar.styled'
 
 type VideoControllerProps = {
   duration: number
