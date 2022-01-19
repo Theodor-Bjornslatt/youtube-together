@@ -68,10 +68,11 @@ const getQueriedMessages = async ({
   const messages = await Message.find({ room: name })
     .limit(defaultLimit)
     .skip((defaultPage - 1) * defaultLimit)
+    .sort({ $natural: -1 })
     .select('-_id -room -__v')
 
   return {
-    messages,
+    messages: messages.reverse(),
     room: name,
     limit: defaultLimit,
     page: defaultPage

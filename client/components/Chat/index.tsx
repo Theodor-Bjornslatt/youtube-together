@@ -4,18 +4,49 @@ import { TextAreaInput } from '../inputs/TextAreaInput'
 import ChatMessage from './ChatMessage'
 import { ChatContainer, MessageListContainer, ChatButton } from './Chat.styled'
 import { useSockets } from '../../state/SocketContext'
+import { usePagination } from '../../hooks/usePagination'
 import Checkbox from '../inputs/Checkbox'
+import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
+import { apiGetRoomMessages } from '../../utils/api'
 
 type ChatProps = {
   room: string | null
 }
 
 const Chat = ({ room }: ChatProps) => {
-  const { socket, messages } = useSockets()
+  const { socket, messages, setMessages } = useSockets()
+  const { moreDataAvailable, apiMethod, data } = usePagination({
+    apiFunction: apiGetRoomMessages,
+    page: 2
+  })
+
   const [message, setMessage] = useState('')
   const [autoScroll, setAutoScroll] = useState(true)
 
+  const root = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const topRef = useRef<HTMLDivElement>(null)
+  const threshold = [0.25, 0.5, 0.75]
+
+  const onScreen = useIntersectionObserver({
+    ref: topRef.current,
+    root: root.current,
+    threshold,
+    rootMargin: '300px'
+  })
+
+  useEffect(() => {
+    if (!onScreen) return
+    moreDataAvailable && apiMethod(room)
+  }, [onScreen])
+
+  useEffect(() => {
+    data.length && setMessages((currentList) => [...data, ...currentList])
+  }, [data])
+
+  useEffect(() => {
+    if (autoScroll) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
 
   const handleCheckboxClick = () => {
     setAutoScroll((prev) => !prev)
@@ -29,6 +60,7 @@ const Chat = ({ room }: ChatProps) => {
     socket?.emit('chat', obj)
     setMessage('')
   }
+
   const sendMessage = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       if (document.activeElement instanceof HTMLElement) {
@@ -37,13 +69,11 @@ const Chat = ({ room }: ChatProps) => {
       onClickHandler()
     }
   }
-  useEffect(() => {
-    if (autoScroll) bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
 
   return (
     <ChatContainer size="extraExtraSmall">
-      <MessageListContainer>
+      <MessageListContainer ref={root}>
+        <div ref={topRef} />
         {messages?.map((message) => (
           <ChatMessage message={message} key={message.id} />
         ))}

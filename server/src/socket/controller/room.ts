@@ -43,10 +43,10 @@ const joinRoom = async (
 const getCurrentStateInRoom = async (room: string) => {
   const messages = await Message.find({ room })
     .limit(10)
-    .skip(0)
+    .sort({ $natural: -1 })
     .select('-_id -room -__v')
   const { playlist } = await Room.findOne({ name: room }).select('playlist')
-  return { messages, playlist }
+  return { messages: messages.reverse(), playlist }
 }
 
 export async function onJoinRoom(this: Socket, data: IData): Promise<void> {
