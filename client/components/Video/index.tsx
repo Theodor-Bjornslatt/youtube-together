@@ -20,7 +20,6 @@ import play from '../../public/play.png'
 import pause from '../../public/pause.png'
 import next from '../../public/next.png'
 import previous from '../../public/previous.png'
-import { PlayItem } from '../Playlist'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import { ContentContainer } from './Video.styled'
 import VolumeController from './VolumeController'
@@ -30,8 +29,14 @@ type VideoProps = {
 }
 
 export default function Video({ room }: VideoProps) {
-  const { playlist, setPlaylist, socket, status, timestamp, setTimestamp } =
-    useSockets()
+  const {
+    playlist,
+    socket,
+    status,
+    timestamp,
+    setTimestamp,
+    updatePlaylistOrder
+  } = useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
   const [volume, setVolume] = useState(0.4)
   const ref = useRef<ReactPlayer>(null)
@@ -52,7 +57,6 @@ export default function Video({ room }: VideoProps) {
         break
     }
   }, [status])
-
   const handleStartStop = () => {
     setIsPlaying((prev) => !prev)
     const status = player?.getPlayerState()
@@ -98,38 +102,28 @@ export default function Video({ room }: VideoProps) {
     })
   }
 
-  const handleUserVideoChange = async (value: string) => {
+  const handleUserVideoChange = async (value: 'next' | 'previous') => {
     if (!playlist || playlist.length < 2 || !player) return
 
     const item = value === 'next' ? playlist[0] : playlist[playlist.length - 1]
-    setPlaylist((old) => sortPlaylist(old, value))
 
     await apiSaveNewPlaylistOrder(room, {
       ...item,
       position: value === 'next' ? playlist.length : 0
     })
 
-    // emit new order
+    updatePlaylistOrder(value)
+    socket?.emit('playlist', {
+      type: value,
+      room,
+      position: value === 'next' ? playlist.length : 0
+    })
 
     player.nextVideo()
   }
 
   const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setVolume(Number(e.target.value))
-  }
-
-  function sortPlaylist(previousList: PlayItem[], event: string) {
-    let newList: PlayItem[]
-    if (event === 'next') {
-      newList = [...previousList]
-      const item = newList.shift()
-      item && newList.push(item)
-    } else {
-      newList = [...previousList]
-      const item = newList.pop()
-      item && newList.unshift(item)
-    }
-    return newList
   }
 
   if (player) player.allowFullscreen = 0

@@ -9,6 +9,7 @@ import {
 import io, { Socket } from 'socket.io-client'
 
 import { SocketStatus } from '../types'
+import { PlayItem } from '../components/Playlist'
 import { User } from './GlobalState'
 
 type Context = {
@@ -19,6 +20,7 @@ type Context = {
   activeUsers?: User[]
   setMessages: Dispatch<SetStateAction<MessageData[]>>
   setPlaylist: Dispatch<SetStateAction<PlaylistData[]>>
+  updatePlaylistOrder: (event: 'next' | 'previous') => void
   cleanUpSocketStates: () => void
   roomId?: string
   host: string
@@ -61,6 +63,7 @@ const SocketContext = createContext<Context>({
   socket,
   setMessages: () => null,
   setPlaylist: () => null,
+  updatePlaylistOrder: () => null,
   cleanUpSocketStates: () => null,
   messages: [],
   playlist: [],
@@ -78,9 +81,29 @@ function SocketsProvider({ children }: SocketProviderProps) {
   const [messages, setMessages] = useState<MessageData[]>([])
   const [playlist, setPlaylist] = useState<PlaylistData[]>([])
   const [activeUsers, setActiveUsers] = useState<User[]>([])
-  const [status, setStatus] = useState<SocketStatus>()
+  const [status, setStatus] = useState<SocketStatus>({})
   const [host, setHost] = useState('')
   const [timestamp, setTimestamp] = useState(0)
+
+  function updatePlaylistOrder(event: 'next' | 'previous') {
+    const sortPlaylist = (
+      previousList: PlayItem[],
+      event: 'next' | 'previous'
+    ) => {
+      let newList: PlayItem[]
+      if (event === 'next') {
+        newList = [...previousList]
+        const item = newList.shift()
+        item && newList.push(item)
+      } else {
+        newList = [...previousList]
+        const item = newList.pop()
+        item && newList.unshift(item)
+      }
+      return newList
+    }
+    setPlaylist((old) => sortPlaylist(old, event))
+  }
 
   useEffect(() => {
     if (!socket) return
@@ -111,6 +134,14 @@ function SocketsProvider({ children }: SocketProviderProps) {
       setHost(data.newHost)
     })
 
+    socket.on('nextVideo', () => {
+      updatePlaylistOrder('next')
+    })
+
+    socket.on('previousVideo', () => {
+      updatePlaylistOrder('previous')
+    })
+
     function cleanup() {
       if (!socket) return
       socket.disconnect()
@@ -134,6 +165,7 @@ function SocketsProvider({ children }: SocketProviderProps) {
         host,
         setMessages,
         setPlaylist,
+        updatePlaylistOrder,
         cleanUpSocketStates,
         timestamp,
         setTimestamp,
