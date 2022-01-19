@@ -8,7 +8,12 @@ import {
 import ReactPlayer from 'react-player/lazy'
 
 import VideoController from './VideoController'
-import { VideoPlayer, ControlButton } from './Video.styled'
+import {
+  VideoPlayer,
+  ControlButton,
+  VideoBoundary,
+  VideoContainer
+} from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
 import play from '../../public/play.png'
@@ -17,6 +22,7 @@ import { PlayItem } from '../Playlist'
 import next from '../../public/next.png'
 import previous from '../../public/previous.png'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
+import { ContentContainer } from './Video.styled'
 
 type VideoProps = {
   room: string
@@ -122,44 +128,51 @@ export default function Video({ room }: VideoProps) {
 
   if (player) player.allowFullscreen = 0
   return (
-    <>
-      <div style={{ position: 'relative' }}>
-        <VideoPlayer
-          url={urls}
-          ref={ref}
-          playing={isPlaying}
-          config={youtubeConfig}
-          onProgress={handleProgress}
-        />
-        {/* {!isPlaying && (
+    <ContentContainer>
+      <VideoBoundary>
+        <VideoContainer>
+          <VideoPlayer
+            url={urls}
+            ref={ref}
+            playing={isPlaying}
+            config={youtubeConfig}
+            onProgress={handleProgress}
+            width={'100%'}
+            height={'100%'}
+          />
+        </VideoContainer>
+      </VideoBoundary>
+
+      {/* {!isPlaying && (
           <PauseOverlay>The host has paused this video</PauseOverlay>
         )} */}
+      <div>
+        <VideoController
+          duration={player?.getDuration ? player.getDuration() : 100}
+          currentTimestamp={timestamp}
+          onChange={handleTimestampChange}
+          syncTimestamp={handleBroadCastSync}
+        />
+        <ControlButton onClick={handleStartStop}>
+          {isPlaying ? (
+            <NextImage src={pause} width={30} height={30} />
+          ) : (
+            <NextImage src={play} width={30} height={30} />
+          )}
+        </ControlButton>
+        <ControlButton
+          value={'previous'}
+          onClick={() => handleUserVideoChange('previous')}
+        >
+          <NextImage height={30} width={30} src={previous} />
+        </ControlButton>
+        <ControlButton
+          value={'next'}
+          onClick={() => handleUserVideoChange('next')}
+        >
+          <NextImage height={30} width={30} src={next} />
+        </ControlButton>
       </div>
-      <VideoController
-        duration={player?.getDuration ? player.getDuration() : 100}
-        currentTimestamp={timestamp}
-        onChange={handleTimestampChange}
-        syncTimestamp={handleBroadCastSync}
-      />
-      <ControlButton onClick={handleStartStop}>
-        {isPlaying ? (
-          <NextImage src={pause} width={30} height={30} />
-        ) : (
-          <NextImage src={play} width={30} height={30} />
-        )}
-      </ControlButton>
-      <ControlButton
-        value={'previous'}
-        onClick={() => handleUserVideoChange('previous')}
-      >
-        <NextImage height={30} width={30} src={previous} />
-      </ControlButton>
-      <ControlButton
-        value={'next'}
-        onClick={() => handleUserVideoChange('next')}
-      >
-        <NextImage height={30} width={30} src={next} />
-      </ControlButton>
-    </>
+    </ContentContainer>
   )
 }

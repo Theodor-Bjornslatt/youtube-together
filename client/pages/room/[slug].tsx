@@ -123,7 +123,7 @@ const Room = ({ user, room }: RoomProps) => {
     <>
       <Header title={(room = room ?? 'My Room')} />
       <Container>
-        <div>
+        <div style={{ justifySelf: 'center', width: '100%' }}>
           <Video room={room} />
           <ChatContainer>
             <Chat room={room} />
