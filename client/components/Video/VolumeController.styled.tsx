@@ -8,6 +8,11 @@ import {
   spacings
 } from '../../styles/variables'
 
+export const MainContainer = styled.div`
+  display: flex;
+  gap: 5px;
+`
+
 export const VolumeBar = styled.input`
   height: ${lineHeights.extraExtraSmall};
   -webkit-appearance: none;

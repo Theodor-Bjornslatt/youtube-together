@@ -1,10 +1,10 @@
 import { ChangeEvent, Dispatch, SetStateAction } from 'react'
 
 import NextImage from '../NextImage'
-import VolumeSlider from './VolumeSlider'
 import volumeIcon from '../../public/volume.png'
 import volumeOff from '../../public/volumeOff.png'
 import { ControlButton } from './Video.styled'
+import { MainContainer, VolumeBar } from './VolumeController.styled'
 
 type VolumeProp = {
   volume: number
@@ -18,7 +18,7 @@ export default function VolumeController({
   handleVolumeChange
 }: VolumeProp) {
   return (
-    <div style={{ display: 'flex', gap: '5px' }}>
+    <MainContainer>
       <ControlButton
         onClick={() => {
           setVolume((prev) => (prev > 0 ? 0 : 0.4))
@@ -30,7 +30,14 @@ export default function VolumeController({
           <NextImage src={volumeIcon} width={30} height={30} />
         )}
       </ControlButton>
-      <VolumeSlider onChange={handleVolumeChange} volume={volume} />
-    </div>
+      <VolumeBar
+        type="range"
+        step="0.1"
+        min={0}
+        max={1}
+        value={volume}
+        onChange={handleVolumeChange}
+      />
+    </MainContainer>
   )
 }

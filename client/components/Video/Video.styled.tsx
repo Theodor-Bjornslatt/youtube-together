@@ -37,7 +37,7 @@ export const PauseOverlay = styled.div`
 export const ControlButton = styled.button`
   background-color: transparent;
   border: none;
-
+  padding: 0;
   &:hover {
     cursor: pointer;
   }

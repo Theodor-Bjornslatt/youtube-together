@@ -7,7 +7,7 @@ import {
 } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
-import VideoController from './VideoController'
+import VideoController from './ProgressBar'
 import {
   VideoPlayer,
   ControlButton,
