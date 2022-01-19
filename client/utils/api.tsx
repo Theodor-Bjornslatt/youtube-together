@@ -50,7 +50,7 @@ export const serverSideGetRooms = async () => {
 export const apiGetRoomMessages = async ({ query, room }: QueryProp) => {
   try {
     const res = await fetch(
-      `http://localhost:8080/api/rooms/${room}/messages${query && query}`,
+      `http://localhost:8080/api/rooms/${room}/messages${query ? query : ''}`,
       {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' }
