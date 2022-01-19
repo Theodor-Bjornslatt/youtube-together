@@ -15,9 +15,10 @@ type ChatProps = {
 
 const Chat = ({ room }: ChatProps) => {
   const { socket, messages, setMessages } = useSockets()
-  const { more, apiMethod } = usePagination({
+  const { moreDataAvailable, apiMethod } = usePagination({
     updateList: setMessages,
-    apiFunction: apiGetRoomMessages
+    apiFunction: apiGetRoomMessages,
+    page: 2
   })
   const [message, setMessage] = useState('')
   const [autoScroll, setAutoScroll] = useState(true)
@@ -26,7 +27,7 @@ const Chat = ({ room }: ChatProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
   const topRef = useRef<HTMLDivElement>(null)
 
-  const onScreen = useObserver(topRef, root)
+  const onScreen = useObserver({ ref: topRef, root })
 
   const handleCheckboxClick = () => {
     setAutoScroll((prev) => !prev)
@@ -52,7 +53,7 @@ const Chat = ({ room }: ChatProps) => {
 
   useEffect(() => {
     if (!onScreen) return
-    more && apiMethod(room)
+    moreDataAvailable && apiMethod(room)
   }, [onScreen])
 
   useEffect(() => {

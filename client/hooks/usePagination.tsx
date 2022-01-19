@@ -8,7 +8,7 @@ type apiProps = {
 type PaginationProps = {
   limit?: number
   page?: number
-  updateList?: Dispatch<SetStateAction<unknown[]>>
+  updateList?: Dispatch<SetStateAction<any[]>>
   apiFunction: (args: apiProps) => Promise<unknown[]>
 }
 
@@ -20,18 +20,18 @@ export function usePagination({
 }: PaginationProps) {
   const [currentPage, setCurrentPage] = useState(page)
   const [loading, setLoading] = useState(false)
-  const [more, setMore] = useState(true)
+  const [moreDataAvailable, setMoreDataAvailable] = useState(true)
   const [data, setData] = useState<unknown | unknown[]>([])
 
   const apiMethod = async (room: string | null) => {
-    if (!more) return
+    if (!moreDataAvailable) return
     const query = `?limit=${limit}&page=${currentPage}`
     setLoading(true)
     try {
       const data = await apiFunction({ query, room })
       setLoading(false)
 
-      if (data.length < limit || !data) setMore(false)
+      if (data.length < limit || !data) setMoreDataAvailable(false)
       if (data) {
         updateList && updateList((currentList) => [...data, ...currentList])
         setData(data)
@@ -42,5 +42,5 @@ export function usePagination({
     }
   }
 
-  return { apiMethod, currentPage, loading, more, data }
+  return { apiMethod, currentPage, loading, moreDataAvailable, data }
 }

@@ -1,23 +1,33 @@
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, RefObject } from 'react'
 
-export function useObserver(ref: any, root: any) {
+type ObserverProps = {
+  ref: RefObject<HTMLDivElement>
+  root: RefObject<HTMLDivElement>
+  rootMargin?: string
+}
+
+export function useObserver({
+  ref,
+  root,
+  rootMargin = '200px'
+}: ObserverProps) {
   const observerRef = useRef<IntersectionObserver | null>(null)
-  const [isOnScreen, setIsOnScreen] = useState(false)
+  const [isVisible, setVisible] = useState(false)
 
   useEffect(() => {
     observerRef.current = new IntersectionObserver(
-      ([entry]) => setIsOnScreen(entry.isIntersecting),
-      { root: root.current, rootMargin: '200px' }
+      ([entry]) => setVisible(entry.isIntersecting),
+      { root: root.current, rootMargin }
     )
   }, [])
 
   useEffect(() => {
-    observerRef.current?.observe(ref.current)
+    ref.current && observerRef.current?.observe(ref.current)
 
     return () => {
       observerRef.current?.disconnect()
     }
   }, [ref])
 
-  return isOnScreen
+  return isVisible
 }
