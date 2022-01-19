@@ -1,37 +1,40 @@
 import { Dispatch, SetStateAction, useState } from 'react'
 
-import { MessageData } from '../state/SocketContext'
+type apiProps = {
+  query?: string
+  room: string | null
+}
 
 type PaginationProps = {
   limit?: number
-  updateList?: Dispatch<SetStateAction<MessageData[]>>
+  page?: number
+  updateList?: Dispatch<SetStateAction<unknown[]>>
+  apiFunction: (args: apiProps) => Promise<unknown[]>
 }
 
-export function usePagination({ limit = 10, updateList }: PaginationProps) {
-  const [currentPage, setCurrentPage] = useState(1)
+export function usePagination({
+  limit = 10,
+  updateList,
+  apiFunction,
+  page = 1
+}: PaginationProps) {
+  const [currentPage, setCurrentPage] = useState(page)
   const [loading, setLoading] = useState(false)
   const [more, setMore] = useState(true)
-  const [data, setData] = useState([])
+  const [data, setData] = useState<unknown | unknown[]>([])
 
-  const apiFetch = async (url: string) => {
-    if (currentPage === 1) {
-      setCurrentPage((prev) => prev + 1)
-      return
-    }
+  const apiMethod = async (room: string | null) => {
     if (!more) return
     const query = `?limit=${limit}&page=${currentPage}`
     setLoading(true)
     try {
-      const res = await fetch(url + query, {
-        credentials: 'include'
-      })
-      const { messages } = await res.json()
+      const data = await apiFunction({ query, room })
       setLoading(false)
 
-      if (messages.length < limit || !messages) setMore(false)
-      if (messages) {
-        updateList && updateList((currentList) => [...messages, ...currentList])
-        setData(messages)
+      if (data.length < limit || !data) setMore(false)
+      if (data) {
+        updateList && updateList((currentList) => [...data, ...currentList])
+        setData(data)
       }
       setCurrentPage((prev) => prev + 1)
     } catch (e) {
@@ -39,5 +42,5 @@ export function usePagination({ limit = 10, updateList }: PaginationProps) {
     }
   }
 
-  return { apiFetch, currentPage, loading, more, data }
+  return { apiMethod, currentPage, loading, more, data }
 }

@@ -1,5 +1,10 @@
 import { GetServerSidePropsContext } from 'next'
 
+type QueryProp = {
+  query?: string
+  room: string | null
+}
+
 export const serverSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
   const { req } = ctx
   const { cookies } = req
@@ -37,6 +42,23 @@ export const serverSideGetRooms = async () => {
     })
     if (!res.ok) throw new Error()
     return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+export const apiGetRoomMessages = async ({ query, room }: QueryProp) => {
+  try {
+    const res = await fetch(
+      `http://localhost:8080/api/rooms/${room}/messages${query && query}`,
+      {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+    if (!res.ok) throw new Error()
+    const { messages } = await res.json()
+    return messages
   } catch (e) {
     throw new Error()
   }

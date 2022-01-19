@@ -7,6 +7,7 @@ import { useSockets } from '../../state/SocketContext'
 import { usePagination } from '../../hooks/usePagination'
 import Checkbox from '../inputs/Checkbox'
 import { useObserver } from '../../hooks/useObserver'
+import { apiGetRoomMessages } from '../../utils/api'
 
 type ChatProps = {
   room: string | null
@@ -14,7 +15,10 @@ type ChatProps = {
 
 const Chat = ({ room }: ChatProps) => {
   const { socket, messages, setMessages } = useSockets()
-  const { more, apiFetch } = usePagination({ updateList: setMessages })
+  const { more, apiMethod } = usePagination({
+    updateList: setMessages,
+    apiFunction: apiGetRoomMessages
+  })
   const [message, setMessage] = useState('')
   const [autoScroll, setAutoScroll] = useState(true)
 
@@ -48,7 +52,7 @@ const Chat = ({ room }: ChatProps) => {
 
   useEffect(() => {
     if (!onScreen) return
-    more && apiFetch(`http://localhost:8080/api/rooms/${room}/messages`)
+    more && apiMethod(room)
   }, [onScreen])
 
   useEffect(() => {
