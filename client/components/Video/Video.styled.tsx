@@ -52,11 +52,11 @@ export const ControlButton = styled.button`
     cursor: pointer;
   }
 `
-type ControlProps = {
-  shouldControlsFadeIn: boolean
+type AnimationProps = {
+  isFadingIn: boolean
 }
 
-export const ControlContainer = styled.div<ControlProps>`
+export const ControlContainer = styled.div<AnimationProps>`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -66,12 +66,11 @@ export const ControlContainer = styled.div<ControlProps>`
   padding: ${spacings.tiny};
   width: 100%;
   background: rgba(0, 0, 0, 0.85);
-  box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
+  //box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(4px);
-  border-radius: ${spacings.tiny};
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  animation: ${(props) => (props.shouldControlsFadeIn ? fadeIn : fadeOut)} 0.2s
-    ease-out;
+  border-radius: ${spacings.tiny} ${spacings.tiny} 0 0;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  animation: ${(props) => (props.isFadingIn ? fadeIn : fadeOut)} 1s ease-out;
 `
 
 const fadeIn = keyframes`

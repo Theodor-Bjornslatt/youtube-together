@@ -165,9 +165,13 @@ export default function Video({ room }: VideoProps) {
   if (player) player.allowFullscreen = 0
 
   return (
-    <div>
+    <div
+      onClick={() => {
+        setShowControls(true), setIsFadingIn((prev) => !prev)
+      }}
+    >
       <VideoBoundary>
-        <VideoContainer onClick={handleShowControls}>
+        <VideoContainer>
           <VideoPlayer
             url={urls}
             ref={ref}
@@ -177,13 +181,19 @@ export default function Video({ room }: VideoProps) {
             width={'100%'}
             height={'100%'}
             volume={volume}
+            muted={true}
           />
 
           {/* {!isPlaying && (
           <PauseOverlay>The host has paused this video</PauseOverlay>
         )} */}
           {showControls && (
-            <ControlPanelContainer shouldControlsFadeIn={shouldControlsFadeIn}>
+            <ControlPanelContainer
+              shouldControlsFadeIn={shouldControlsFadeIn}
+              isFadingIn={isFadingIn}
+              onAnimationEnd={handleAnimationEnd}
+              onClick={hideElement}
+            >
               <VideoController
                 duration={player?.getDuration ? player.getDuration() : 100}
                 currentTimestamp={timestamp}
