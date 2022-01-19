@@ -2,7 +2,7 @@ import { GetServerSidePropsContext } from 'next'
 
 type QueryProp = {
   query?: string
-  room: string | null
+  room?: string | null
 }
 
 export const serverSideWhoAmI = async (ctx: GetServerSidePropsContext) => {

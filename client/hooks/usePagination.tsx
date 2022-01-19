@@ -1,29 +1,27 @@
-import { Dispatch, SetStateAction, useState } from 'react'
+import { useState } from 'react'
 
 type apiProps = {
   query?: string
-  room: string | null
+  room?: string | null
 }
 
 type PaginationProps = {
   limit?: number
   page?: number
-  updateList?: Dispatch<SetStateAction<any[]>>
   apiFunction: (args: apiProps) => Promise<unknown[]>
 }
 
 export function usePagination({
   limit = 10,
-  updateList,
   apiFunction,
   page = 1
 }: PaginationProps) {
   const [currentPage, setCurrentPage] = useState(page)
   const [loading, setLoading] = useState(false)
   const [moreDataAvailable, setMoreDataAvailable] = useState(true)
-  const [data, setData] = useState<unknown | unknown[]>([])
+  const [data, setData] = useState<any>({})
 
-  const apiMethod = async (room: string | null) => {
+  const apiMethod = async (room?: string | null) => {
     if (!moreDataAvailable) return
     const query = `?limit=${limit}&page=${currentPage}`
     setLoading(true)
@@ -32,13 +30,10 @@ export function usePagination({
       setLoading(false)
 
       if (data.length < limit || !data) setMoreDataAvailable(false)
-      if (data) {
-        updateList && updateList((currentList) => [...data, ...currentList])
-        setData(data)
-      }
+      data && setData(data)
       setCurrentPage((prev) => prev + 1)
-    } catch (e) {
-      console.log(e)
+    } catch (ignore) {
+      return
     }
   }
 
