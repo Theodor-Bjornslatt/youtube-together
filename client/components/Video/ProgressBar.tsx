@@ -30,7 +30,7 @@ export default function VideoController({
       '%, white ' +
       value +
       '%, white 100%)'
-  }, [barRef.current?.value])
+  }, [currentTimestamp])
 
   return (
     <ProgressBar

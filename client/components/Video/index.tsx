@@ -179,7 +179,6 @@ export default function Video({ room }: VideoProps) {
             width={'100%'}
             height={'100%'}
             volume={volume}
-            muted={true}
           />
 
           {!isPlaying && (
