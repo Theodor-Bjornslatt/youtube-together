@@ -96,7 +96,8 @@ export const shadows = {
 export const borders = {
   light: '1px solid #2D2828',
   danger: `1px solid ${colors.danger}`,
-  focus: '1px solid lightpink'
+  focus: '1px solid lightpink',
+  outline: '2px solid #D9A6AE'
 }
 type textColors = {
   [key: string]: string

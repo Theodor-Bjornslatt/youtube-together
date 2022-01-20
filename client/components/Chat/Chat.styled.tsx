@@ -3,6 +3,7 @@ import TextareaAutosize from 'react-textarea-autosize'
 
 import {
   borderRadius,
+  borders,
   colors,
   fonts,
   fontSizes,
@@ -109,7 +110,7 @@ export const InputWrapper = styled.div<StyledInputProps>`
   width: 100%;
 
   outline: ${(props) => {
-    return props.focus ? `2px solid #D9A6AE` : `none`
+    return props.focus ? `${borders.outline}` : `none`
   }};
 `
 
