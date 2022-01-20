@@ -4,7 +4,7 @@ import {
   borderRadius,
   colors,
   lineHeights,
-  shadows,
+  sizes,
   spacings
 } from '../../styles/variables'
 
@@ -14,11 +14,10 @@ export const MainContainer = styled.div`
 `
 
 export const VolumeBar = styled.input`
-  height: ${lineHeights.extraExtraSmall};
+  height: ${spacings.tiny};
   -webkit-appearance: none;
   margin: ${spacings.extraExtraSmall} 0;
   width: 100%;
-  background: transparent;
   border-radius: ${borderRadius.small};
 
   &:focus {
@@ -27,14 +26,13 @@ export const VolumeBar = styled.input`
 
   ::-webkit-slider-runnable-track {
     width: 100%;
-    height: ${lineHeights.extraExtraSmall};
+    height: ${spacings.tiny};
     cursor: pointer;
-    box-shadow: ${shadows.small};
     background: ${colors.transparentBrown};
   }
 
   ::-webkit-slider-thumb {
-    height: ${lineHeights.extraExtraSmall};
+    height: 7px;
     width: ${spacings.extraSmall};
     border-radius: ${borderRadius.large};
     background: ${colors.white};
@@ -42,10 +40,11 @@ export const VolumeBar = styled.input`
     transition-duration: 0.2s;
     transition-delay: 0.2s;
     -webkit-appearance: none;
+    margin-top: -1px;
 
     &:hover {
-      height: ${lineHeights.extraSmall};
-      margin-top: -5px;
+      height: ${spacings.extraExtraSmall};
+      margin-top: -3px;
     }
   }
 
@@ -55,39 +54,38 @@ export const VolumeBar = styled.input`
 
   ::-moz-range-track {
     width: 100%;
-    height: ${lineHeights.extraExtraSmall};
+    height: ${spacings.tiny};
     cursor: pointer;
-    box-shadow: ${shadows.small};
     background: ${colors.transparentBrown};
-    border-radius: ${borderRadius.small};
   }
 
   ::-moz-range-thumb {
-    height: ${lineHeights.extraExtraSmall};
-    width: ${spacings.medium};
+    height: 7px;
+    width: ${spacings.extraSmall};
     border-radius: ${borderRadius.large};
     background: ${colors.white};
     cursor: pointer;
+    transition-duration: 0.2s;
+    transition-delay: 0.2s;
     -webkit-appearance: none;
+    margin-top: -1px;
 
     &:hover {
-      height: ${lineHeights.extraSmall};
-      margin-top: -5px;
+      height: ${spacings.extraExtraSmall};
+      margin-top: -3px;
     }
   }
 
   ::-ms-track {
-    height: ${lineHeights.extraExtraSmall};
     width: 100%;
+    height: ${spacings.tiny};
     cursor: pointer;
-    background: transparent;
-    border-color: transparent;
-    color: transparent;
+    background: ${colors.transparentBrown};
   }
 
   ::-ms-thumb {
     height: ${lineHeights.extraExtraSmall};
-    width: ${spacings.medium};
+    width: ${spacings.extraSmall};
     border-radius: ${borderRadius.large};
     background: ${colors.white};
     cursor: pointer;
@@ -95,7 +93,50 @@ export const VolumeBar = styled.input`
 
     &:hover {
       height: ${lineHeights.extraSmall};
-      margin-top: -5px;
+      margin-top: -${spacings.tiny};
+    }
+  }
+
+  @media screen and (max-width: ${sizes.tablet}px) {
+    height: ${spacings.tiny};
+
+    ::-webkit-slider-runnable-track {
+      height: ${spacings.tiny};
+    }
+
+    ::-webkit-slider-thumb {
+      height: 7px;
+      margin-top: -1px;
+
+      &:hover {
+        margin-top: -3px;
+      }
+    }
+    ::-moz-range-track {
+      height: ${lineHeights.extraSmall};
+    }
+
+    ::-moz-range-thumb {
+      height: 7px;
+      width: ${spacings.extraSmall};
+      border-radius: ${borderRadius.large};
+
+      &:hover {
+        margin-top: -3px;
+      }
+    }
+
+    ::-ms-track {
+      height: ${lineHeights.extraSmall};
+    }
+
+    ::-ms-thumb {
+      height: 7px;
+      width: ${spacings.extraSmall};
+
+      &:hover {
+        margin-top: -3px;
+      }
     }
   }
 `
