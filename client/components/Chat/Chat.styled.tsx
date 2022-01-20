@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import TextareaAutosize from 'react-textarea-autosize'
 
 import {
   borderRadius,
@@ -10,6 +11,10 @@ import {
   spacings
 } from '../../styles/variables'
 import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
+
+type StyledInputProps = {
+  focus: boolean
+}
 
 export const ChatContainer = styled(MaxWidthContainerStyled)`
   display: flex;
@@ -90,5 +95,71 @@ export const ChatButton = styled.button`
 
   &:hover {
     cursor: pointer;
+  }
+`
+
+export const InputWrapper = styled.div<StyledInputProps>`
+  border-radius: ${borderRadius.large};
+  display: inline-block;
+  //change this if trubble
+  margin: 50px 0px;
+  overflow: hidden;
+  width: 100%;
+
+  outline: ${(props) => {
+    return props.focus ? `2px solid #D9A6AE` : `none`
+  }};
+  box-shadow: ${(props) => {
+    return props.focus ? `inset 0 0 50px #000000` : 'inset 0 0 50px #000000'
+  }};
+`
+
+export const FlexContainer = styled.div`
+  display: flex;
+`
+
+export const AreaInput = styled(TextareaAutosize)`
+  display: inline-block;
+  box-sizing: border-box;
+  background: ${colors.lightPink};
+  font-size: ${fontSizes.small};
+  font-family: ${fonts.roboto};
+  padding: ${spacings.extraSmall} 0 ${spacings.extraSmall}
+    ${spacings.extraSmall};
+  border: none;
+  color: ${colors.darkest};
+  resize: none;
+  flex: 5;
+
+  &:focus {
+    outline: none;
+  }
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+
+  @media screen and (max-width: ${sizes.mobile}px) {
+    font-size: ${fontSizes.extraSmall};
+    padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}
+      ${spacings.extraExtraSmall};
+  }
+`
+
+export const SubmitButton = styled.button`
+  background: ${colors.lightPink};
+  box-sizing: border-box;
+  border: none;
+  color: ${colors.darkest};
+  display: inline-block;
+  flex: 1;
+  padding: 0;
+  width: 100%;
+
+  &:active {
+    transform: none;
+    :last-child {
+      transform: scale(5);
+    }
   }
 `

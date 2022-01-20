@@ -46,7 +46,7 @@ export const colors = {
   darkest: '#161414',
   dark: '#1E1C1C',
   brown: '#2D2828',
-  white: '#FFFFFF',
+  white: '#F2EEE7',
   atriumWhite: '#F2EEE7',
   transparentDark: '#2D282880',
   transparentPink: '#FBECEC33',
