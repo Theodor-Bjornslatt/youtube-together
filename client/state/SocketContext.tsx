@@ -8,17 +8,19 @@ import {
 } from 'react'
 import io, { Socket } from 'socket.io-client'
 
-import { SocketStatus } from '../types'
+import { MovedItemInfo, SocketStatus, PlaylistItemData } from '../types'
 import { User } from './GlobalState'
 
 type Context = {
   socket: Socket | undefined
   username?: string
   messages?: MessageData[]
-  playlist?: PlaylistData[]
+  playlist?: PlaylistItemData[]
   activeUsers?: User[]
+  itemToMove: MovedItemInfo
   setMessages: Dispatch<SetStateAction<MessageData[]>>
-  setPlaylist: Dispatch<SetStateAction<PlaylistData[]>>
+  setPlaylist: Dispatch<SetStateAction<PlaylistItemData[]>>
+  updatePlaylistOrder: (event: 'next' | 'previous') => void
   cleanUpSocketStates: () => void
   roomId?: string
   host: string
@@ -30,7 +32,7 @@ type Context = {
 type RoomStateData = {
   messages: MessageData[]
   users: User[]
-  playlist: PlaylistData[]
+  playlist: PlaylistItemData[]
   host: string
 }
 
@@ -48,12 +50,6 @@ export type MessageData = {
   room?: string
 }
 
-export type PlaylistData = {
-  _id?: string | number
-  url: string
-  title: string
-}
-
 const socket =
   typeof window === 'undefined' ? undefined : io('http://localhost:8080/')
 
@@ -61,7 +57,9 @@ const SocketContext = createContext<Context>({
   socket,
   setMessages: () => null,
   setPlaylist: () => null,
+  updatePlaylistOrder: () => null,
   cleanUpSocketStates: () => null,
+  itemToMove: {},
   messages: [],
   playlist: [],
   host: '',
@@ -69,6 +67,7 @@ const SocketContext = createContext<Context>({
   timestamp: 0,
   setTimestamp: () => null
 })
+
 type SocketProviderProps = {
   isLoggedIn: boolean
   children: JSX.Element[] | JSX.Element
@@ -76,11 +75,32 @@ type SocketProviderProps = {
 
 function SocketsProvider({ children }: SocketProviderProps) {
   const [messages, setMessages] = useState<MessageData[]>([])
-  const [playlist, setPlaylist] = useState<PlaylistData[]>([])
+  const [playlist, setPlaylist] = useState<PlaylistItemData[]>([])
   const [activeUsers, setActiveUsers] = useState<User[]>([])
-  const [status, setStatus] = useState<SocketStatus>()
+  const [status, setStatus] = useState<SocketStatus>({})
   const [host, setHost] = useState('')
   const [timestamp, setTimestamp] = useState(0)
+  const [itemToMove, setItemToMove] = useState({})
+
+  function updatePlaylistOrder(event: 'next' | 'previous') {
+    const sortPlaylist = (
+      previousList: PlaylistItemData[],
+      event: 'next' | 'previous'
+    ) => {
+      let newList: PlaylistItemData[]
+      if (event === 'next') {
+        newList = [...previousList]
+        const item = newList.shift()
+        item && newList.push(item)
+      } else {
+        newList = [...previousList]
+        const item = newList.pop()
+        item && newList.unshift(item)
+      }
+      return newList
+    }
+    setPlaylist((old) => sortPlaylist(old, event))
+  }
 
   useEffect(() => {
     if (!socket) return
@@ -111,6 +131,18 @@ function SocketsProvider({ children }: SocketProviderProps) {
       setHost(data.newHost)
     })
 
+    socket.on('nextVideo', () => {
+      updatePlaylistOrder('next')
+    })
+
+    socket.on('previousVideo', () => {
+      updatePlaylistOrder('previous')
+    })
+
+    socket.on('newPlaylistOrder', (movedItemInfo: MovedItemInfo) => {
+      setItemToMove(movedItemInfo)
+    })
+
     function cleanup() {
       if (!socket) return
       socket.disconnect()
@@ -131,9 +163,11 @@ function SocketsProvider({ children }: SocketProviderProps) {
         messages,
         playlist,
         activeUsers,
+        itemToMove,
         host,
         setMessages,
         setPlaylist,
+        updatePlaylistOrder,
         cleanUpSocketStates,
         timestamp,
         setTimestamp,

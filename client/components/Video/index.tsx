@@ -3,7 +3,8 @@ import {
   useRef,
   ChangeEvent,
   BaseSyntheticEvent,
-  useEffect
+  useEffect,
+  useContext
 } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
@@ -20,25 +21,46 @@ import play from '../../public/play.png'
 import pause from '../../public/pause.png'
 import next from '../../public/next.png'
 import previous from '../../public/previous.png'
-import { PlayItem } from '../Playlist'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import { ContentContainer } from './Video.styled'
 import VolumeController from './VolumeController'
+import { GlobalContext } from '../../state/GlobalState'
 
 type VideoProps = {
   room: string
 }
 
 export default function Video({ room }: VideoProps) {
-  const { playlist, setPlaylist, socket, status, timestamp, setTimestamp } =
-    useSockets()
+  const {
+    playlist,
+    socket,
+    status,
+    timestamp,
+    itemToMove,
+    setTimestamp,
+    setPlaylist,
+    updatePlaylistOrder
+  } = useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
   const [volume, setVolume] = useState(0.4)
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
   const urls = playlist?.map((item) => item.url)
+  const { state } = useContext(GlobalContext)
+  const [reorderPlaylistTimeout, setReorderPlaylistTimeout] = useState<
+    NodeJS.Timeout | undefined
+  >()
+
+  function reorderPlaylist() {
+    const { item, newIndex } = itemToMove
+    if (!item || !playlist || !newIndex) return
+    const newPlaylist = [...playlist.filter((it) => it._id !== item._id)]
+    newPlaylist.splice(newIndex, 0, item)
+    setPlaylist(newPlaylist)
+  }
 
   useEffect(() => {
+    if (!status) return
     switch (status?.type) {
       case 'player':
         if (status?.event == 1) setIsPlaying(false)
@@ -52,6 +74,23 @@ export default function Video({ room }: VideoProps) {
         break
     }
   }, [status])
+
+  useEffect(() => {
+    reorderPlaylist()
+  }, [itemToMove])
+
+  useEffect(() => {
+    reorderPlaylistTimeout && clearTimeout(reorderPlaylistTimeout)
+    setReorderPlaylistTimeout(
+      setTimeout(() => {
+        socket?.emit('playlist', {
+          type: 'movedItem',
+          room,
+          movedItemInfo: state.movedItemInfo
+        })
+      }, 300)
+    )
+  }, [state.movedItemInfo])
 
   const handleStartStop = () => {
     setIsPlaying((prev) => !prev)
@@ -98,38 +137,28 @@ export default function Video({ room }: VideoProps) {
     })
   }
 
-  const handleUserVideoChange = async (value: string) => {
+  const handleUserVideoChange = async (value: 'next' | 'previous') => {
     if (!playlist || playlist.length < 2 || !player) return
 
     const item = value === 'next' ? playlist[0] : playlist[playlist.length - 1]
-    setPlaylist((old) => sortPlaylist(old, value))
 
     await apiSaveNewPlaylistOrder(room, {
       ...item,
       position: value === 'next' ? playlist.length : 0
     })
 
-    // emit new order
+    updatePlaylistOrder(value)
+    socket?.emit('playlist', {
+      type: value,
+      room,
+      position: value === 'next' ? playlist.length : 0
+    })
 
     player.nextVideo()
   }
 
   const handleVolumeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setVolume(Number(e.target.value))
-  }
-
-  function sortPlaylist(previousList: PlayItem[], event: string) {
-    let newList: PlayItem[]
-    if (event === 'next') {
-      newList = [...previousList]
-      const item = newList.shift()
-      item && newList.push(item)
-    } else {
-      newList = [...previousList]
-      const item = newList.pop()
-      item && newList.unshift(item)
-    }
-    return newList
   }
 
   if (player) player.allowFullscreen = 0

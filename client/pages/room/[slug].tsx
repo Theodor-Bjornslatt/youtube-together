@@ -4,7 +4,7 @@ import { useContext, useEffect } from 'react'
 
 import Chat from '../../components/Chat'
 import Header from '../../components/Header'
-import { PlayItem } from '../../components/Playlist'
+import { PlaylistItemData } from '../../types'
 import Sidebar from '../../components/Sidebar'
 import Video from '../../components/Video'
 import { GlobalContext } from '../../state/GlobalState'
@@ -103,15 +103,15 @@ const Room = ({ user, room }: RoomProps) => {
   }, [timestamp])
 
   const handlePlaylistChange = async (
-    item: PlayItem | undefined,
-    playlist: PlayItem[]
+    item: PlaylistItemData | undefined,
+    playlist: PlaylistItemData[]
   ) => {
     if (!item) return
     const index = playlist.findIndex((it) => it._id === item._id)
     await apiSaveNewPlaylistOrder(room, { position: index, ...item })
   }
 
-  const handleVideoAdd = async (item: PlayItem) => {
+  const handleVideoAdd = async (item: PlaylistItemData) => {
     try {
       await apiPostPlaylistItem(room, item)
       return true

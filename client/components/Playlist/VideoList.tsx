@@ -1,8 +1,17 @@
-import { useState, useEffect, useMemo, useRef, PointerEvent } from 'react'
+import {
+  useState,
+  useEffect,
+  useMemo,
+  useRef,
+  PointerEvent,
+  useContext
+} from 'react'
 
 import { PlaylistContainer } from './Playlist.styled'
 import PlaylistItem from './PlaylistItem'
-import { PlayItem, PlaylistProps } from '.'
+import { PlaylistProps } from '.'
+import { GlobalContext } from '../../state/GlobalState'
+import { PlaylistItemData } from '../../types'
 
 export default function VideoList({
   playlist,
@@ -11,9 +20,12 @@ export default function VideoList({
 }: PlaylistProps) {
   const [pointerPosition, setPointerPosition] = useState({ x: 0, y: 0 })
   const [itemPointerOffset, setItemPointerOffset] = useState({ x: 0, y: 0 })
-  const [draggedItem, setDraggedItem] = useState<PlayItem | undefined>()
-  const [playlistCopy, setPlaylistCopy] = useState<PlayItem[]>([...playlist])
+  const [draggedItem, setDraggedItem] = useState<PlaylistItemData | undefined>()
+  const [playlistCopy, setPlaylistCopy] = useState<PlaylistItemData[]>([
+    ...playlist
+  ])
   const playlistRef = useRef<HTMLDivElement>(null)
+  const { dispatch } = useContext(GlobalContext)
 
   useEffect(() => {
     window.addEventListener('pointerup', () => setDraggedItem(undefined))
@@ -42,17 +54,24 @@ export default function VideoList({
     if (reset) {
       setPlaylistCopy([...playlist])
     } else {
+      const newIndex = playlistCopy.findIndex(
+        (it) => it._id === draggedItem?._id
+      )
+      dispatch({
+        type: 'movedItemInfo',
+        payload: { item: draggedItem, newIndex }
+      })
       setPlaylist([...playlistCopy])
       onEndDrag && onEndDrag(draggedItem, playlistCopy)
       setDraggedItem(undefined)
     }
   }
 
-  function startDrag(item: PlayItem) {
+  function startDrag(item: PlaylistItemData) {
     setDraggedItem(item)
   }
 
-  function onPointerEnter(item: PlayItem) {
+  function onPointerEnter(item: PlaylistItemData) {
     if (!draggedItem || draggedItem._id === item._id) return
     const hoveredItemIndex = playlistCopy.findIndex((it) => it._id === item._id)
     const newPlaylist = [
