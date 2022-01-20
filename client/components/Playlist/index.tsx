@@ -1,22 +1,18 @@
 import { Dispatch, SetStateAction } from 'react'
 
-import { PlaylistData } from '../../state/SocketContext'
+import { PlaylistItemData } from '../../types'
 import { Container } from './Playlist.styled'
 import PlaylistInput from './PlaylistInput'
 import VideoList from './VideoList'
 
-export type PlayItem = {
-  id?: number
-} & PlaylistData
-
 export type PlaylistProps = {
-  playlist: PlayItem[]
-  setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
+  playlist: PlaylistItemData[]
+  setPlaylist: Dispatch<SetStateAction<PlaylistItemData[]>>
   onEndDrag?: (
-    item: PlayItem | undefined,
-    playlist: PlayItem[]
+    item: PlaylistItemData | undefined,
+    playlist: PlaylistItemData[]
   ) => Promise<void>
-  onVideoAdd?: (item: PlayItem) => Promise<boolean>
+  onVideoAdd?: (item: PlaylistItemData) => Promise<boolean>
 }
 
 export default function Playlist({

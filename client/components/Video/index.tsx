@@ -3,7 +3,8 @@ import {
   useRef,
   ChangeEvent,
   BaseSyntheticEvent,
-  useEffect
+  useEffect,
+  useContext
 } from 'react'
 import ReactPlayer from 'react-player/lazy'
 
@@ -23,6 +24,7 @@ import previous from '../../public/previous.png'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import { ContentContainer } from './Video.styled'
 import VolumeController from './VolumeController'
+import { GlobalContext } from '../../state/GlobalState'
 
 type VideoProps = {
   room: string
@@ -34,7 +36,9 @@ export default function Video({ room }: VideoProps) {
     socket,
     status,
     timestamp,
+    itemToMove,
     setTimestamp,
+    setPlaylist,
     updatePlaylistOrder
   } = useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
@@ -42,8 +46,21 @@ export default function Video({ room }: VideoProps) {
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
   const urls = playlist?.map((item) => item.url)
+  const { state } = useContext(GlobalContext)
+  const [reorderPlaylistTimeout, setReorderPlaylistTimeout] = useState<
+    NodeJS.Timeout | undefined
+  >()
+
+  function reorderPlaylist() {
+    const { item, newIndex } = itemToMove
+    if (!item || !playlist || !newIndex) return
+    const newPlaylist = [...playlist.filter((it) => it._id !== item._id)]
+    newPlaylist.splice(newIndex, 0, item)
+    setPlaylist(newPlaylist)
+  }
 
   useEffect(() => {
+    if (!status) return
     switch (status?.type) {
       case 'player':
         if (status?.event == 1) setIsPlaying(false)
@@ -57,6 +74,24 @@ export default function Video({ room }: VideoProps) {
         break
     }
   }, [status])
+
+  useEffect(() => {
+    reorderPlaylist()
+  }, [itemToMove])
+
+  useEffect(() => {
+    reorderPlaylistTimeout && clearTimeout(reorderPlaylistTimeout)
+    setReorderPlaylistTimeout(
+      setTimeout(() => {
+        socket?.emit('playlist', {
+          type: 'movedItem',
+          room,
+          movedItemInfo: state.movedItemInfo
+        })
+      }, 300)
+    )
+  }, [state.movedItemInfo])
+
   const handleStartStop = () => {
     setIsPlaying((prev) => !prev)
     const status = player?.getPlayerState()

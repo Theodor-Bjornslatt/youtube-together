@@ -7,13 +7,13 @@ import {
 } from './Playlist.styled'
 import NextImage from '../NextImage'
 import play from '../../public/play.svg'
-import { PlayItem } from '.'
+import { PlaylistItemData } from '../../types'
 
 type PlaylistItemProps = {
-  item: PlayItem
+  item: PlaylistItemData
   isActive?: boolean
-  startDrag: (item: PlayItem) => void
-  onPointerEnter?: (item: PlayItem) => void
+  startDrag: (item: PlaylistItemData) => void
+  onPointerEnter?: (item: PlaylistItemData) => void
   translateX?: number
   translateY?: number
   ref?: RefObject<HTMLDivElement>

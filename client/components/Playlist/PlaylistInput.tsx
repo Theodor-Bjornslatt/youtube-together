@@ -8,7 +8,7 @@ import {
   useState
 } from 'react'
 
-import { PlayItem } from '.'
+import { PlaylistItemData } from '../../types'
 import { useForm } from '../../hooks/useForm'
 import { validateUrl } from '../../utils/formValidationRules'
 import { TextInput } from '../inputs/TextInput'
@@ -19,8 +19,8 @@ import {
 } from './Playlist.styled'
 
 type PlaylistInputProps = {
-  setPlaylist: Dispatch<SetStateAction<PlayItem[]>>
-  onVideoAdd?: (item: PlayItem) => Promise<boolean>
+  setPlaylist: Dispatch<SetStateAction<PlaylistItemData[]>>
+  onVideoAdd?: (item: PlaylistItemData) => Promise<boolean>
 }
 
 export default function PlaylistInput({

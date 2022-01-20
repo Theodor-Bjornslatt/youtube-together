@@ -1,5 +1,6 @@
 import { useEffect, createContext, useReducer } from 'react'
 
+import { MovedItemInfo } from '../types'
 import { useWindowSize } from '../hooks/useWindowSize'
 
 export type User = {
@@ -12,6 +13,7 @@ export type User = {
 const initialState = {
   windowWidth: 0,
   loggedIn: false,
+  movedItemInfo: { item: undefined, newIndex: undefined },
   defaultUsername: `Guest#${(Math.floor(Math.random() * 10000) + 10000)
     .toString()
     .substring(1)}`
@@ -21,11 +23,13 @@ type GlobalState = {
   windowWidth: number
   loggedIn: boolean
   defaultUsername: string
+  movedItemInfo: MovedItemInfo
 }
 
 type SetStateAction =
   | { type: 'windowWidth'; payload: number }
   | { type: 'loggedIn'; payload: boolean }
+  | { type: 'movedItemInfo'; payload: MovedItemInfo }
 
 type GlobalContextType = {
   state: GlobalState
@@ -48,6 +52,11 @@ const GlobalReducer = (state: GlobalState, action: SetStateAction) => {
       return {
         ...state,
         loggedIn: action.payload
+      }
+    case 'movedItemInfo':
+      return {
+        ...state,
+        movedItemInfo: action.payload
       }
 
     default:

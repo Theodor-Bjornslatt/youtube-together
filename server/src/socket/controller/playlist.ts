@@ -1,19 +1,20 @@
 import { Socket } from 'socket.io'
 
 type PlaylistEventData = {
-  type: 'next' | 'previous'
+  type: 'next' | 'previous' | 'movedItem'
   room: string
-  item?: {
-    url: string
-    title: string
-    _id: string
+  movedItemInfo?: {
+    item?: {
+      url: string
+      title: string
+      _id: string
+    }
+    newIndex: number
   }
-  position: number
 }
 
 export function onPlaylistChange(this: Socket, data: PlaylistEventData): void {
-  console.log('playlistChange', data)
-  const { type, room } = data
+  const { type, room, movedItemInfo } = data
 
   switch (type) {
     case 'next':
@@ -21,6 +22,9 @@ export function onPlaylistChange(this: Socket, data: PlaylistEventData): void {
       break
     case 'previous':
       this.broadcast.to(room).emit('previousVideo')
+      break
+    case 'movedItem':
+      this.broadcast.to(room).emit('newPlaylistOrder', movedItemInfo)
       break
     default:
       break

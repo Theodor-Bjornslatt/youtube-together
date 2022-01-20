@@ -8,14 +8,18 @@ import {
 } from './Sidebar.styled'
 import ActiveUsers from '../ActiveUsers/index'
 import { User } from '../../state/GlobalState'
-import Playlist, { PlayItem } from '../Playlist'
+import Playlist from '../Playlist'
 import { PlaylistContainer } from '../Playlist/Playlist.styled'
+import { PlaylistItemData } from '../../types'
 import { useSockets } from '../../state/SocketContext'
 
 type SidebarProp = {
   users: User[] | undefined
-  onEndDrag: (item: PlayItem | undefined, playlist: PlayItem[]) => Promise<void>
-  onVideoAdd: (item: PlayItem) => Promise<boolean>
+  onEndDrag: (
+    item: PlaylistItemData | undefined,
+    playlist: PlaylistItemData[]
+  ) => Promise<void>
+  onVideoAdd: (item: PlaylistItemData) => Promise<boolean>
 }
 
 function Sidebar({ users, onEndDrag, onVideoAdd }: SidebarProp) {

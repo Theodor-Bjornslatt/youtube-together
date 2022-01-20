@@ -11,11 +11,12 @@ import {
   PlaylistHeightContainer
 } from './CreateRoomForm.styled'
 import NextImage from '../NextImage'
-import Playlist, { PlayItem } from '../Playlist'
+import Playlist from '../Playlist'
+import Header from '../Header'
 import play from '../../public/play.svg'
 import { TextInput } from '../inputs/TextInput'
 import { Form } from './CreateRoomForm.styled'
-import Header from '../Header'
+import { PlaylistItemData } from '../../types'
 
 export default function CreateRoomForm() {
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
@@ -26,7 +27,7 @@ export default function CreateRoomForm() {
     },
     validateCreateRoom
   )
-  const [playlist, setPlaylist] = useState<PlayItem[]>([])
+  const [playlist, setPlaylist] = useState<PlaylistItemData[]>([])
   const router = useRouter()
 
   function onClickHandler() {
