@@ -22,38 +22,70 @@ type ChatProps = {
 
 const Chat = ({ room }: ChatProps) => {
   const { socket, messages, setMessages } = useSockets()
-  const { moreDataAvailable, apiMethod, data } = usePagination({
+  const { moreDataAvailable, apiMethod, data, loading } = usePagination({
     apiFunction: apiGetRoomMessages,
     page: 2
   })
 
   const [message, setMessage] = useState('')
   const [inputFocus, setInputFocus] = useState(false)
+  const [autoScroll, setAutoScroll] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
 
-  const root = useRef<HTMLDivElement>(null)
+  const chatListRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const topRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLTextAreaElement>(null)
 
-  const threshold = [0.25, 0.5, 0.75]
+  const threshold = [0, 0.25, 0.5, 0.75]
 
-  const onScreen = useIntersectionObserver({
+  const topRefOnScreen = useIntersectionObserver({
     ref: topRef.current,
-    root: root.current,
+    root: chatListRef.current,
     threshold,
     rootMargin: '50px'
   })
 
+  const bottomRefOnScreen = useIntersectionObserver({
+    ref: bottomRef.current,
+    threshold,
+    rootMargin: '0px'
+  })
+
   useEffect(() => {
-    if (!onScreen) return
-    moreDataAvailable && apiMethod(room)
-  }, [onScreen])
+    setIsMounted(true)
+  }, [])
 
   useEffect(() => {
     data.length && setMessages((currentList) => [...data, ...currentList])
   }, [data])
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (topRefOnScreen && !loading && moreDataAvailable) {
+      chatListRef.current?.scrollBy(0, 60)
+    }
+  }, [topRefOnScreen, loading, moreDataAvailable])
+
+  useEffect(() => {
+    if (!topRefOnScreen) return
+    if (moreDataAvailable) {
+      apiMethod(room)
+    }
+  }, [topRefOnScreen])
+
+  useEffect(() => {
+    inputFocus && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [inputFocus])
+
+  useEffect(() => {
+    if (!isMounted) return
+    if (!bottomRefOnScreen) {
+      setAutoScroll(false)
+    } else setAutoScroll(true)
+  }, [bottomRefOnScreen])
+
+  useEffect(() => {
+    autoScroll && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   const onClickHandler = () => {
@@ -76,17 +108,23 @@ const Chat = ({ room }: ChatProps) => {
 
   return (
     <ChatContainer size="extraExtraSmall">
-      <MessageListContainer ref={root}>
-        <div ref={topRef} />
+      <MessageListContainer
+        ref={chatListRef}
+        onScroll={(e) => {
+          e.preventDefault()
+          inputRef.current?.blur()
+        }}
+      >
+        <div ref={topRef}>{loading && <h3>LOADING</h3>}</div>
         {messages?.map((message) => (
           <ChatMessage message={message} key={message.id} />
         ))}
         <div ref={bottomRef} />
       </MessageListContainer>
-
       <InputWrapper focus={inputFocus}>
         <FlexContainer>
           <AreaInput
+            ref={inputRef}
             maxRows={2}
             name={'chat'}
             placeholder="Enter message..."
