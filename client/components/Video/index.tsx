@@ -17,7 +17,7 @@ import {
   ButtonPanelContainer,
   ControlPanelContainer
   ControlContainer,
-  TimeDisplay
+  PauseOverlay
 } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
@@ -167,11 +167,7 @@ export default function Video({ room }: VideoProps) {
   if (player) player.allowFullscreen = 0
 
   return (
-    <div
-      onClick={() => {
-        setShowControls(true), setIsFadingIn((prev) => !prev)
-      }}
-    >
+    <div>
       <VideoBoundary>
         <VideoContainer>
           <VideoPlayer
@@ -186,58 +182,49 @@ export default function Video({ room }: VideoProps) {
             muted={true}
           />
 
-          {/* {!isPlaying && (
-          <PauseOverlay>The host has paused this video</PauseOverlay>
-        )} */}
-          {showControls && (
-            <ControlPanelContainer
-              shouldControlsFadeIn={shouldControlsFadeIn}
-              isFadingIn={isFadingIn}
-              onAnimationEnd={handleAnimationEnd}
-              onClick={hideElement}
-            >
-              <VideoController
-                duration={player?.getDuration ? player.getDuration() : 100}
-                currentTimestamp={timestamp}
-                onChange={handleTimestampChange}
-                syncTimestamp={handleBroadCastSync}
-              />
-              <ButtonPanelContainer>
-              <div>
-                <ControlButton onClick={handleStartStop}>
-                  {isPlaying ? (
-                    <NextImage src={pause} width={30} height={30} />
-                  ) : (
-                    <NextImage src={play} width={30} height={30} />
-                  )}
-                </ControlButton>
-                <ControlButton
-                  value={'previous'}
-                  onClick={() => handleUserVideoChange('previous')}
-                >
-                  <NextImage height={30} width={30} src={previous} />
-                </ControlButton>
-                <ControlButton
-                  value={'next'}
-                  onClick={() => handleUserVideoChange('next')}
-                >
-                  <NextImage height={30} width={30} src={next} />
-                </ControlButton>
-              </div>
-              <TimeDisplay>
-                {displayTime(timestamp)} / {displayTime(player?.getDuration())}
-              </TimeDisplay>
-              <div>
-                <VolumeController
-                  setVolume={setVolume}
-                  volume={volume}
-                  handleVolumeChange={handleVolumeChange}
-                />
-              </ButtonPanelContainer>
-            </ControlPanelContainer>
+          {!isPlaying && (
+            <PauseOverlay>The host has paused this video</PauseOverlay>
           )}
         </VideoContainer>
       </VideoBoundary>
+      <ControlPanelContainer>
+        <VideoController
+          duration={player?.getDuration ? player.getDuration() : 100}
+          currentTimestamp={timestamp}
+          onChange={handleTimestampChange}
+          syncTimestamp={handleBroadCastSync}
+        />
+        <ButtonPanelContainer>
+        <div>
+          <ControlButton onClick={handleStartStop}>
+            {isPlaying ? (
+              <NextImage src={pause} width={30} height={30} />
+            ) : (
+              <NextImage src={play} width={30} height={30} />
+            )}
+          </ControlButton>
+          <ControlButton
+            value={'previous'}
+            onClick={() => handleUserVideoChange('previous')}
+          >
+            <NextImage height={30} width={30} src={previous} />
+          </ControlButton>
+          <ControlButton
+            value={'next'}
+            onClick={() => handleUserVideoChange('next')}
+          >
+            <NextImage height={30} width={30} src={next} />
+          </ControlButton>
+        </div>
+        <div>
+          <VolumeController
+            setVolume={setVolume}
+            volume={volume}
+            handleVolumeChange={handleVolumeChange}
+          />
+        </div>
+        </ButtonPanelContainer>
+      </ControlPanelContainer>
     </div>
   )
 }

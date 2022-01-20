@@ -19,6 +19,7 @@ export const VolumeBar = styled.input`
   margin: ${spacings.extraExtraSmall} 0;
   width: 100%;
   background: transparent;
+  border-radius: ${borderRadius.small};
 
   &:focus {
     outline: none;
@@ -30,7 +31,6 @@ export const VolumeBar = styled.input`
     cursor: pointer;
     box-shadow: ${shadows.small};
     background: ${colors.transparentBrown};
-    border-radius: ${borderRadius.small};
   }
 
   ::-webkit-slider-thumb {

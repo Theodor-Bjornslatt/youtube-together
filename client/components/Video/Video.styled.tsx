@@ -1,5 +1,5 @@
 import ReactPlayer from 'react-player/lazy'
-import styled, { keyframes } from 'styled-components'
+import styled from 'styled-components'
 
 import { colors, maxWidths, spacings } from '../../styles/variables'
 
@@ -26,10 +26,13 @@ export const VideoPlayer = styled(ReactPlayer)`
 `
 
 export const PauseOverlay = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   height: 100%;
   width: 100%;
-  background: black;
+  background: ${colors.darkest};
   bottom: 0;
   color: ${colors.white};
 `
@@ -48,48 +51,20 @@ export const ControlButton = styled.button`
   background-color: transparent;
   border: none;
   padding: 0;
+  margin-right: ${spacings.tiny};
+
   &:hover {
     cursor: pointer;
   }
 `
-export const TimeDisplay = styled.div`
-  color: grey;
-`
 
-type AnimationProps = {
-  isFadingIn: boolean
-}
-
-export const ControlContainer = styled.div<AnimationProps>`
+export const ControlContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  position: absolute;
-  bottom: 0px;
   padding: ${spacings.tiny};
   width: 100%;
-  background: rgba(0, 0, 0, 0.85);
-  //box-shadow: 0 8px 32px 0 rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
-  border-radius: ${spacings.tiny} ${spacings.tiny} 0 0;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: ${(props) => (props.isFadingIn ? fadeIn : fadeOut)} 1s ease-out;
-`
-
-const fadeIn = keyframes`
- from {
-    bottom: -77px;
-  }
-  to {
-    bottom: 0px;
-  }
-`
-const fadeOut = keyframes`
- from {
-    bottom: 0px;
-  }
-  to {
-    bottom: -77px;
-  }
+  margin: auto;
+  margin-bottom: ${spacings.extraExtraSmall};
 `
