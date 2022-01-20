@@ -26,7 +26,7 @@ export const FooterContainer = styled.footer`
   justify-content: center;
   align-items: center;
   background: ${colors.darkest};
-  border: ${borders.light};
+  border-top: ${borders.light};
 `
 
 export const FooterContentContainer = styled(MaxWidthContainerStyled)`
