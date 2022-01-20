@@ -46,8 +46,7 @@ export const colors = {
   darkest: '#161414',
   dark: '#1E1C1C',
   brown: '#2D2828',
-  white: '#FFFFFF',
-  atriumWhite: '#F2EEE7',
+  white: '#F2EEE7',
   transparentDark: '#2D282880',
   transparentPink: '#FBECEC33',
   transparentBrown: '#443f3f8a',
@@ -97,7 +96,8 @@ export const shadows = {
 export const borders = {
   light: '1px solid #2D2828',
   danger: `1px solid ${colors.danger}`,
-  focus: '1px solid lightpink'
+  focus: '1px solid lightpink',
+  outline: '2px solid #D9A6AE'
 }
 type textColors = {
   [key: string]: string
