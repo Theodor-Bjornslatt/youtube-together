@@ -37,7 +37,7 @@ export const VolumeBar = styled.input`
     height: ${lineHeights.extraExtraSmall};
     width: ${spacings.extraSmall};
     border-radius: ${borderRadius.large};
-    background: ${colors.atriumWhite};
+    background: ${colors.white};
     cursor: pointer;
     transition-duration: 0.2s;
     transition-delay: 0.2s;
@@ -66,7 +66,7 @@ export const VolumeBar = styled.input`
     height: ${lineHeights.extraExtraSmall};
     width: ${spacings.medium};
     border-radius: ${borderRadius.large};
-    background: ${colors.atriumWhite};
+    background: ${colors.white};
     cursor: pointer;
     -webkit-appearance: none;
 
@@ -89,7 +89,7 @@ export const VolumeBar = styled.input`
     height: ${lineHeights.extraExtraSmall};
     width: ${spacings.medium};
     border-radius: ${borderRadius.large};
-    background: ${colors.atriumWhite};
+    background: ${colors.white};
     cursor: pointer;
     -webkit-appearance: none;
 

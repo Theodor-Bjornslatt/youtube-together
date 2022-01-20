@@ -53,6 +53,7 @@ export const Card = styled.div`
   border-radius: ${borderRadius.small};
   margin: ${spacings.extraExtraSmall} 0;
 `
+
 export const InfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -71,6 +72,7 @@ export const Time = styled.p`
 
 export const MessageContainer = styled.div`
   margin-top: ${spacings.tiny};
+
   p {
     color: ${(props) => props.color};
     word-wrap: break-word;
@@ -102,15 +104,12 @@ export const InputWrapper = styled.div<StyledInputProps>`
   border-radius: ${borderRadius.large};
   display: inline-block;
   //change this if trubble
-  margin: 50px 0px;
+  margin: ${spacings.large} 0px;
   overflow: hidden;
   width: 100%;
 
   outline: ${(props) => {
     return props.focus ? `2px solid #D9A6AE` : `none`
-  }};
-  box-shadow: ${(props) => {
-    return props.focus ? `inset 0 0 50px #000000` : 'inset 0 0 50px #000000'
   }};
 `
 
@@ -134,9 +133,11 @@ export const AreaInput = styled(TextareaAutosize)`
   &:focus {
     outline: none;
   }
+
   ::-webkit-scrollbar {
     display: none;
   }
+
   -ms-overflow-style: none;
 
   @media screen and (max-width: ${sizes.mobile}px) {
@@ -158,6 +159,7 @@ export const SubmitButton = styled.button`
 
   &:active {
     transform: none;
+
     :last-child {
       transform: scale(5);
     }
