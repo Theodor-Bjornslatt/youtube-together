@@ -51,7 +51,7 @@ export type MessageData = {
 }
 
 const socket =
-  typeof window === 'undefined' ? undefined : io('http://localhost:8080/')
+  typeof window === 'undefined' ? undefined : io(`https://api.alexcode.ninja`)
 
 const SocketContext = createContext<Context>({
   socket,

@@ -8,6 +8,7 @@ import { useForm } from '../../hooks/useForm'
 import { LoginButton, Form } from './Login.styled'
 import { GlobalContext } from '../../state/GlobalState'
 import FormContainer from '../FormContainer'
+import { apiLogin } from '../../utils/api'
 
 export default function LoginForm() {
   const router = useRouter()
@@ -27,15 +28,12 @@ export default function LoginForm() {
   async function submitHandler() {
     if (!values.email || !values.password) return
 
-    const res = await fetch('http://localhost:8080/api/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(values)
-    })
-
-    if (!res.ok) return setError(true)
-    const user = await res.json()
+    let user
+    try {
+      user = await apiLogin(values)
+    } catch (error) {
+      setError(true)
+    }
 
     if (!user.id) return
 

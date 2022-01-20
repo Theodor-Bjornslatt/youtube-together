@@ -1,5 +1,7 @@
 import { GetServerSidePropsContext } from 'next'
 
+import { API_URL } from '../config'
+
 type QueryProp = {
   query?: string
   room?: string | null
@@ -12,7 +14,7 @@ export const serverSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
   if (!cookies.sid) throw new Error()
 
   try {
-    const res = await fetch('http://localhost:8080/api/whoami', {
+    const res = await fetch(`${API_URL}/api/whoami`, {
       headers: { Cookie: `sid=${cookies.sid}` },
       credentials: 'include'
     })
@@ -25,7 +27,7 @@ export const serverSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
 
 export const whoAmI = async () => {
   try {
-    const res = await fetch('http://localhost:8080/api/whoami', {
+    const res = await fetch(`${API_URL}/api/whoami`, {
       credentials: 'include'
     })
     if (!res.ok) throw new Error()
@@ -37,7 +39,7 @@ export const whoAmI = async () => {
 
 export const serverSideGetRooms = async () => {
   try {
-    const res = await fetch('http://localhost:8080/api/rooms', {
+    const res = await fetch(`${API_URL}/api/rooms`, {
       credentials: 'include'
     })
     if (!res.ok) throw new Error()
@@ -50,7 +52,7 @@ export const serverSideGetRooms = async () => {
 export const apiGetRoomMessages = async ({ query, room }: QueryProp) => {
   try {
     const res = await fetch(
-      `http://localhost:8080/api/rooms/${room}/messages${query ? query : ''}`,
+      `${API_URL}/api/rooms/${room}/messages${query ? query : ''}`,
       {
         credentials: 'include',
         headers: { 'Content-Type': 'application/json' }
@@ -66,7 +68,7 @@ export const apiGetRoomMessages = async ({ query, room }: QueryProp) => {
 
 export const logout = async () => {
   try {
-    const res = await fetch('http://localhost:8080/api/logout', {
+    const res = await fetch(`${API_URL}/api/logout`, {
       method: 'POST',
       credentials: 'include'
     })
@@ -78,7 +80,7 @@ export const logout = async () => {
 }
 
 export const apiSaveNewPlaylistOrder = async (room: string, data: any) => {
-  await fetch(`http://localhost:8080/api/rooms/${room}/playlist`, {
+  await fetch(`${API_URL}/api/rooms/${room}/playlist`, {
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data)
@@ -87,15 +89,66 @@ export const apiSaveNewPlaylistOrder = async (room: string, data: any) => {
 
 export const apiPostPlaylistItem = async (room: string, data: any) => {
   try {
-    const res = await fetch(
-      `http://localhost:8080/api/rooms/${room}/playlist`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: data })
-      }
-    )
+    const res = await fetch(`${API_URL}/api/rooms/${room}/playlist`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ item: data })
+    })
     if (!res.ok) console.log('res :>> ', res)
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+export const apiPostRoom = async (data: any) => {
+  try {
+    const res = await fetch(`${API_URL}/api/rooms`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data)
+    })
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+export const apiLogin = async (data: any) => {
+  try {
+    const res = await fetch(`${API_URL}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data)
+    })
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+export const apiRegister = async (data: any) => {
+  try {
+    const res = await fetch(`${API_URL}/api/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data)
+    })
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+export const serverSideGetRoomByName = async (slug: string) => {
+  try {
+    const res = await fetch(`${API_URL}//api/rooms/${slug}`)
+    if (!res.ok) throw new Error()
     return await res.json()
   } catch (e) {
     throw new Error()

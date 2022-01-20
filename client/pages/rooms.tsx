@@ -13,6 +13,7 @@ export const getServerSideProps: GetServerSideProps = async () => {
   let rooms
   try {
     ;({ rooms } = await serverSideGetRooms())
+    console.log('rooms :>> ', rooms)
   } catch (error) {
     //@TODO maybe prop something else that indicates that our server sent a 500?
     rooms = { rooms: [] }
