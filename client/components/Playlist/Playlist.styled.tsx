@@ -7,8 +7,8 @@ import {
   lineHeights,
   fontSizes,
   fontWeights,
-  headerBoxHeights,
-  spacings
+  spacings,
+  sizes
 } from '../../styles/variables'
 
 type PlaylistContainerProps = {
@@ -18,6 +18,10 @@ type PlaylistContainerProps = {
 export const Container = styled.div`
   width: 100%;
   height: 100%;
+
+  @media screen and (max-width: ${sizes.mobile}px) {
+    display: none;
+  }
 `
 
 export const PlaylistContainer = styled.div<PlaylistContainerProps>`
@@ -25,7 +29,7 @@ export const PlaylistContainer = styled.div<PlaylistContainerProps>`
   cursor: ${(props) => (props.isActive ? 'grabbing' : 'default')};
   height: calc(100% - 100px);
   width: 100%;
-  max-height: calc(100vh - ${headerBoxHeights.desktop});
+  height: 100%;
   max-width: 500px;
   padding: ${spacings.extraExtraSmall} ${spacings.extraExtraSmall};
   background: ${colors.dark};

@@ -1,11 +1,18 @@
 import styled from 'styled-components'
 
-import { colors, sizes, spacings } from '../../styles/variables'
+import {
+  colors,
+  headerBoxHeights,
+  sizes,
+  spacings
+} from '../../styles/variables'
 
 export const Container = styled.div`
   box-sizing: border-box;
   display: grid;
-  height: 100%;
+  height: calc(
+    100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop}
+  );
   width: 100%;
   gap: ${spacings.extraExtraSmall};
   padding: 0 ${spacings.large};
@@ -35,6 +42,7 @@ export const Container = styled.div`
 
   @media screen and (max-width: ${sizes.mobile}px) {
     padding: 0 ${spacings.extraSmall};
+    grid-template-columns: 1fr;
   }
 `
 
@@ -48,6 +56,8 @@ export const ChatContainer = styled.div`
   width: 100%;
   /* grid-area: chat; */
   justify-content: center;
+  overflow-y: auto;
+  flex-shrink: 1;
 `
 export const Aside = styled.div`
   width: 100%;
