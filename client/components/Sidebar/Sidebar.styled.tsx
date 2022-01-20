@@ -6,7 +6,6 @@ import { ButtonStyled } from '../Button/Button.styled'
 export const Container = styled.div`
   height: 100%;
   background-color: ${colors.dark};
-  width: 32rem;
 `
 export const ButtonContainer = styled.div`
   display: flex;

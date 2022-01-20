@@ -13,7 +13,9 @@ import {
   VideoPlayer,
   ControlButton,
   VideoBoundary,
-  VideoContainer
+  VideoContainer,
+  ButtonPanelContainer,
+  ControlPanelContainer
 } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
@@ -183,14 +185,14 @@ export default function Video({ room }: VideoProps) {
       {/* {!isPlaying && (
           <PauseOverlay>The host has paused this video</PauseOverlay>
         )} */}
-      <div>
+      <ControlPanelContainer>
         <VideoController
           duration={player?.getDuration ? player.getDuration() : 100}
           currentTimestamp={timestamp}
           onChange={handleTimestampChange}
           syncTimestamp={handleBroadCastSync}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <ButtonPanelContainer>
           <div>
             <ControlButton onClick={handleStartStop}>
               {isPlaying ? (
@@ -217,8 +219,8 @@ export default function Video({ room }: VideoProps) {
             volume={volume}
             handleVolumeChange={handleVolumeChange}
           />
-        </div>
-      </div>
+        </ButtonPanelContainer>
+      </ControlPanelContainer>
     </ContentContainer>
   )
 }

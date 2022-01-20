@@ -27,10 +27,7 @@ export const Container = styled.div`
 export const PlaylistContainer = styled.div<PlaylistContainerProps>`
   position: relative;
   cursor: ${(props) => (props.isActive ? 'grabbing' : 'default')};
-  height: calc(100% - 100px);
   width: 100%;
-  height: 100%;
-  max-width: 500px;
   padding: ${spacings.extraExtraSmall} ${spacings.extraExtraSmall};
   background: ${colors.dark};
   overflow-y: auto;

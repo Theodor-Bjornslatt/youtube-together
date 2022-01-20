@@ -8,20 +8,21 @@ import {
   fonts,
   fontSizes,
   fontWeights,
+  maxWidths,
   sizes,
   spacings
 } from '../../styles/variables'
-import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
 type StyledInputProps = {
   focus: boolean
 }
 
-export const ChatContainer = styled(MaxWidthContainerStyled)`
+export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: ${maxWidths.roomContent}px;
 `
 
 export const MessageListContainer = styled.div`
