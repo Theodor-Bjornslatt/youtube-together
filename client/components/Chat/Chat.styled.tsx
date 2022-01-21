@@ -8,34 +8,31 @@ import {
   fonts,
   fontSizes,
   fontWeights,
+  maxWidths,
   sizes,
   spacings
 } from '../../styles/variables'
-import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
 type StyledInputProps = {
   focus: boolean
 }
 
-export const ChatContainer = styled(MaxWidthContainerStyled)`
+export const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
+  max-width: ${maxWidths.roomContent}px;
 `
 
 export const MessageListContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
-  height: 500px;
   width: 100%;
+  flex: 1;
   overflow-y: auto;
   padding: ${spacings.small} ${spacings.small} 0 ${spacings.small};
-
-  &:not(:last-child) {
-    margin-bottom: -${spacings.extraSmall};
-  }
 
   @media screen and (max-width: ${sizes.mobile}px) {
     padding: ${spacings.small} ${spacings.extraSmall} 0
@@ -105,7 +102,7 @@ export const InputWrapper = styled.div<StyledInputProps>`
   border-radius: ${borderRadius.large};
   display: inline-block;
   //change this if trubble
-  margin: ${spacings.large} 0px;
+  margin: ${spacings.extraExtraSmall} 0 ${spacings.medium};
   overflow: hidden;
   width: 100%;
 
@@ -124,7 +121,7 @@ export const AreaInput = styled(TextareaAutosize)`
   background: ${colors.lightPink};
   font-size: ${fontSizes.small};
   font-family: ${fonts.roboto};
-  padding: ${spacings.extraSmall} 0 ${spacings.extraSmall}
+  padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}
     ${spacings.extraSmall};
   border: none;
   color: ${colors.darkest};
@@ -143,8 +140,7 @@ export const AreaInput = styled(TextareaAutosize)`
 
   @media screen and (max-width: ${sizes.mobile}px) {
     font-size: ${fontSizes.extraSmall};
-    padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}
-      ${spacings.extraExtraSmall};
+    padding-left: ${spacings.extraExtraSmall};
   }
 `
 

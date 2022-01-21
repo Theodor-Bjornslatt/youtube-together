@@ -1,14 +1,12 @@
 import ReactPlayer from 'react-player/lazy'
 import styled from 'styled-components'
 
-import { colors } from '../../styles/variables'
-
-export const ContentContainer = styled.div`
-  max-width: 1000px;
-`
+import { colors, maxWidths } from '../../styles/variables'
 
 export const VideoBoundary = styled.div`
   max-height: 562px;
+  margin: auto;
+  max-width: ${maxWidths.roomContent}px;
 `
 
 export const VideoContainer = styled.div`
@@ -32,6 +30,16 @@ export const PauseOverlay = styled.div`
   background: black;
   bottom: 0;
   color: ${colors.white};
+`
+
+export const ControlPanelContainer = styled.div`
+  max-width: ${maxWidths.roomContent}px;
+  margin: 0 auto;
+`
+
+export const ButtonPanelContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
 `
 
 export const ControlButton = styled.button`

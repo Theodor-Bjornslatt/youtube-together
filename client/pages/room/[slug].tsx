@@ -14,7 +14,12 @@ import {
   apiSaveNewPlaylistOrder,
   serverSideWhoAmI
 } from '../../utils/api'
-import { Aside, ChatContainer, Container } from './room.styled'
+import {
+  Aside,
+  ChatContainer,
+  Container,
+  MainSectionContainer
+} from './room.styled'
 
 type CurrentUserData = {
   user?: User
@@ -123,12 +128,12 @@ const Room = ({ user, room }: RoomProps) => {
     <>
       <Header title={(room = room ?? 'My Room')} />
       <Container>
-        <div style={{ justifySelf: 'center', width: '100%' }}>
+        <MainSectionContainer>
           <Video room={room} />
           <ChatContainer>
             <Chat room={room} />
           </ChatContainer>
-        </div>
+        </MainSectionContainer>
         <Aside>
           <Sidebar
             users={activeUsers}

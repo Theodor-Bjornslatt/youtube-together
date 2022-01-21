@@ -13,7 +13,9 @@ import {
   VideoPlayer,
   ControlButton,
   VideoBoundary,
-  VideoContainer
+  VideoContainer,
+  ButtonPanelContainer,
+  ControlPanelContainer
 } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
@@ -22,7 +24,6 @@ import pause from '../../public/pause.png'
 import next from '../../public/next.png'
 import previous from '../../public/previous.png'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
-import { ContentContainer } from './Video.styled'
 import VolumeController from './VolumeController'
 import { GlobalContext } from '../../state/GlobalState'
 
@@ -164,7 +165,7 @@ export default function Video({ room }: VideoProps) {
   if (player) player.allowFullscreen = 0
 
   return (
-    <ContentContainer>
+    <div>
       <VideoBoundary>
         <VideoContainer>
           <VideoPlayer
@@ -183,14 +184,14 @@ export default function Video({ room }: VideoProps) {
       {/* {!isPlaying && (
           <PauseOverlay>The host has paused this video</PauseOverlay>
         )} */}
-      <div>
+      <ControlPanelContainer>
         <VideoController
           duration={player?.getDuration ? player.getDuration() : 100}
           currentTimestamp={timestamp}
           onChange={handleTimestampChange}
           syncTimestamp={handleBroadCastSync}
         />
-        <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+        <ButtonPanelContainer>
           <div>
             <ControlButton onClick={handleStartStop}>
               {isPlaying ? (
@@ -217,8 +218,8 @@ export default function Video({ room }: VideoProps) {
             volume={volume}
             handleVolumeChange={handleVolumeChange}
           />
-        </div>
-      </div>
-    </ContentContainer>
+        </ButtonPanelContainer>
+      </ControlPanelContainer>
+    </div>
   )
 }

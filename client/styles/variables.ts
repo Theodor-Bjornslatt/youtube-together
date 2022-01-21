@@ -1,11 +1,10 @@
-export const headerHeight = '100px'
-
 type MaxWidth = {
   extraExtraSmall: 780
   extraSmall: 1080
   small: 1280
   medium: 1440
   large: 1600
+  roomContent: 1000
 }
 
 export const maxWidths: MaxWidth = {
@@ -13,7 +12,8 @@ export const maxWidths: MaxWidth = {
   extraSmall: 1080,
   small: 1280,
   medium: 1440,
-  large: 1600
+  large: 1600,
+  roomContent: 1000
 }
 
 type HeaderBoxHeight = {
