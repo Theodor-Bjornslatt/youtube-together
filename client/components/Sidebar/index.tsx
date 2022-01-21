@@ -7,14 +7,12 @@ import {
   UsersButton
 } from './Sidebar.styled'
 import ActiveUsers from '../ActiveUsers/index'
-import { User } from '../../state/GlobalState'
 import Playlist from '../Playlist'
 import { PlaylistContainer } from '../Playlist/Playlist.styled'
 import { PlaylistItemData } from '../../types'
 import { useSockets } from '../../state/SocketContext'
 
 type SidebarProp = {
-  users: User[] | undefined
   onEndDrag: (
     item: PlaylistItemData | undefined,
     playlist: PlaylistItemData[]
@@ -22,16 +20,16 @@ type SidebarProp = {
   onVideoAdd: (item: PlaylistItemData) => Promise<boolean>
 }
 
-function Sidebar({ users, onEndDrag, onVideoAdd }: SidebarProp) {
+function Sidebar({ onEndDrag, onVideoAdd }: SidebarProp) {
   const [display, setDisplay] = useState(true)
-  const { playlist, setPlaylist } = useSockets()
+  const { playlist, setPlaylist, activeUsers } = useSockets()
   return (
     <Container>
       <ButtonContainer>
         <UsersButton onClick={() => setDisplay(true)}>Users</UsersButton>
         <Button onClick={() => setDisplay(false)}>Playlist</Button>
       </ButtonContainer>
-      {display && <ActiveUsers users={users} />}
+      {display && <ActiveUsers users={activeUsers} />}
       {!display && playlist && (
         <PlaylistContainer>
           <Playlist

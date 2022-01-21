@@ -2,24 +2,11 @@ import { GetServerSideProps } from 'next'
 import router from 'next/router'
 import { useContext, useEffect } from 'react'
 
-import Chat from '../../components/Chat'
 import Header from '../../components/Header'
-import { PlaylistItemData } from '../../types'
-import Sidebar from '../../components/Sidebar'
-import Video from '../../components/Video'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
-import {
-  apiPostPlaylistItem,
-  apiSaveNewPlaylistOrder,
-  serverSideWhoAmI
-} from '../../utils/api'
-import {
-  Aside,
-  ChatContainer,
-  Container,
-  MainSectionContainer
-} from './room.styled'
+import { serverSideWhoAmI } from '../../utils/api'
+import RoomContent from '../../components/RoomContent'
 
 type CurrentUserData = {
   user?: User
@@ -71,8 +58,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 }
 
 const Room = ({ user, room }: RoomProps) => {
-  const { socket, cleanUpSocketStates, activeUsers, timestamp, host } =
-    useSockets()
+  const { socket, cleanUpSocketStates, timestamp, host } = useSockets()
 
   const { dispatch, state } = useContext(GlobalContext)
 
@@ -107,41 +93,10 @@ const Room = ({ user, room }: RoomProps) => {
     }
   }, [timestamp])
 
-  const handlePlaylistChange = async (
-    item: PlaylistItemData | undefined,
-    playlist: PlaylistItemData[]
-  ) => {
-    if (!item) return
-    const index = playlist.findIndex((it) => it._id === item._id)
-    await apiSaveNewPlaylistOrder(room, { position: index, ...item })
-  }
-
-  const handleVideoAdd = async (item: PlaylistItemData) => {
-    try {
-      await apiPostPlaylistItem(room, item)
-      return true
-    } catch (error) {
-      return false
-    }
-  }
   return (
     <>
-      <Header title={(room = room ?? 'My Room')} />
-      <Container>
-        <MainSectionContainer>
-          <Video room={room} />
-          <ChatContainer>
-            <Chat room={room} />
-          </ChatContainer>
-        </MainSectionContainer>
-        <Aside>
-          <Sidebar
-            users={activeUsers}
-            onEndDrag={handlePlaylistChange}
-            onVideoAdd={handleVideoAdd}
-          />
-        </Aside>
-      </Container>
+      <Header title={(room = room ?? 'THE ROOM THAT MUST NOT BE MENTIONED')} />
+      <RoomContent room={room} />
     </>
   )
 }

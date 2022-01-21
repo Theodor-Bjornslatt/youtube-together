@@ -69,7 +69,6 @@ const SocketContext = createContext<Context>({
 })
 
 type SocketProviderProps = {
-  isLoggedIn: boolean
   children: JSX.Element[] | JSX.Element
 }
 
