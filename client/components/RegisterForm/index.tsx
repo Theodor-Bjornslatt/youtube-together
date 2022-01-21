@@ -9,7 +9,7 @@ import { textColors } from '../../styles/variables'
 import Dropdown from '../../components/inputs/Dropdown'
 import FormContainer from '../FormContainer'
 import { Form, SignupButton } from './Register.styled'
-import { useFocustrap } from '../focusTrap'
+import { useFocustrap } from '../FocusTrap'
 import { apiRegister } from '../../utils/api'
 
 export default function RegisterForm() {

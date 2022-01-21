@@ -12,7 +12,6 @@ type RoomsProp = {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   let rooms: Room[]
-  console.log('getServerSideProps')
   try {
     rooms = await serverSideGetRooms()
   } catch (error) {

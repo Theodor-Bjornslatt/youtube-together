@@ -51,7 +51,7 @@ export type MessageData = {
 }
 
 const socket =
-  typeof window === 'undefined' ? undefined : io(`https://api.alexcode.ninja`)
+  typeof window === 'undefined' ? undefined : io(`${process.env.API_URL}`)
 
 const SocketContext = createContext<Context>({
   socket,
