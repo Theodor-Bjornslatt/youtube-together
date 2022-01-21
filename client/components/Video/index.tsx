@@ -24,7 +24,6 @@ import pause from '../../public/pause.png'
 import next from '../../public/next.png'
 import previous from '../../public/previous.png'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
-import { ContentContainer } from './Video.styled'
 import VolumeController from './VolumeController'
 import { GlobalContext } from '../../state/GlobalState'
 
@@ -166,7 +165,7 @@ export default function Video({ room }: VideoProps) {
   if (player) player.allowFullscreen = 0
 
   return (
-    <ContentContainer>
+    <div>
       <VideoBoundary>
         <VideoContainer>
           <VideoPlayer
@@ -221,6 +220,6 @@ export default function Video({ room }: VideoProps) {
           />
         </ButtonPanelContainer>
       </ControlPanelContainer>
-    </ContentContainer>
+    </div>
   )
 }

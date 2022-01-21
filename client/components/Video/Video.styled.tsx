@@ -3,10 +3,6 @@ import styled from 'styled-components'
 
 import { colors, maxWidths } from '../../styles/variables'
 
-export const ContentContainer = styled.div`
-  /* max-width: 1000px; */
-`
-
 export const VideoBoundary = styled.div`
   max-height: 562px;
   margin: auto;

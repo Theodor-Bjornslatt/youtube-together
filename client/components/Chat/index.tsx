@@ -107,7 +107,7 @@ const Chat = ({ room }: ChatProps) => {
   }
 
   return (
-    <ChatContainer size="extraExtraSmall">
+    <ChatContainer>
       <MessageListContainer
         ref={chatListRef}
         onScroll={(e) => {
