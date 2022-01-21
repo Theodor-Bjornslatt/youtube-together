@@ -1,4 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction } from 'react'
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef } from 'react'
 
 import NextImage from '../NextImage'
 import volumeIcon from '../../public/volume.png'
@@ -17,6 +17,21 @@ export default function VolumeController({
   volume,
   handleVolumeChange
 }: VolumeProp) {
+  const volumeRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (!volumeRef.current) return
+    const value =
+      ((Number(volumeRef.current?.value) - Number(volumeRef.current?.min)) /
+        (Number(volumeRef.current?.max) - Number(volumeRef.current?.min))) *
+      100
+    volumeRef.current.style.background =
+      'linear-gradient(to right, steelblue 0%, steelblue ' +
+      value +
+      '%, white ' +
+      value +
+      '%, white 100%)'
+  }, [volume])
+
   return (
     <MainContainer>
       <ControlButton
@@ -31,6 +46,7 @@ export default function VolumeController({
         )}
       </ControlButton>
       <VolumeBar
+        ref={volumeRef}
         type="range"
         step="0.1"
         min={0}

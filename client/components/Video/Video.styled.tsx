@@ -1,7 +1,9 @@
 import ReactPlayer from 'react-player/lazy'
 import styled from 'styled-components'
 
-import { colors, maxWidths } from '../../styles/variables'
+import { colors, maxWidths, spacings, fonts } from '../../styles/variables'
+
+export const ContentContainer = styled.div``
 
 export const VideoBoundary = styled.div`
   max-height: 562px;
@@ -10,6 +12,8 @@ export const VideoBoundary = styled.div`
 `
 
 export const VideoContainer = styled.div`
+  display: flex;
+  justify-content: center;
   position: relative;
   padding-bottom: 50.25%;
   height: 0;
@@ -24,11 +28,15 @@ export const VideoPlayer = styled(ReactPlayer)`
 `
 
 export const PauseOverlay = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: absolute;
   height: 100%;
   width: 100%;
-  background: black;
+  background: ${colors.darkest};
   bottom: 0;
+  font-family: ${fonts.roboto};
   color: ${colors.white};
 `
 
@@ -46,7 +54,24 @@ export const ControlButton = styled.button`
   background-color: transparent;
   border: none;
   padding: 0;
+  margin-right: ${spacings.tiny};
+  -webkit-transition: 0.4s; /* Safari */
+  transition: 0.4s all;
   &:hover {
     cursor: pointer;
   }
+  :active {
+    transform: scale(0.94);
+  }
+`
+
+export const ControlContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: ${spacings.tiny};
+  width: 100%;
+  margin: auto;
+  margin-bottom: ${spacings.extraExtraSmall};
 `

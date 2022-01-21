@@ -1,4 +1,4 @@
-import { ChangeEvent, MouseEvent, TouchEvent } from 'react'
+import { ChangeEvent, MouseEvent, TouchEvent, useEffect, useRef } from 'react'
 
 import { ProgressBar } from './ProgresBar.styled'
 
@@ -15,8 +15,26 @@ export default function VideoController({
   onChange,
   syncTimestamp
 }: VideoControllerProps) {
+  const barRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    if (!barRef.current) return
+
+    const value =
+      ((Number(barRef.current.value) - Number(barRef.current.min)) /
+        (Number(barRef.current.max) - Number(barRef.current.min))) *
+      100
+    barRef.current.style.background =
+      'linear-gradient(to right, red 0%, red ' +
+      value +
+      '%, white ' +
+      value +
+      '%, white 100%)'
+  }, [currentTimestamp])
+
   return (
     <ProgressBar
+      ref={barRef}
       type="range"
       step="0.1"
       min={0}

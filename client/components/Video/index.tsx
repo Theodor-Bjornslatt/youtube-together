@@ -15,7 +15,8 @@ import {
   VideoBoundary,
   VideoContainer,
   ButtonPanelContainer,
-  ControlPanelContainer
+  ControlPanelContainer,
+  PauseOverlay
 } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
@@ -178,12 +179,12 @@ export default function Video({ room }: VideoProps) {
             height={'100%'}
             volume={volume}
           />
+
+          {!isPlaying && (
+            <PauseOverlay>The host has paused this video</PauseOverlay>
+          )}
         </VideoContainer>
       </VideoBoundary>
-
-      {/* {!isPlaying && (
-          <PauseOverlay>The host has paused this video</PauseOverlay>
-        )} */}
       <ControlPanelContainer>
         <VideoController
           duration={player?.getDuration ? player.getDuration() : 100}
@@ -213,11 +214,13 @@ export default function Video({ room }: VideoProps) {
               <NextImage height={30} width={30} src={next} />
             </ControlButton>
           </div>
-          <VolumeController
-            setVolume={setVolume}
-            volume={volume}
-            handleVolumeChange={handleVolumeChange}
-          />
+          <div>
+            <VolumeController
+              setVolume={setVolume}
+              volume={volume}
+              handleVolumeChange={handleVolumeChange}
+            />
+          </div>
         </ButtonPanelContainer>
       </ControlPanelContainer>
     </div>
