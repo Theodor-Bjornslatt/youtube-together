@@ -30,7 +30,8 @@ export default function VolumeController({
       '%, white ' +
       value +
       '%, white 100%)'
-  }, [volumeRef.current?.value])
+  }, [volume])
+
   return (
     <MainContainer>
       <ControlButton
