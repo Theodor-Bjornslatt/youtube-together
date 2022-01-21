@@ -7,5 +7,8 @@ module.exports = {
   },
   images: {
     domains: ['cdn.vox-cdn.com', 'img.youtube.com']
+  },
+  env: {
+    API_URL: process.env.NODE_ENV === 'production' ? 'https://api.alexcode.ninja' : 'http://localhost:8080'
   }
 }

@@ -1,22 +1,24 @@
 import { GetServerSideProps } from 'next'
+import React from 'react'
 
-import { serverSideGetRooms } from '../utils/api'
-import RoomList from '../components/RoomList'
 import Header from '../components/Header'
-import { Room } from '../types'
+import RoomList from '../components/RoomList'
+import { Room, Rooms } from '../types'
+import { serverSideGetRooms } from '../utils/api'
 
 type RoomsProp = {
   rooms: Room[]
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  let rooms
+  let rooms: Room[]
+  console.log('getServerSideProps')
   try {
-    ;({ rooms } = await serverSideGetRooms())
-    console.log('rooms :>> ', rooms)
+    rooms = await serverSideGetRooms()
   } catch (error) {
+    console.log('error', error)
     //@TODO maybe prop something else that indicates that our server sent a 500?
-    rooms = { rooms: [] }
+    return { notFound: true }
   }
   return {
     props: {
@@ -24,11 +26,12 @@ export const getServerSideProps: GetServerSideProps = async () => {
     }
   }
 }
+
 const Rooms = ({ rooms }: RoomsProp) => {
   return (
     <>
       <Header title={'Rooms'} />
-      <RoomList rooms={rooms}></RoomList>
+      <RoomList rooms={rooms} />
     </>
   )
 }

@@ -38,6 +38,7 @@ export default function RegisterForm() {
     dispatch({ type: 'loggedIn', payload: true })
     router.push('/')
   }
+
   const ref = useRef<HTMLFormElement>(null)
   useFocustrap(ref)
 

@@ -6,6 +6,10 @@ export type Room = {
   cover: string
 }
 
+export type Rooms = {
+  rooms: Room[]
+}
+
 export type Playlist = {
   url: string
   id: string

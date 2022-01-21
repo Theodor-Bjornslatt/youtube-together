@@ -42,6 +42,7 @@ export default function CreateRoomForm() {
       try {
         await apiPostRoom(room)
       } catch (error) {
+        console.log('error', error)
         return
       }
       router.push(`room/${values.name}`)

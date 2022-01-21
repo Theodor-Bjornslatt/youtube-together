@@ -1,7 +1,6 @@
 import { GetServerSideProps } from 'next'
 import { useContext, useEffect } from 'react'
 
-import { serverSideWhoAmI } from '../utils/api'
 import CreateRoomForm from '../components/CreateRoomForm'
 import { GlobalContext, User } from '../state/GlobalState'
 
@@ -15,17 +14,21 @@ type RoomProps = {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let userData: UserData | undefined
+  const { req } = ctx
+  const { cookies } = req
+
+  // @TODO throw different errors depending on case
+  if (!cookies.sid) return { notFound: true }
 
   try {
-    userData = await serverSideWhoAmI(ctx)
+    const res = await fetch(`${process.env.API_URL}/api/whoami`, {
+      headers: { Cookie: `sid=${cookies.sid}` },
+      credentials: 'include'
+    })
+    if (!res.ok) return { notFound: true }
+    userData = await res.json()
   } catch (e) {
-    userData = undefined
-    return {
-      redirect: {
-        permanent: false,
-        destination: '/'
-      }
-    }
+    return { notFound: true }
   }
 
   return {
@@ -37,6 +40,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 export default function CreateRoom({ user }: RoomProps) {
   const { dispatch } = useContext(GlobalContext)
+  console.log('user', user)
 
   useEffect(() => {
     dispatch({ type: 'loggedIn', payload: !!user })
