@@ -17,6 +17,7 @@ import play from '../../public/play.svg'
 import { TextInput } from '../inputs/TextInput'
 import { Form } from './CreateRoomForm.styled'
 import { PlaylistItemData } from '../../types'
+import { apiPostRoom } from '../../utils/api'
 
 export default function CreateRoomForm() {
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
@@ -38,13 +39,10 @@ export default function CreateRoomForm() {
         playlist
       }
 
-      const res = await fetch('http://localhost:8080/api/rooms', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(room)
-      })
-      if (!res.ok) {
+      try {
+        await apiPostRoom(room)
+      } catch (error) {
+        console.log('error')
         return
       }
       router.push(`room/${values.name}`)

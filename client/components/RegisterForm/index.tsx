@@ -10,6 +10,7 @@ import Dropdown from '../../components/inputs/Dropdown'
 import FormContainer from '../FormContainer'
 import { Form, SignupButton } from './Register.styled'
 import { useFocustrap } from '../FocusTrap'
+import { apiRegister } from '../../utils/api'
 
 export default function RegisterForm() {
   const router = useRouter()
@@ -27,21 +28,17 @@ export default function RegisterForm() {
     // eslint-disable-next-line
     const { repeat, ...signupValues } = values
 
-    const res = await fetch('http://localhost:8080/api/register', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(signupValues)
-    })
-
-    if (!res.ok) return //@TODO handle error
-    const data = await res.json()
-
-    if (!data) return
+    try {
+      const res = await apiRegister(signupValues)
+      if (!res) return
+    } catch (error) {
+      return
+    }
 
     dispatch({ type: 'loggedIn', payload: true })
     router.push('/')
   }
+
   const ref = useRef<HTMLFormElement>(null)
   useFocustrap(ref)
 

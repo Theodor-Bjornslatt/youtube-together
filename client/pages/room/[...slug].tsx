@@ -5,7 +5,7 @@ import { useContext, useEffect } from 'react'
 import Header from '../../components/Header'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
-import { serverSideWhoAmI } from '../../utils/api'
+import { serverSideGetRoomByName, serverSideWhoAmI } from '../../utils/api'
 import RoomContent from '../../components/RoomContent'
 
 type CurrentUserData = {
@@ -30,19 +30,20 @@ type User = {
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
   let userData: CurrentUserData | undefined
-  let currentRoom: Room = {}
   const querySlug = ctx.query.slug
   const slug = Array.isArray(querySlug) ? querySlug[0] : [querySlug][0]
 
   if (slug) {
     try {
-      const res = await fetch(`http://localhost:8080/api/rooms/${slug}`)
-      if (!res.ok) return { notFound: true }
-
-      currentRoom = await res.json()
+      const currentRoom = await serverSideGetRoomByName(slug)
       if (currentRoom.name !== slug) {
         return { notFound: true }
       }
+    } catch (error) {
+      return { notFound: true }
+    }
+
+    try {
       userData = await serverSideWhoAmI(ctx)
     } catch (e) {
       userData = undefined

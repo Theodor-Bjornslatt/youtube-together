@@ -51,7 +51,7 @@ export type MessageData = {
 }
 
 const socket =
-  typeof window === 'undefined' ? undefined : io('http://localhost:8080/')
+  typeof window === 'undefined' ? undefined : io(`${process.env.API_URL}`)
 
 const SocketContext = createContext<Context>({
   socket,
