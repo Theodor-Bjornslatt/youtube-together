@@ -15,8 +15,7 @@ import {
   VideoBoundary,
   VideoContainer,
   ButtonPanelContainer,
-  ControlPanelContainer
-  ControlContainer,
+  ControlPanelContainer,
   PauseOverlay
 } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
@@ -194,34 +193,34 @@ export default function Video({ room }: VideoProps) {
           syncTimestamp={handleBroadCastSync}
         />
         <ButtonPanelContainer>
-        <div>
-          <ControlButton onClick={handleStartStop}>
-            {isPlaying ? (
-              <NextImage src={pause} width={30} height={30} />
-            ) : (
-              <NextImage src={play} width={30} height={30} />
-            )}
-          </ControlButton>
-          <ControlButton
-            value={'previous'}
-            onClick={() => handleUserVideoChange('previous')}
-          >
-            <NextImage height={30} width={30} src={previous} />
-          </ControlButton>
-          <ControlButton
-            value={'next'}
-            onClick={() => handleUserVideoChange('next')}
-          >
-            <NextImage height={30} width={30} src={next} />
-          </ControlButton>
-        </div>
-        <div>
-          <VolumeController
-            setVolume={setVolume}
-            volume={volume}
-            handleVolumeChange={handleVolumeChange}
-          />
-        </div>
+          <div>
+            <ControlButton onClick={handleStartStop}>
+              {isPlaying ? (
+                <NextImage src={pause} width={30} height={30} />
+              ) : (
+                <NextImage src={play} width={30} height={30} />
+              )}
+            </ControlButton>
+            <ControlButton
+              value={'previous'}
+              onClick={() => handleUserVideoChange('previous')}
+            >
+              <NextImage height={30} width={30} src={previous} />
+            </ControlButton>
+            <ControlButton
+              value={'next'}
+              onClick={() => handleUserVideoChange('next')}
+            >
+              <NextImage height={30} width={30} src={next} />
+            </ControlButton>
+          </div>
+          <div>
+            <VolumeController
+              setVolume={setVolume}
+              volume={volume}
+              handleVolumeChange={handleVolumeChange}
+            />
+          </div>
         </ButtonPanelContainer>
       </ControlPanelContainer>
     </div>
