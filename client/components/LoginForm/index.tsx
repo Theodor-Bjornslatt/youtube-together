@@ -35,7 +35,7 @@ export default function LoginForm() {
       setError(true)
     }
 
-    if (!user.id) return
+    if (!user) return
 
     dispatch({ type: 'loggedIn', payload: true })
     router.push('/')
