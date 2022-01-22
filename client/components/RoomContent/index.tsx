@@ -38,7 +38,7 @@ export default function RoomContent({ room, user }: RoomContentProps) {
   return (
     <Container>
       <MainSectionContainer>
-        <Video room={room} />
+        <Video room={room} user={user} />
         <ChatContainer>
           <Chat room={room} />
         </ChatContainer>

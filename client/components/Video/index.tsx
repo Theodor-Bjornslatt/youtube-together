@@ -81,10 +81,8 @@ export default function Video({ room, user }: VideoProps) {
     switch (status.type) {
       case 'player':
         if (status.event == 1) {
-          setIsPlaying(false)
           setIsFadingIn(true)
         } else if (status.event == 2) {
-          setIsPlaying(true)
           setIsFadingIn(false)
         }
         status.timestamp && setTimestamp(status.timestamp)
