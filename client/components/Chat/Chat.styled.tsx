@@ -104,6 +104,7 @@ export const InputWrapper = styled.div<StyledInputProps>`
   //change this if trubble
   margin: ${spacings.extraExtraSmall} 0 ${spacings.medium};
   overflow: hidden;
+  -webkit-overflow: hidden;
   width: 100%;
 
   outline: ${(props) => {
@@ -127,6 +128,7 @@ export const AreaInput = styled(TextareaAutosize)`
   color: ${colors.darkest};
   resize: none;
   flex: 5;
+  margin: 0;
 
   &:focus {
     outline: none;
@@ -145,6 +147,9 @@ export const AreaInput = styled(TextareaAutosize)`
 `
 
 export const SubmitButton = styled.button`
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  text-transform: none;
   background: ${colors.lightPink};
   box-sizing: border-box;
   border: none;
@@ -153,12 +158,15 @@ export const SubmitButton = styled.button`
   flex: 1;
   padding: 0;
   width: 100%;
+  margin: 0;
+  overflow: hidden;
 
   &:active {
     transform: none;
 
     :last-child {
-      transform: scale(5);
+      overflow: hidden;
+      transform: scale(1.6);
     }
   }
 `
