@@ -1,4 +1,4 @@
-import ReactPlayer from 'react-player/lazy'
+import ReactPlayer from 'react-player'
 import styled, { keyframes } from 'styled-components'
 
 import { colors, maxWidths, spacings, fonts } from '../../styles/variables'

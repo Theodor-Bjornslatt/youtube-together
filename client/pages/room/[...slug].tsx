@@ -18,7 +18,7 @@ type Room = {
 }
 
 type RoomProps = {
-  user: User | null
+  user: User
   room: string
 }
 

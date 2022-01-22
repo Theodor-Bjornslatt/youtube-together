@@ -6,7 +6,7 @@ import {
   useEffect,
   useContext
 } from 'react'
-import ReactPlayer from 'react-player/lazy'
+import ReactPlayer from 'react-player'
 
 import VideoController from './ProgressBar'
 import {
@@ -26,13 +26,14 @@ import next from '../../public/next.png'
 import previous from '../../public/previous.png'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import VolumeController from './VolumeController'
-import { GlobalContext } from '../../state/GlobalState'
+import { GlobalContext, User } from '../../state/GlobalState'
 
 type VideoProps = {
   room: string
+  user: User
 }
 
-export default function Video({ room }: VideoProps) {
+export default function Video({ room, user }: VideoProps) {
   const {
     playlist,
     socket,
@@ -41,7 +42,8 @@ export default function Video({ room }: VideoProps) {
     itemToMove,
     setTimestamp,
     setPlaylist,
-    updatePlaylistOrder
+    updatePlaylistOrder,
+    host
   } = useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
   const [isFadingIn, setIsFadingIn] = useState(false)
@@ -76,16 +78,21 @@ export default function Video({ room }: VideoProps) {
 
   useEffect(() => {
     if (!status) return
-    switch (status?.type) {
+    switch (status.type) {
       case 'player':
-        if (status?.event == 1) setIsPlaying(false)
-        else if (status?.event == 2) setIsPlaying(true)
+        if (status.event == 1) {
+          setIsPlaying(false)
+          setIsFadingIn(true)
+        } else if (status.event == 2) {
+          setIsPlaying(true)
+          setIsFadingIn(false)
+        }
         status.timestamp && setTimestamp(status.timestamp)
         player && player.seekTo(status?.timestamp)
         break
       case 'time':
         status.timestamp && setTimestamp(status.timestamp)
-        player && player.seekTo(status?.timestamp)
+        player && player.seekTo(status.timestamp)
         break
     }
   }, [status])
@@ -154,6 +161,7 @@ export default function Video({ room }: VideoProps) {
   }
 
   const handleUserVideoChange = async (value: 'next' | 'previous') => {
+    if (user?.username !== host && state.defaultUsername !== host) return
     if (!playlist || playlist.length < 2 || !player) return
 
     const item = value === 'next' ? playlist[0] : playlist[playlist.length - 1]
@@ -198,7 +206,7 @@ export default function Video({ room }: VideoProps) {
               onAnimationEnd={handleAnimationEnd}
               isFadingIn={isFadingIn}
             >
-              The host has paused this video
+              The video has been paused...
             </PauseOverlay>
           )}
         </VideoContainer>
