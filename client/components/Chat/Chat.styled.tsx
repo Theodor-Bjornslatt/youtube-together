@@ -129,7 +129,7 @@ export const AreaInput = styled(TextareaAutosize)`
   resize: none;
   flex: 5;
   margin: 0;
-
+  border-radius: 0;
   &:focus {
     outline: none;
   }
