@@ -11,7 +11,7 @@ import HeroImage from '../../public/joshua-sortino-LqKhnDzSF-8-unsplash.jpg'
 export default function StartHero() {
   return (
     <StartHeroContainer>
-      <NextImage src={HeroImage} />
+      <NextImage src={HeroImage} isStaticImageData priority />
       <ImageFilter />
       <TextContainer>
         <TopTextContainer>
