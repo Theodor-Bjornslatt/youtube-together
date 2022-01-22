@@ -15,7 +15,8 @@ export const SESSION_OPTIONS: SessionOptions = {
   name: SESSION_NAME,
   cookie: {
     maxAge: +SESSION_LIFETIME,
-    secure: IN_PROD
+    secure: IN_PROD,
+    sameSite: IN_PROD ? 'none' : 'lax'
   },
   rolling: true,
   resave: false,
