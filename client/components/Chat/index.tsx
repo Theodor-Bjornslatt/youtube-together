@@ -116,9 +116,12 @@ const Chat = ({ room }: ChatProps) => {
         }}
       >
         <div ref={topRef}>{loading && <h3>LOADING</h3>}</div>
-        {messages?.map((message) => (
-          <ChatMessage message={message} key={message.id} />
-        ))}
+        {messages &&
+          messages.map((message, i) => {
+            return (
+              <ChatMessage message={message} key={(message.id || 'ran') + i} />
+            )
+          })}
         <div ref={bottomRef} />
       </MessageListContainer>
       <InputWrapper focus={inputFocus}>
