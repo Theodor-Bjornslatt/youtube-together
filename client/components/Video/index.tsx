@@ -55,7 +55,9 @@ export default function Video({ room }: VideoProps) {
 
   function reorderPlaylist() {
     const { item, newIndex } = itemToMove
-    if (!item || !playlist || !newIndex) return
+
+    if (!item || !playlist || typeof newIndex === 'undefined') return
+
     const newPlaylist = [...playlist.filter((it) => it._id !== item._id)]
     newPlaylist.splice(newIndex, 0, item)
     setPlaylist(newPlaylist)
