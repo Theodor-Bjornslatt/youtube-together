@@ -1,5 +1,5 @@
 import ReactPlayer from 'react-player/lazy'
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 import { colors, maxWidths, spacings, fonts } from '../../styles/variables'
 
@@ -27,7 +27,11 @@ export const VideoPlayer = styled(ReactPlayer)`
   max-width: 1000px;
 `
 
-export const PauseOverlay = styled.div`
+type OverlayProps = {
+  isFadingIn: boolean
+}
+
+export const PauseOverlay = styled.div<OverlayProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,9 +39,29 @@ export const PauseOverlay = styled.div`
   height: 100%;
   width: 100%;
   background: ${colors.darkest};
-  bottom: 0;
+  top: 0%;
   font-family: ${fonts.roboto};
   color: ${colors.white};
+  animation: ${(props) => (props.isFadingIn ? FadeOutOverlay : FadeInOverlay)}
+    0.5s ease-in-out;
+`
+
+const FadeOutOverlay = keyframes`
+  0% {
+    top: 50%;
+  }
+  100% {
+    top: 0%;
+  }
+`
+
+const FadeInOverlay = keyframes`
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 50%;
+  }
 `
 
 export const ControlPanelContainer = styled.div`

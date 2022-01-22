@@ -44,6 +44,7 @@ export default function Video({ room }: VideoProps) {
     updatePlaylistOrder
   } = useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
+  const [isFadingIn, setIsFadingIn] = useState(false)
   const [volume, setVolume] = useState(0.4)
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
@@ -52,6 +53,16 @@ export default function Video({ room }: VideoProps) {
   const [reorderPlaylistTimeout, setReorderPlaylistTimeout] = useState<
     NodeJS.Timeout | undefined
   >()
+
+  useEffect(() => {
+    // if element is supposed to fade in, make it visible
+    isFadingIn && setIsPlaying(false)
+  }, [isFadingIn])
+
+  function handleAnimationEnd() {
+    // hide element if it just faded out
+    !isFadingIn && setIsPlaying(true)
+  }
 
   function reorderPlaylist() {
     const { item, newIndex } = itemToMove
@@ -97,7 +108,8 @@ export default function Video({ room }: VideoProps) {
   }, [state.movedItemInfo])
 
   const handleStartStop = () => {
-    setIsPlaying((prev) => !prev)
+    setIsPlaying(false)
+    setIsFadingIn((prev) => !prev)
     const status = player?.getPlayerState()
     const event = status ?? 2
 
@@ -181,9 +193,13 @@ export default function Video({ room }: VideoProps) {
             height={'100%'}
             volume={volume}
           />
-
           {!isPlaying && (
-            <PauseOverlay>The host has paused this video</PauseOverlay>
+            <PauseOverlay
+              onAnimationEnd={handleAnimationEnd}
+              isFadingIn={isFadingIn}
+            >
+              The host has paused this video
+            </PauseOverlay>
           )}
         </VideoContainer>
       </VideoBoundary>

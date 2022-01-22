@@ -14,6 +14,7 @@ export const ProgressBar = styled.input`
   margin: ${spacings.extraExtraSmall} 0;
   width: 100%;
   border-radius: ${borderRadius.small};
+  position: relative;
 
   &:focus {
     outline: none;

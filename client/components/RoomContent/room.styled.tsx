@@ -38,6 +38,7 @@ export const ChatContainer = styled.div`
   justify-content: center;
   overflow-y: auto;
   flex-shrink: 1;
+  z-index: 1;
 `
 
 export const MainSectionContainer = styled.div`
