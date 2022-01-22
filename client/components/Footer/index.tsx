@@ -1,5 +1,6 @@
 import { useContext } from 'react'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 import { GlobalContext } from '../../state/GlobalState'
 import {
@@ -14,15 +15,16 @@ import { logout } from '../../utils/api'
 export default function Footer() {
   const { dispatch } = useContext(GlobalContext)
   const { state } = useContext(GlobalContext)
+  const router = useRouter()
 
   const handleLogout = async () => {
     try {
       await logout()
       dispatch({ type: 'loggedIn', payload: false })
     } catch (error) {
-      //if server sends 500, client cookie is not removed
-      console.log('do something when error')
+      return
     }
+    router.push('/')
   }
   return (
     <FooterPlaceHolder>
