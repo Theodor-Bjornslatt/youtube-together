@@ -6,7 +6,8 @@ import {
   User,
   MessageData,
   LoginObject,
-  SignUpObject
+  SignUpObject,
+  RandomMessageQuery
 } from '../types'
 
 // USER
@@ -72,6 +73,25 @@ export const apiLogin = async (data: LoginObject): Promise<User> => {
     })
     if (!res.ok) throw new Error()
     return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+export const apiGetRandomMessages = async ({
+  random = 5
+}: RandomMessageQuery) => {
+  try {
+    const res = await fetch(
+      `${process.env.API_URL}/api/messages?random=${random}`,
+      {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+    if (!res.ok) throw new Error()
+    const { messages } = await res.json()
+    return messages
   } catch (e) {
     throw new Error()
   }

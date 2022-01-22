@@ -44,6 +44,11 @@ export type MessageResponse = {
   room?: string
 } & Messages & PaginationData
 
+export type RandomMessageQuery = {
+  query?: string
+  room?: string | null
+  random?: number
+}
 
 // Playlist
 export type Playlist = {
