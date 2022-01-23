@@ -4,7 +4,7 @@ import React from 'react'
 import Header from '../components/Header'
 import RoomList from '../components/RoomList'
 import { Room, Rooms } from '../types'
-import { serverSideGetRooms } from '../utils/api'
+import { apiGetRooms } from '../utils/api'
 
 type RoomsProp = {
   rooms: Room[]
@@ -13,7 +13,7 @@ type RoomsProp = {
 export const getServerSideProps: GetServerSideProps = async () => {
   let rooms: Room[]
   try {
-    rooms = await serverSideGetRooms()
+    rooms = await apiGetRooms()
   } catch (error) {
     console.log('error', error)
     //@TODO maybe prop something else that indicates that our server sent a 500?

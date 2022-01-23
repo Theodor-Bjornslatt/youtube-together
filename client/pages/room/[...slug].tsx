@@ -5,7 +5,7 @@ import { useContext, useEffect } from 'react'
 import Header from '../../components/Header'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
-import { serverSideGetRoomByName, serverSideWhoAmI } from '../../utils/api'
+import { apiGetRoomByName, serverSideWhoAmI } from '../../utils/api'
 import RoomContent from '../../components/RoomContent'
 import { colors } from '../../styles/variables'
 
@@ -36,7 +36,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
   if (slug) {
     try {
-      const currentRoom = await serverSideGetRoomByName(slug)
+      const currentRoom = await apiGetRoomByName(slug)
       if (currentRoom.name !== slug) {
         return { notFound: true }
       }

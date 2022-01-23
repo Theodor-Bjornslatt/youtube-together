@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 
-export type GenericObject = { [key: string]: string }
+export type FormValueObject = { [key: string]: string | number }
 
-type UseForm = {
-  values: GenericObject
-  errors: GenericObject
+type FormValues<Initial extends FormValueObject> = {
+  values: Initial
+  errors: Partial<Initial>
   onChangeHandler: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void
@@ -13,13 +13,17 @@ type UseForm = {
   ) => void
 }
 
-export const useForm = (
-  submitForm: () => void,
-  initialValue: GenericObject,
-  validate?: (values: GenericObject) => GenericObject
-): UseForm => {
+export function useForm<
+  InitialValue extends FormValueObject,
+  S extends () => void,
+  V extends (values: InitialValue) => Partial<InitialValue>
+>(
+  initialValue: InitialValue,
+  submitForm: S,
+  validate?: V
+): FormValues<InitialValue> {
   const [values, setValues] = useState(initialValue)
-  const [errors, setErrors] = useState({})
+  const [errors, setErrors] = useState<Partial<InitialValue>>({})
   const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
@@ -45,5 +49,10 @@ export const useForm = (
     setValues((values) => ({ ...values, [e.target.name]: e.target.value }))
   }
 
-  return { values, errors, onChangeHandler, handleSubmit }
+  return {
+    values,
+    errors,
+    onChangeHandler,
+    handleSubmit
+  }
 }

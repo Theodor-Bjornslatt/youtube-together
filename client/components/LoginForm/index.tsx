@@ -9,16 +9,19 @@ import { LoginButton, Form } from './Login.styled'
 import { GlobalContext } from '../../state/GlobalState'
 import FormContainer from '../FormContainer'
 import { apiLogin } from '../../utils/api'
+import { LoginObject } from '../../types'
 
 export default function LoginForm() {
   const router = useRouter()
 
+  const intialLoginValues: LoginObject = {
+    email: '',
+    password: ''
+  }
+
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
+    intialLoginValues,
     submitHandler,
-    {
-      email: '',
-      password: ''
-    },
     validateSignIn
   )
 

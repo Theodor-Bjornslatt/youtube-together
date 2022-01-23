@@ -16,16 +16,18 @@ import Header from '../Header'
 import play from '../../public/play.svg'
 import { TextInput } from '../inputs/TextInput'
 import { Form } from './CreateRoomForm.styled'
-import { PlaylistItemData } from '../../types'
+import { PlaylistItemData, PostRoomData } from '../../types'
 import { apiPostRoom } from '../../utils/api'
 
 export default function CreateRoomForm() {
+  const initialRoom: PostRoomData = {
+    name: '',
+    nickname: ''
+  }
+
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
+    initialRoom,
     onClickHandler,
-    {
-      name: '',
-      nickname: ''
-    },
     validateCreateRoom
   )
   const [playlist, setPlaylist] = useState<PlaylistItemData[]>([])

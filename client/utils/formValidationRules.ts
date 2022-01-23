@@ -1,9 +1,10 @@
-import { GenericObject } from '../hooks/useForm'
+import { LoginObject, SignUpObject } from "../types"
 
-export function validateSignUp(values: GenericObject) {
+export function validateSignUp(values: SignUpObject)
+{
   const validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-  const errors: GenericObject = {}
+  const errors: Partial<SignUpObject> = {}
 
   if (!values.username) {
     errors.username = 'Username is required'
@@ -37,10 +38,10 @@ export function validateSignUp(values: GenericObject) {
   return errors
 }
 
-export const validateSignIn = (values: GenericObject) => {
+export const validateSignIn = (values: LoginObject) => {
   const validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-  const errors: GenericObject = {}
+  const errors: Partial<LoginObject> = {}
 
   if (!values.email) {
     errors.email = 'Email address is required'
@@ -57,10 +58,11 @@ export const validateSignIn = (values: GenericObject) => {
   return errors
 }
 
-export const validateCreateRoom = (values: GenericObject) => {
+// refactor typing here
+export const validateCreateRoom = (values: {[key: string]: any}) => {
   const urlRegex = /^(https?:\/\/)?((www\.)?youtube\.com|youtu\.be)\/.+$/
   const nameRegex = /[A-Za-z0-9]+/
-  const errors: GenericObject = {}
+  const errors: {[key: string]: any} = {}
 
   if (!values.url) {
     errors.url = 'At least one url is required'

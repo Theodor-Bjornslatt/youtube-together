@@ -37,7 +37,7 @@ export const whoAmI = async () => {
   }
 }
 
-export const serverSideGetRooms = async () => {
+export const apiGetRooms = async () => {
   try {
     const res = await fetch(`${process.env.API_URL}/api/rooms`, {
       credentials: 'include'
@@ -151,7 +151,7 @@ export const apiRegister = async (data: any) => {
   }
 }
 
-export const serverSideGetRoomByName = async (slug: string) => {
+export const apiGetRoomByName = async (slug: string) => {
   try {
     const res = await fetch(`${process.env.API_URL}/api/rooms/${slug}`)
     if (!res.ok) throw new Error()

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { GenericObject } from '../../../hooks/useForm'
 import {
   InputWrapper,
   Label,
@@ -12,15 +11,15 @@ type DropdownProps = {
   label?: string
   title?: string
   options: { [key: string]: string }
-  values: GenericObject
+  values: { [key: string]: any } // refactor typing here
 }
 
 const Dropdown = ({ label, title, options, values }: DropdownProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState(title)
 
-  const dropDownRef: React.RefObject<HTMLDivElement> | null = useRef(null)
-  const selectRef: React.RefObject<HTMLDivElement> | null = useRef(null)
+  const dropDownRef = useRef<HTMLDivElement>(null)
+  const selectRef = useRef<HTMLDivElement>(null)
 
   const handleClickOutside = (event: MouseEvent) => {
     const target = event.target as Element

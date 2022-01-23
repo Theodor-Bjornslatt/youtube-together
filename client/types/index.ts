@@ -6,6 +6,11 @@ export type Room = {
   cover: string
 }
 
+export type PostRoomData = {
+  name: string
+  nickname: string
+}
+
 export type Rooms = {
   rooms: Room[]
 }
@@ -31,4 +36,15 @@ export type SocketStatus = {
   event?: number
   timestamp?: number
 } & MovedItemInfo
+
+export type LoginObject = {
+  email: string
+  password: string
+}
+
+export type SignUpObject = {
+  username: string
+  color: string
+  repeat: string
+} & LoginObject
 
