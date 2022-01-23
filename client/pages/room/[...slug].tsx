@@ -7,6 +7,7 @@ import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import { serverSideGetRoomByName, serverSideWhoAmI } from '../../utils/api'
 import RoomContent from '../../components/RoomContent'
+import { colors } from '../../styles/variables'
 
 type CurrentUserData = {
   user?: User
@@ -74,7 +75,7 @@ const Room = ({ user, room }: RoomProps) => {
     socket?.emit('join', {
       room,
       username: user?.username || state.defaultUsername,
-      color: user?.color
+      color: user?.color || colors.darkPink
     })
 
     router.events.on('routeChangeStart', handleRouteChange)
