@@ -5,6 +5,7 @@ import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
 import { UserContainer, Avatar, Name } from './ActiveUsers.styled'
 import crown from '../../public/crown.png'
+import { colors } from '../../styles/variables'
 type UserProps = {
   user: User | null
 }
@@ -14,7 +15,7 @@ function UserCard({ user }: UserProps) {
   const { host } = useSockets()
 
   const username = user?.username || state.defaultUsername
-  const color = user?.color || '#ffff'
+  const color = user?.color || colors.darkPink
 
   const AVATAR_URL = `https://eu.ui-avatars.com/api/?name=${username}&background=${color.substring(
     1
