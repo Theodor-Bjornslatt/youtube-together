@@ -43,7 +43,7 @@ export const imageFilters = {
 
 export const colors = {
   lightPink: '#FBECEC',
-  darkPink: '#c17d77',
+  darkPink: '#f64a8a',
   darkest: '#161414',
   dark: '#1E1C1C',
   lightBrown: '#5c5757',
