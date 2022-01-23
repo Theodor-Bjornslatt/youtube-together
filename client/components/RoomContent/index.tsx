@@ -9,12 +9,14 @@ import Video from '../Video'
 import Chat from '../Chat'
 import { PlaylistItemData } from '../../types'
 import { apiPostPlaylistItem, apiSaveNewPlaylistOrder } from '../../utils/api'
+import { User } from '../../state/GlobalState'
 
 export type RoomContentProps = {
   room: string
+  user: User | null
 }
 
-export default function RoomContent({ room }: RoomContentProps) {
+export default function RoomContent({ room, user }: RoomContentProps) {
   const handlePlaylistChange = async (
     item: PlaylistItemData | undefined,
     playlist: PlaylistItemData[]
@@ -42,7 +44,11 @@ export default function RoomContent({ room }: RoomContentProps) {
         </ChatContainer>
       </MainSectionContainer>
       <Aside>
-        <Sidebar onEndDrag={handlePlaylistChange} onVideoAdd={handleVideoAdd} />
+        <Sidebar
+          user={user}
+          onEndDrag={handlePlaylistChange}
+          onVideoAdd={handleVideoAdd}
+        />
       </Aside>
     </Container>
   )

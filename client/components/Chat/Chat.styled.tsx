@@ -58,12 +58,12 @@ export const InfoContainer = styled.div`
 `
 
 export const Name = styled.p`
-  color: ${colors.white};
+  color: ${colors.lightBrown};
   font-style: italic;
   font-size: 16px;
 `
 export const Time = styled.p`
-  color: ${colors.white};
+  color: ${colors.lightBrown};
   font-size: 12px;
   margin-left: ${spacings.extraExtraSmall};
 `
@@ -160,6 +160,14 @@ export const SubmitButton = styled.button`
   width: 100%;
   margin: 0;
   overflow: hidden;
+
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
 
   &:active {
     transform: none;

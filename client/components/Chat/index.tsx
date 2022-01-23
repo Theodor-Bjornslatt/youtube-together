@@ -91,7 +91,7 @@ const Chat = ({ room }: ChatProps) => {
   const onClickHandler = () => {
     const obj = {
       room,
-      message
+      message: message.trim()
     }
     socket?.emit('chat', obj)
     setMessage('')
@@ -139,7 +139,10 @@ const Chat = ({ room }: ChatProps) => {
             onFocus={() => setInputFocus(true)}
             onBlur={() => setInputFocus(false)}
           />
-          <SubmitButton onClick={onClickHandler}>
+          <SubmitButton
+            onClick={onClickHandler}
+            disabled={message.length === 0}
+          >
             <NextImage width={25} height={25} src={send} />
           </SubmitButton>
         </FlexContainer>

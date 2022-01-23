@@ -48,7 +48,7 @@ export default function PlaylistInput({
     currentTimeout && clearTimeout(currentTimeout)
 
     const timeout = setTimeout(() => {
-      const isValid = validateUrl(values.url)
+      const isValid = validateUrl(e.target.value)
       setIsUrlValid(isValid)
       setHasError(!isValid)
       setCurrentTimeout(null)
