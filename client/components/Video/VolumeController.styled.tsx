@@ -19,6 +19,7 @@ export const VolumeBar = styled.input`
   margin: ${spacings.extraExtraSmall} 0;
   width: 100%;
   border-radius: ${borderRadius.small};
+  z-index: 1;
 
   &:focus {
     outline: none;

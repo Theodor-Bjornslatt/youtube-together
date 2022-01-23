@@ -19,13 +19,16 @@ export const Container = styled.div`
   grid-template-columns: 3fr 1fr;
   grid-auto-flow: column;
 
+  @media screen and (max-width: ${sizes.desktop}px) {
+    grid-template-columns: 1fr;
+  }
+
   @media screen and (max-width: ${sizes.tablet}px) {
     padding: 0 ${spacings.medium};
   }
 
   @media screen and (max-width: ${sizes.mobile}px) {
     padding: 0 ${spacings.extraSmall};
-    grid-template-columns: 1fr;
   }
 `
 
@@ -38,6 +41,7 @@ export const ChatContainer = styled.div`
   justify-content: center;
   overflow-y: auto;
   flex-shrink: 1;
+  z-index: 1;
 `
 
 export const MainSectionContainer = styled.div`

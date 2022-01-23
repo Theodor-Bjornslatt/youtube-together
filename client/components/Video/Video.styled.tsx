@@ -1,7 +1,13 @@
-import ReactPlayer from 'react-player/lazy'
-import styled from 'styled-components'
+import ReactPlayer from 'react-player'
+import styled, { keyframes } from 'styled-components'
 
-import { colors, maxWidths, spacings, fonts } from '../../styles/variables'
+import {
+  colors,
+  maxWidths,
+  spacings,
+  fonts,
+  fontSizes
+} from '../../styles/variables'
 
 export const ContentContainer = styled.div``
 
@@ -27,7 +33,11 @@ export const VideoPlayer = styled(ReactPlayer)`
   max-width: 1000px;
 `
 
-export const PauseOverlay = styled.div`
+type OverlayProps = {
+  isFadingIn: boolean
+}
+
+export const PauseOverlay = styled.div<OverlayProps>`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,9 +45,29 @@ export const PauseOverlay = styled.div`
   height: 100%;
   width: 100%;
   background: ${colors.darkest};
-  bottom: 0;
+  top: 0%;
   font-family: ${fonts.roboto};
   color: ${colors.white};
+  animation: ${(props) => (props.isFadingIn ? FadeOutOverlay : FadeInOverlay)}
+    0.5s ease-in-out;
+`
+
+const FadeOutOverlay = keyframes`
+  0% {
+    top: 50%;
+  }
+  100% {
+    top: 0%;
+  }
+`
+
+const FadeInOverlay = keyframes`
+  0% {
+    top: 0%;
+  }
+  100% {
+    top: 50%;
+  }
 `
 
 export const ControlPanelContainer = styled.div`
@@ -57,12 +87,21 @@ export const ControlButton = styled.button`
   margin-right: ${spacings.tiny};
   -webkit-transition: 0.4s; /* Safari */
   transition: 0.4s all;
+
   &:hover {
     cursor: pointer;
   }
   :active {
     transform: scale(0.94);
   }
+`
+
+export const StyledDiv = styled.div`
+  font-family: ${fonts.roboto};
+  color: ${colors.danger};
+  margin-top: -${spacings.tiny};
+  height: ${fontSizes.medium};
+  font-size: ${fontSizes.extraExtraSmall};
 `
 
 export const ControlContainer = styled.div`
