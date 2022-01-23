@@ -1,18 +1,29 @@
-import { User } from '../../state/GlobalState'
-import { UserContainer, Avatar, Name } from './ActiveUsers.styled'
+import { useContext } from 'react'
 
+import { GlobalContext, User } from '../../state/GlobalState'
+import { useSockets } from '../../state/SocketContext'
+import NextImage from '../NextImage'
+import { UserContainer, Avatar, Name } from './ActiveUsers.styled'
+import crown from '../../public/crown.png'
 type UserProps = {
-  user: User
+  user: User | null
 }
 
 function UserCard({ user }: UserProps) {
-  const AVATAR_URL = `https://eu.ui-avatars.com/api/?name=${
-    user.username
-  }&background=${user.color.substring(1)}`
+  const { state } = useContext(GlobalContext)
+  const { host } = useSockets()
+
+  const username = user?.username || state.defaultUsername
+  const color = user?.color || '#ffff'
+
+  const AVATAR_URL = `https://eu.ui-avatars.com/api/?name=${username}&background=${color.substring(
+    1
+  )}`
   return (
     <UserContainer>
       <Avatar alt="Avatar" src={AVATAR_URL}></Avatar>
-      <Name color={user.color}>{user.username}</Name>
+      <Name color={color}>{username}</Name>
+      {host === username && <NextImage src={crown} width={25} height={25} />}
     </UserContainer>
   )
 }

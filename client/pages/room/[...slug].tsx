@@ -97,7 +97,7 @@ const Room = ({ user, room }: RoomProps) => {
   return (
     <>
       <Header title={(room = room ?? 'THE ROOM THAT MUST NOT BE MENTIONED')} />
-      <RoomContent room={room} />
+      <RoomContent user={user} room={room} />
     </>
   )
 }
