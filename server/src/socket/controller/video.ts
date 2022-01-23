@@ -7,11 +7,14 @@ interface ISocketStatus {
   event?: number
   timestamp?: number
 }
+
 interface SocketData {
   room: string
   status: ISocketStatus
 }
+
 const redis = getRedis()
+
 export async function onStatusChange(
   this: Socket,
   data: SocketData

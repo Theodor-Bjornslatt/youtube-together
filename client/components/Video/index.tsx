@@ -16,7 +16,8 @@ import {
   VideoContainer,
   ButtonPanelContainer,
   ControlPanelContainer,
-  PauseOverlay
+  PauseOverlay,
+  StyledDiv
 } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
@@ -30,7 +31,7 @@ import { GlobalContext, User } from '../../state/GlobalState'
 
 type VideoProps = {
   room: string
-  user: User
+  user: User | null
 }
 
 export default function Video({ room, user }: VideoProps) {
@@ -47,6 +48,7 @@ export default function Video({ room, user }: VideoProps) {
   } = useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
   const [isFadingIn, setIsFadingIn] = useState(false)
+  const [isGuest, setIsGuest] = useState(false)
   const [volume, setVolume] = useState(0.4)
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
@@ -57,12 +59,10 @@ export default function Video({ room, user }: VideoProps) {
   >()
 
   useEffect(() => {
-    // if element is supposed to fade in, make it visible
     isFadingIn && setIsPlaying(false)
   }, [isFadingIn])
 
   function handleAnimationEnd() {
-    // hide element if it just faded out
     !isFadingIn && setIsPlaying(true)
   }
 
@@ -159,7 +159,13 @@ export default function Video({ room, user }: VideoProps) {
   }
 
   const handleUserVideoChange = async (value: 'next' | 'previous') => {
-    if (user?.username !== host && state.defaultUsername !== host) return
+    if (user?.username !== host && state.defaultUsername !== host) {
+      setIsGuest(true)
+      setTimeout(() => {
+        setIsGuest(false)
+      }, 2000)
+      return
+    }
     if (!playlist || playlist.length < 2 || !player) return
 
     const item = value === 'next' ? playlist[0] : playlist[playlist.length - 1]
@@ -247,6 +253,11 @@ export default function Video({ room, user }: VideoProps) {
           </div>
         </ButtonPanelContainer>
       </ControlPanelContainer>
+      {isGuest ? (
+        <StyledDiv>Only host can change video</StyledDiv>
+      ) : (
+        <StyledDiv />
+      )}
     </div>
   )
 }

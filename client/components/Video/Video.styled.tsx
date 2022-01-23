@@ -1,7 +1,13 @@
 import ReactPlayer from 'react-player'
 import styled, { keyframes } from 'styled-components'
 
-import { colors, maxWidths, spacings, fonts } from '../../styles/variables'
+import {
+  colors,
+  maxWidths,
+  spacings,
+  fonts,
+  fontSizes
+} from '../../styles/variables'
 
 export const ContentContainer = styled.div``
 
@@ -81,12 +87,21 @@ export const ControlButton = styled.button`
   margin-right: ${spacings.tiny};
   -webkit-transition: 0.4s; /* Safari */
   transition: 0.4s all;
+
   &:hover {
     cursor: pointer;
   }
   :active {
     transform: scale(0.94);
   }
+`
+
+export const StyledDiv = styled.div`
+  font-family: ${fonts.roboto};
+  color: ${colors.danger};
+  margin-top: -${spacings.tiny};
+  height: ${fontSizes.medium};
+  font-size: ${fontSizes.extraExtraSmall};
 `
 
 export const ControlContainer = styled.div`
