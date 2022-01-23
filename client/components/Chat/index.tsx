@@ -7,7 +7,8 @@ import {
   InputWrapper,
   AreaInput,
   SubmitButton,
-  FlexContainer
+  FlexContainer,
+  RefContainer
 } from './Chat.styled'
 import { useSockets } from '../../state/SocketContext'
 import { usePagination } from '../../hooks/usePagination'
@@ -48,8 +49,9 @@ const Chat = ({ room }: ChatProps) => {
 
   const bottomRefOnScreen = useIntersectionObserver({
     ref: bottomRef.current,
+    root: chatListRef.current,
     threshold,
-    rootMargin: '0px'
+    rootMargin: '50px'
   })
 
   useEffect(() => {
@@ -75,6 +77,7 @@ const Chat = ({ room }: ChatProps) => {
 
   useEffect(() => {
     inputFocus && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    setAutoScroll(true)
   }, [inputFocus])
 
   useEffect(() => {
@@ -122,7 +125,7 @@ const Chat = ({ room }: ChatProps) => {
               <ChatMessage message={message} key={(message.id || 'ran') + i} />
             )
           })}
-        <div ref={bottomRef} />
+        <RefContainer ref={bottomRef} />
       </MessageListContainer>
       <InputWrapper focus={inputFocus}>
         <FlexContainer>

@@ -25,6 +25,10 @@ export const ChatContainer = styled.div`
   max-width: ${maxWidths.roomContent}px;
 `
 
+export const RefContainer = styled.div`
+  height: 1px;
+`
+
 export const MessageListContainer = styled.div`
   display: flex;
   justify-content: flex-start;
