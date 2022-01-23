@@ -11,12 +11,14 @@ import FormContainer from '../FormContainer'
 import { Form, SignupButton } from './Register.styled'
 import { useFocustrap } from '../FocusTrap'
 import { apiRegister } from '../../utils/api'
+import { SignUpObject } from '../../types'
 
 export default function RegisterForm() {
   const router = useRouter()
 
   const { dispatch } = useContext(GlobalContext)
-  const initialValue = {
+
+  const initialValue: SignUpObject = {
     username: '',
     color: '',
     email: '',
@@ -43,8 +45,8 @@ export default function RegisterForm() {
   useFocustrap(ref)
 
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
-    submitForm,
     initialValue,
+    submitForm,
     validateSignUp
   )
 
