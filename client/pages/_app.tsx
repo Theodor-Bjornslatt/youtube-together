@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import type { AppProps } from 'next/app'
 import Router from 'next/router'
 import '../styles/globals.css'
+import Head from 'next/head'
 
 import { GlobalStyle } from '../styles/globalStyle'
 import { GlobalContextProvider } from '../state/GlobalState'
@@ -40,6 +41,13 @@ function App({ Component, pageProps }: AppProps) {
   return (
     <GlobalContextProvider isLoggedIn={loggedIn}>
       <SocketProvider>
+        <Head>
+          <title>Watch Together</title>
+          <meta
+            name="viewport"
+            content="initial-scale=1.0, maximum-scale=1, width=device-width"
+          />
+        </Head>
         <GlobalStyle />
         <Component {...pageProps} />
         <Footer />
