@@ -48,6 +48,7 @@ export type MessageData = {
   id?: string
   color?: string
   room?: string
+  messageRead: boolean
 }
 
 const socket =
@@ -106,6 +107,7 @@ function SocketsProvider({ children }: SocketProviderProps) {
 
     socket.on('chat', (data: MessageData) => {
       setMessages((messages) => [...messages, data])
+      console.log(data)
     })
 
     socket.on('status', (data: SocketStatus) => {

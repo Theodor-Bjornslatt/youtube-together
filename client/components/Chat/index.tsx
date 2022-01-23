@@ -16,12 +16,14 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import { apiGetRoomMessages } from '../../utils/api'
 import send from '../../public/send.png'
 import NextImage from '../NextImage'
+import { User } from '../../state/GlobalState'
 
 type ChatProps = {
   room: string | null
+  user: User | null
 }
 
-const Chat = ({ room }: ChatProps) => {
+const Chat = ({ room, user }: ChatProps) => {
   const { socket, messages, setMessages } = useSockets()
   const { moreDataAvailable, apiMethod, data, loading } = usePagination({
     apiFunction: apiGetRoomMessages,
@@ -37,6 +39,8 @@ const Chat = ({ room }: ChatProps) => {
   const bottomRef = useRef<HTMLDivElement>(null)
   const topRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+
+  let count = 0
 
   const threshold = [0, 0.25, 0.5, 0.75]
 
@@ -78,13 +82,21 @@ const Chat = ({ room }: ChatProps) => {
   useEffect(() => {
     inputFocus && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     setAutoScroll(true)
+    messages?.map((message) => {
+      message.messageRead = true
+    })
   }, [inputFocus])
 
   useEffect(() => {
     if (!isMounted) return
     if (!bottomRefOnScreen) {
       setAutoScroll(false)
-    } else setAutoScroll(true)
+    } else {
+      setAutoScroll(true)
+      messages?.map((message) => {
+        message.messageRead = true
+      })
+    }
   }, [bottomRefOnScreen])
 
   useEffect(() => {
@@ -96,6 +108,7 @@ const Chat = ({ room }: ChatProps) => {
       room,
       message: message.trim()
     }
+
     socket?.emit('chat', obj)
     setMessage('')
   }
@@ -108,6 +121,11 @@ const Chat = ({ room }: ChatProps) => {
       onClickHandler()
     }
   }
+
+  messages?.map((message) => {
+    if (message.messageRead === false && message.username !== user?.username)
+      count++
+  })
 
   return (
     <ChatContainer>
@@ -127,6 +145,7 @@ const Chat = ({ room }: ChatProps) => {
           })}
         <RefContainer ref={bottomRef} />
       </MessageListContainer>
+      {count && <div style={{ color: 'yellow' }}>{count} unread messages</div>}
       <InputWrapper focus={inputFocus}>
         <FlexContainer>
           <AreaInput
