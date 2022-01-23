@@ -161,6 +161,14 @@ export const SubmitButton = styled.button`
   margin: 0;
   overflow: hidden;
 
+  &:hover {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
   &:active {
     transform: none;
 
