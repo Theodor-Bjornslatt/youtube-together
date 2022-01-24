@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { colors, fontSizes } from '../../styles/variables'
+import { colors, fontSizes, spacings } from '../../styles/variables'
 import { ButtonStyled } from '../Button/Button.styled'
 
 export const Container = styled.div`
@@ -35,5 +35,6 @@ export const UsersButton = styled(Button)`
 
 export const SidebarContentContainer = styled.div`
   display: flex;
+  padding-bottom: ${spacings.small};
   overflow-y: auto;
 `

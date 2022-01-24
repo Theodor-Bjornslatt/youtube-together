@@ -6,10 +6,13 @@ import {
   maxWidths,
   spacings,
   fonts,
-  fontSizes
+  fontSizes,
+  borders
 } from '../../styles/variables'
 
-export const ContentContainer = styled.div``
+export const ContentContainer = styled.div`
+  border-bottom: ${borders.light};
+`
 
 export const VideoBoundary = styled.div`
   max-height: 562px;

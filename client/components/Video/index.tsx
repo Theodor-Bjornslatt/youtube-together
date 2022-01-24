@@ -17,7 +17,8 @@ import {
   ButtonPanelContainer,
   ControlPanelContainer,
   PauseOverlay,
-  StyledDiv
+  StyledDiv,
+  ContentContainer
 } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
@@ -220,7 +221,7 @@ export default function Video({ room, user }: VideoProps) {
   if (player) player.allowFullscreen = 0
 
   return (
-    <div>
+    <ContentContainer>
       <VideoBoundary>
         <VideoContainer>
           {urlPlaying && (
@@ -291,6 +292,6 @@ export default function Video({ room, user }: VideoProps) {
           <StyledDiv />
         )}
       </ControlPanelContainer>
-    </div>
+    </ContentContainer>
   )
 }

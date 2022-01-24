@@ -8,7 +8,8 @@ import {
   fontSizes,
   fontWeights,
   spacings,
-  shadows
+  shadows,
+  scrollbarWidths
 } from '../../styles/variables'
 
 type PlaylistContainerProps = {
@@ -27,7 +28,6 @@ export const PlaylistContainer = styled.div<PlaylistContainerProps>`
   cursor: ${(props) => (props.isActive ? 'grabbing' : 'default')};
   width: 100%;
   padding: ${spacings.extraExtraSmall} ${spacings.extraExtraSmall};
-  background: ${colors.transparentDarkest};
   overflow-x: hidden;
   display: flex;
   flex-direction: column;
@@ -36,8 +36,8 @@ export const PlaylistContainer = styled.div<PlaylistContainerProps>`
   border-top: ${borders.light};
   gap: ${spacings.extraSmall};
 
-  ::-webkit-scrollbar-track {
-    border-right: 1px solid ${colors.dark};
+  ::-webkit-scrollbar {
+    width: ${scrollbarWidths.small};
   }
 
   ::-webkit-scrollbar-thumb {
@@ -71,7 +71,7 @@ export const PlaylistItemContainer = styled.div<DraggingProps>`
   align-items: center;
   min-height: 80px;
   background: ${colors.darkest};
-  border: ${borders.light};
+  border: 1px solid ${colors.transparentDark};
   padding: ${spacings.extraSmall};
   ${(props) =>
     props.isDragging &&

@@ -191,8 +191,12 @@ export const lineHeights: LineHeights = {
 
 type ScrollbarWidths = {
   regular: '10px'
+  medium: '8px'
+  small: '5px'
 }
 
 export const scrollbarWidths: ScrollbarWidths = {
-  regular: '10px'
+  regular: '10px',
+  medium: '8px',
+  small: '5px'
 }
