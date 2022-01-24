@@ -19,6 +19,7 @@ type InputProps = {
   type?: string
   removeBottomRadius?: boolean
   noAutoComplete?: boolean
+  disable?: boolean
 }
 
 export const TextInput = ({
@@ -30,7 +31,8 @@ export const TextInput = ({
   onChange,
   value,
   removeBottomRadius,
-  noAutoComplete
+  noAutoComplete,
+  disable = false
 }: InputProps) => {
   return (
     <InputWrapper>
@@ -44,6 +46,7 @@ export const TextInput = ({
           value={value}
           removeBottomRadius={removeBottomRadius}
           autoComplete={noAutoComplete ? 'off' : 'on'}
+          disabled={disable}
         />
       </WrapperInner>
       <ErrMsg>{error}</ErrMsg>

@@ -14,6 +14,7 @@ import { GlobalContext } from '../../state/GlobalState'
 import { PlaylistItemData } from '../../types'
 
 export default function VideoList({
+  actionsPermitted,
   playlist,
   setPlaylist,
   onEndDrag
@@ -68,7 +69,7 @@ export default function VideoList({
   }
 
   function startDrag(item: PlaylistItemData) {
-    setDraggedItem(item)
+    actionsPermitted && setDraggedItem(item)
   }
 
   function onPointerEnter(item: PlaylistItemData) {

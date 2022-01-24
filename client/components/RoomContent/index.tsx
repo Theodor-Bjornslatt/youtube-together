@@ -10,6 +10,7 @@ import Chat from '../Chat'
 import { PlaylistItemData } from '../../types'
 import { apiPostPlaylistItem, apiSaveNewPlaylistOrder } from '../../utils/api'
 import { User } from '../../state/GlobalState'
+import { useSockets } from '../../state/SocketContext'
 
 export type RoomContentProps = {
   room: string
@@ -17,6 +18,8 @@ export type RoomContentProps = {
 }
 
 export default function RoomContent({ room, user }: RoomContentProps) {
+  const { socket } = useSockets()
+
   const handlePlaylistChange = async (
     item: PlaylistItemData | undefined,
     playlist: PlaylistItemData[]
@@ -29,6 +32,7 @@ export default function RoomContent({ room, user }: RoomContentProps) {
   const handleVideoAdd = async (item: PlaylistItemData) => {
     try {
       await apiPostPlaylistItem(room, item)
+      socket?.emit('playlist', { type: 'add', room, item })
       return true
     } catch (error) {
       return false

@@ -142,6 +142,10 @@ function SocketsProvider({ children }: SocketProviderProps) {
       setItemToMove(movedItemInfo)
     })
 
+    socket.on('addItem', (item: PlaylistItemData) => {
+      setPlaylist((old) => [...old, item])
+    })
+
     function cleanup() {
       if (!socket) return
       socket.disconnect()

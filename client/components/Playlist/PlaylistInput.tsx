@@ -19,13 +19,15 @@ import {
 } from './Playlist.styled'
 
 type PlaylistInputProps = {
+  actionsPermitted: boolean
   setPlaylist: Dispatch<SetStateAction<PlaylistItemData[]>>
   onVideoAdd?: (item: PlaylistItemData) => Promise<boolean>
 }
 
 export default function PlaylistInput({
   setPlaylist,
-  onVideoAdd
+  onVideoAdd,
+  actionsPermitted = true
 }: PlaylistInputProps) {
   const initialPlaylistItem = {
     url: ''
@@ -72,8 +74,10 @@ export default function PlaylistInput({
   }
 
   async function addItem() {
+    if (!actionsPermitted) return
     const res = await fetch(`https://noembed.com/embed?url=${values.url}`)
     const { title } = await res.json()
+
     const success =
       onVideoAdd &&
       onVideoAdd({
@@ -87,7 +91,8 @@ export default function PlaylistInput({
         { _id: id, url: values.url, title: title ? title : 'No Title' }
       ])
       setId((prev) => prev + 1)
-      setShouldTextFadeIn(false)
+      values.url = ''
+      setIsUrlValid(false)
     }
   }
 
@@ -118,6 +123,7 @@ export default function PlaylistInput({
         }
         onChange={handleChange}
         removeBottomRadius={isItemVisible}
+        disable={!actionsPermitted}
         noAutoComplete
       />
       {isItemVisible && (
