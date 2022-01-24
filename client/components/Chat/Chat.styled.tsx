@@ -31,7 +31,7 @@ export const RefContainer = styled.div`
 
 export const MessageListContainer = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: flex-end;
   flex-direction: column;
   width: 100%;
   flex: 1;
@@ -145,7 +145,7 @@ export const AreaInput = styled(TextareaAutosize)`
   border: none;
   color: ${colors.darkest};
   resize: none;
-  flex: 5;
+  flex: 10;
   margin: 0;
   border-radius: 0;
   &:focus {
