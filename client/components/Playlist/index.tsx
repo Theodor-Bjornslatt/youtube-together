@@ -7,6 +7,7 @@ import VideoList from './VideoList'
 
 export type PlaylistProps = {
   playlist: PlaylistItemData[]
+  actionsPermitted?: boolean
   setPlaylist: Dispatch<SetStateAction<PlaylistItemData[]>>
   onEndDrag?: (
     item: PlaylistItemData | undefined,
@@ -17,14 +18,20 @@ export type PlaylistProps = {
 
 export default function Playlist({
   playlist,
+  actionsPermitted = true,
   setPlaylist,
   onEndDrag,
   onVideoAdd
 }: PlaylistProps) {
   return (
     <Container>
-      <PlaylistInput onVideoAdd={onVideoAdd} setPlaylist={setPlaylist} />
+      <PlaylistInput
+        actionsPermitted={actionsPermitted}
+        onVideoAdd={onVideoAdd}
+        setPlaylist={setPlaylist}
+      />
       <VideoList
+        actionsPermitted={actionsPermitted}
         playlist={playlist}
         setPlaylist={setPlaylist}
         onEndDrag={onEndDrag}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 
 import {
   Button,
@@ -11,7 +11,7 @@ import Playlist from '../Playlist'
 import { PlaylistContainer } from '../Playlist/Playlist.styled'
 import { PlaylistItemData } from '../../types'
 import { useSockets } from '../../state/SocketContext'
-import { User } from '../../state/GlobalState'
+import { GlobalContext, User } from '../../state/GlobalState'
 
 type SidebarProp = {
   onEndDrag: (
@@ -23,8 +23,17 @@ type SidebarProp = {
 }
 
 function Sidebar({ onEndDrag, onVideoAdd, user }: SidebarProp) {
+  const { playlist, setPlaylist, activeUsers, host } = useSockets()
+  const { state } = useContext(GlobalContext)
   const [display, setDisplay] = useState(true)
-  const { playlist, setPlaylist, activeUsers } = useSockets()
+  const [actionsAllowed, setActionsAllowed] = useState(false)
+
+  useEffect(() => {
+    if (host === user?.username || host === state.defaultUsername) {
+      setActionsAllowed(true)
+    }
+  }, [host])
+
   return (
     <Container>
       <ButtonContainer>
@@ -35,6 +44,7 @@ function Sidebar({ onEndDrag, onVideoAdd, user }: SidebarProp) {
       {!display && playlist && (
         <PlaylistContainer>
           <Playlist
+            actionsPermitted={actionsAllowed}
             onVideoAdd={onVideoAdd}
             playlist={playlist}
             setPlaylist={setPlaylist}
