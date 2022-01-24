@@ -86,7 +86,6 @@ const Room = ({ user, room }: RoomProps) => {
 
   useEffect(() => {
     if (user?.username !== host && state.defaultUsername !== host) return
-
     if (Math.round(timestamp) % 5 === 0) {
       socket?.emit('status', {
         room: room,

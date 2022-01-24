@@ -28,6 +28,7 @@ import previous from '../../public/previous.png'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import VolumeController from './VolumeController'
 import { GlobalContext, User } from '../../state/GlobalState'
+import { PlaylistItemData } from '../../types'
 
 type VideoProps = {
   room: string
@@ -49,10 +50,15 @@ export default function Video({ room, user }: VideoProps) {
   const [isPlaying, setIsPlaying] = useState(true)
   const [isFadingIn, setIsFadingIn] = useState(false)
   const [isGuest, setIsGuest] = useState(false)
-  const [volume, setVolume] = useState(0.4)
+  const [volume, setVolume] = useState(0.0)
+  const [urlPlaying, setUrlPlaying] = useState<PlaylistItemData>({
+    url: '',
+    _id: '',
+    title: ''
+  })
   const ref = useRef<ReactPlayer>(null)
   const player = ref.current ? ref.current.getInternalPlayer() : undefined
-  const urls = playlist?.map((item) => item.url)
+
   const { state } = useContext(GlobalContext)
   const [reorderPlaylistTimeout, setReorderPlaylistTimeout] = useState<
     NodeJS.Timeout | undefined
@@ -77,6 +83,13 @@ export default function Video({ room, user }: VideoProps) {
   }
 
   useEffect(() => {
+    if (!playlist || playlist.length < 1) return
+    if (urlPlaying._id !== playlist?.[0]._id) {
+      setUrlPlaying(playlist?.[0])
+    }
+  }, [playlist])
+
+  useEffect(() => {
     if (!status) return
     switch (status.type) {
       case 'player':
@@ -86,11 +99,11 @@ export default function Video({ room, user }: VideoProps) {
           setIsFadingIn(false)
         }
         status.timestamp && setTimestamp(status.timestamp)
-        player && player.seekTo(status?.timestamp)
+        player?.seekTo && player.seekTo(status?.timestamp)
         break
       case 'time':
         status.timestamp && setTimestamp(status.timestamp)
-        player && player.seekTo(status.timestamp)
+        player?.seekTo && player.seekTo(status.timestamp)
         break
     }
   }, [status])
@@ -178,8 +191,7 @@ export default function Video({ room, user }: VideoProps) {
     updatePlaylistOrder(value)
     socket?.emit('playlist', {
       type: value,
-      room,
-      position: value === 'next' ? playlist.length : 0
+      room
     })
 
     player.nextVideo()
@@ -189,22 +201,40 @@ export default function Video({ room, user }: VideoProps) {
     setVolume(Number(e.target.value))
   }
 
+  const autoPlayNextVideo = async () => {
+    if (!playlist || playlist?.length < 2) return
+    if (user?.username !== host && state.defaultUsername !== host) return
+
+    await apiSaveNewPlaylistOrder(room, {
+      ...urlPlaying,
+      position: playlist.length
+    })
+
+    socket?.emit('playlist', {
+      type: 'autoPlay',
+      room
+    })
+  }
   if (player) player.allowFullscreen = 0
 
   return (
     <div>
       <VideoBoundary>
         <VideoContainer>
-          <VideoPlayer
-            url={urls}
-            ref={ref}
-            playing={isPlaying}
-            config={youtubeConfig}
-            onProgress={handleProgress}
-            width={'100%'}
-            height={'100%'}
-            volume={volume}
-          />
+          {urlPlaying && (
+            <VideoPlayer
+              url={urlPlaying.url}
+              ref={ref}
+              playing={isPlaying}
+              config={youtubeConfig}
+              onProgress={handleProgress}
+              width={'100%'}
+              height={'100%'}
+              volume={volume}
+              mute={volume === 0 ? 1 : 0}
+              onEnded={autoPlayNextVideo}
+            />
+          )}
           {!isPlaying && (
             <PauseOverlay
               onAnimationEnd={handleAnimationEnd}

@@ -1,5 +1,7 @@
 import { Socket } from 'socket.io'
 
+import { getIo } from '../io'
+
 type PlaylistItem = {
   url: string
   title: string
@@ -7,7 +9,7 @@ type PlaylistItem = {
 }
 
 type PlaylistEventData = {
-  type: 'next' | 'previous' | 'movedItem' | 'add'
+  type: 'next' | 'previous' | 'movedItem' | 'add' | 'autoPlay'
   room: string
   movedItemInfo?: {
     item?: PlaylistItem
@@ -31,6 +33,9 @@ export function onPlaylistChange(this: Socket, data: PlaylistEventData): void {
       break
     case 'add':
       this.broadcast.to(room).emit('addItem', item)
+      break
+    case 'autoPlay':
+      getIo().to(room).emit('nextVideo')
       break
     default:
       break
