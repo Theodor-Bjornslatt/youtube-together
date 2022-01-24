@@ -1,16 +1,15 @@
 import styled from 'styled-components'
 
-import {
-  fontSizes,
-  fonts,
-  borderRadius,
-  borders
-} from '../../../styles/variables'
-import { inputBaseStyle } from '../TextInput/textInput.styled'
+import { fontSizes, fonts, borderRadius } from '../../../styles/variables'
+import { inputBaseStyle, InputWrapper } from '../TextInput/textInput.styled'
 
 type Headline = {
   headline?: string
 }
+
+export const DropdownWrapper = styled(InputWrapper)`
+  margin-bottom: 22px;
+`
 
 export const Select = styled.div<Headline>`
   ${inputBaseStyle}
@@ -19,8 +18,6 @@ export const Select = styled.div<Headline>`
 
   &:focus {
     border-radius: ${borderRadius.small} ${borderRadius.small} 0 0;
-    border: ${borders.focus};
-    border-bottom: none;
     outline: none;
     box-shadow: inset 0 2px 10px 0 rgba(0, 0, 0, 0.3);
   }
@@ -34,7 +31,9 @@ export const OptionsWrapper = styled.div`
   min-height: 34px;
   width: 100%;
   z-index: 1;
-  position: relative;
+  position: absolute;
+  left: 0;
+  top: 40px;
 `
 export const Options = styled.div`
   ${inputBaseStyle}
