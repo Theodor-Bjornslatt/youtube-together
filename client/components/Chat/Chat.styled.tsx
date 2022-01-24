@@ -31,7 +31,6 @@ export const RefContainer = styled.div`
 
 export const MessageListContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
   flex-direction: column;
   width: 100%;
   flex: 1;

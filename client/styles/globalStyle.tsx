@@ -78,6 +78,7 @@ export const GlobalStyle = createGlobalStyle`
 
 ::-webkit-scrollbar-thumb {
   background: ${colors.brown};
+  background: ${colors.transparentDark};
 }
 
 ::-webkit-scrollbar-thumb:hover {

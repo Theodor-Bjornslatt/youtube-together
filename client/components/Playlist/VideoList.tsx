@@ -47,7 +47,7 @@ export default function VideoList({
 
     const rect = playlistRef.current.getBoundingClientRect()
     const offsetX = e.clientX - rect.left
-    const offsetY = e.clientY - rect.top
+    const offsetY = e.clientY - rect.top + playlistRef.current.scrollTop
     setPointerPosition({ x: offsetX, y: offsetY })
   }
 
@@ -83,9 +83,10 @@ export default function VideoList({
   }
 
   function setItemOffset(e: PointerEvent<HTMLDivElement>) {
-    if (draggedItem) return
+    if (draggedItem || !playlistRef.current) return
 
     const rect = e.currentTarget.getBoundingClientRect()
+
     const offsetX = e.clientX - rect.left
     const offsetY = e.clientY - rect.top
     setItemPointerOffset({ x: offsetX, y: offsetY })

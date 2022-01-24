@@ -4,11 +4,11 @@ import {
   Button,
   ButtonContainer,
   Container,
+  SidebarContentContainer,
   UsersButton
 } from './Sidebar.styled'
 import ActiveUsers from '../ActiveUsers/index'
 import Playlist from '../Playlist'
-import { PlaylistContainer } from '../Playlist/Playlist.styled'
 import { PlaylistItemData } from '../../types'
 import { useSockets } from '../../state/SocketContext'
 import { GlobalContext } from '../../state/GlobalState'
@@ -26,7 +26,7 @@ type SidebarProp = {
 function Sidebar({ onEndDrag, onVideoAdd, user }: SidebarProp) {
   const { playlist, setPlaylist, activeUsers, host } = useSockets()
   const { state } = useContext(GlobalContext)
-  const [display, setDisplay] = useState(true)
+  const [display, setDisplay] = useState<'playlist' | 'users'>('playlist')
   const [actionsAllowed, setActionsAllowed] = useState(false)
 
   useEffect(() => {
@@ -38,12 +38,22 @@ function Sidebar({ onEndDrag, onVideoAdd, user }: SidebarProp) {
   return (
     <Container>
       <ButtonContainer>
-        <UsersButton onClick={() => setDisplay(true)}>Users</UsersButton>
-        <Button onClick={() => setDisplay(false)}>Playlist</Button>
+        <UsersButton
+          onClick={() => setDisplay('users')}
+          isActive={display === 'users'}
+        >
+          Users
+        </UsersButton>
+        <Button
+          onClick={() => setDisplay('playlist')}
+          isActive={display === 'playlist'}
+        >
+          Playlist
+        </Button>
       </ButtonContainer>
-      {display && <ActiveUsers user={user} users={activeUsers} />}
-      {!display && playlist && (
-        <PlaylistContainer>
+      <SidebarContentContainer>
+        {display === 'users' && <ActiveUsers users={activeUsers} user={user} />}
+        {display === 'playlist' && playlist && (
           <Playlist
             actionsPermitted={actionsAllowed}
             onVideoAdd={onVideoAdd}
@@ -51,8 +61,8 @@ function Sidebar({ onEndDrag, onVideoAdd, user }: SidebarProp) {
             setPlaylist={setPlaylist}
             onEndDrag={onEndDrag}
           />
-        </PlaylistContainer>
-      )}
+        )}
+      </SidebarContentContainer>
     </Container>
   )
 }

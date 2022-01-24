@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 import {
+  borders,
   colors,
   fonts,
   fontSizes,
@@ -21,6 +22,7 @@ export const HeaderContainer = styled.div`
   padding: ${spacings.extraSmall} ${spacings.extraLarge};
   text-transform: uppercase;
   width: 100%;
+  border-bottom: ${borders.light};
 
   h5,
   a {

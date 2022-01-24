@@ -13,7 +13,6 @@ export const Container = styled.div`
   height: calc(
     100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop}
   );
-
   gap: ${spacings.extraExtraSmall};
   padding: 0 ${spacings.large};
   grid-template-columns: 3fr 1fr;
@@ -55,9 +54,13 @@ export const MainSectionContainer = styled.div`
 `
 
 export const Aside = styled.div`
+  display: flex;
   width: 100%;
+  max-width: 500px;
   margin: 0 1rem;
-  height: 100%;
+  height: inherit;
+  flex: 1;
+
   border-left: 1px solid ${colors.brown};
 
   @media screen and (max-width: ${sizes.desktop}px) {
