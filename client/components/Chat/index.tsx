@@ -17,7 +17,8 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import { apiGetRoomMessages } from '../../utils/api'
 import send from '../../public/send.png'
 import NextImage from '../NextImage'
-import { GlobalContext, User } from '../../state/GlobalState'
+import { GlobalContext } from '../../state/GlobalState'
+import { User } from '../../types'
 
 type ChatProps = {
   room: string | null

@@ -9,8 +9,8 @@ import Video from '../Video'
 import Chat from '../Chat'
 import { PlaylistItemData } from '../../types'
 import { apiPostPlaylistItem, apiSaveNewPlaylistOrder } from '../../utils/api'
-import { User } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
+import { User } from '../../types'
 
 export type RoomContentProps = {
   room: string
