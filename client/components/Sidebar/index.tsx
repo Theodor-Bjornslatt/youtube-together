@@ -11,7 +11,8 @@ import Playlist from '../Playlist'
 import { PlaylistContainer } from '../Playlist/Playlist.styled'
 import { PlaylistItemData } from '../../types'
 import { useSockets } from '../../state/SocketContext'
-import { GlobalContext, User } from '../../state/GlobalState'
+import { GlobalContext } from '../../state/GlobalState'
+import { User } from '../../types'
 
 type SidebarProp = {
   onEndDrag: (

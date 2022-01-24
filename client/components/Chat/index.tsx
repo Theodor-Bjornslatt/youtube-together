@@ -17,7 +17,8 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import { apiGetRoomMessages } from '../../utils/api'
 import send from '../../public/send.png'
 import NextImage from '../NextImage'
-import { GlobalContext, User } from '../../state/GlobalState'
+import { GlobalContext } from '../../state/GlobalState'
+import { User } from '../../types'
 
 type ChatProps = {
   room: string | null
@@ -27,7 +28,7 @@ type ChatProps = {
 const Chat = ({ room, user }: ChatProps) => {
   const { socket, messages, setMessages } = useSockets()
   const { state } = useContext(GlobalContext)
-  const { moreDataAvailable, apiMethod, data, loading } = usePagination({
+  const { moreDataAvailable, fetchMore, data, loading } = usePagination({
     apiFunction: apiGetRoomMessages,
     page: 2
   })
@@ -76,7 +77,7 @@ const Chat = ({ room, user }: ChatProps) => {
   useEffect(() => {
     if (!topRefOnScreen) return
     if (moreDataAvailable) {
-      apiMethod(room)
+      fetchMore(room)
     }
   }, [topRefOnScreen])
 

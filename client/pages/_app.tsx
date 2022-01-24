@@ -30,7 +30,7 @@ function App({ Component, pageProps }: AppProps) {
     async function getUser() {
       try {
         const user = await whoAmI()
-        if (user.id) setLoggedIn(true)
+        if (user._id) setLoggedIn(true)
       } catch (e) {
         setLoggedIn(false)
       }

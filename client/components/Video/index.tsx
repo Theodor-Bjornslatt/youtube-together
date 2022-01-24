@@ -27,8 +27,8 @@ import next from '../../public/next.png'
 import previous from '../../public/previous.png'
 import { apiSaveNewPlaylistOrder } from '../../utils/api'
 import VolumeController from './VolumeController'
-import { GlobalContext, User } from '../../state/GlobalState'
-import { PlaylistItemData } from '../../types'
+import { GlobalContext } from '../../state/GlobalState'
+import { PlaylistItemData, User } from '../../types'
 
 type VideoProps = {
   room: string

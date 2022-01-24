@@ -20,7 +20,7 @@ import { PlaylistItemData, PostRoomData } from '../../types'
 import { apiPostRoom } from '../../utils/api'
 
 export default function CreateRoomForm() {
-  const initialRoom: PostRoomData = {
+  const initialRoom: Omit<PostRoomData, 'playlist'> = {
     name: '',
     nickname: ''
   }

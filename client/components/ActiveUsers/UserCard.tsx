@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 
-import { GlobalContext, User } from '../../state/GlobalState'
+import { User } from '../../types'
+import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import NextImage from '../NextImage'
 import { UserContainer, Avatar, Name } from './ActiveUsers.styled'

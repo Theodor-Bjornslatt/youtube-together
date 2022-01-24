@@ -11,7 +11,7 @@ type DropdownProps = {
   label?: string
   title?: string
   options: { [key: string]: string }
-  values: { [key: string]: any } // refactor typing here
+  values: { [key: string]: any } // @TODO refactor typing here
 }
 
 const Dropdown = ({ label, title, options, values }: DropdownProps) => {
