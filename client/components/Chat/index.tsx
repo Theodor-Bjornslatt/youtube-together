@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import ChatMessage from './ChatMessage'
 import {
@@ -8,7 +8,8 @@ import {
   AreaInput,
   SubmitButton,
   FlexContainer,
-  RefContainer
+  RefContainer,
+  NewMessages
 } from './Chat.styled'
 import { useSockets } from '../../state/SocketContext'
 import { usePagination } from '../../hooks/usePagination'
@@ -16,7 +17,7 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import { apiGetRoomMessages } from '../../utils/api'
 import send from '../../public/send.png'
 import NextImage from '../NextImage'
-import { User } from '../../state/GlobalState'
+import { GlobalContext, User } from '../../state/GlobalState'
 
 type ChatProps = {
   room: string | null
@@ -25,6 +26,7 @@ type ChatProps = {
 
 const Chat = ({ room, user }: ChatProps) => {
   const { socket, messages, setMessages } = useSockets()
+  const { state } = useContext(GlobalContext)
   const { moreDataAvailable, apiMethod, data, loading } = usePagination({
     apiFunction: apiGetRoomMessages,
     page: 2
@@ -34,13 +36,12 @@ const Chat = ({ room, user }: ChatProps) => {
   const [inputFocus, setInputFocus] = useState(false)
   const [autoScroll, setAutoScroll] = useState(true)
   const [isMounted, setIsMounted] = useState(false)
+  const [count, setCount] = useState(0)
 
   const chatListRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
   const topRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
-
-  let count = 0
 
   const threshold = [0, 0.25, 0.5, 0.75]
 
@@ -82,9 +83,6 @@ const Chat = ({ room, user }: ChatProps) => {
   useEffect(() => {
     inputFocus && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
     setAutoScroll(true)
-    messages?.map((message) => {
-      message.messageRead = true
-    })
   }, [inputFocus])
 
   useEffect(() => {
@@ -93,14 +91,20 @@ const Chat = ({ room, user }: ChatProps) => {
       setAutoScroll(false)
     } else {
       setAutoScroll(true)
-      messages?.map((message) => {
-        message.messageRead = true
-      })
+      setCount(0)
     }
   }, [bottomRefOnScreen])
-
   useEffect(() => {
+    const sender = messages?.[messages.length - 1]
     autoScroll && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+
+    if (bottomRefOnScreen === true) return
+    if (
+      sender?.username !== user?.username ||
+      sender?.username !== state.defaultUsername
+    ) {
+      setCount((prev) => prev + 1)
+    }
   }, [messages])
 
   const onClickHandler = () => {
@@ -121,11 +125,10 @@ const Chat = ({ room, user }: ChatProps) => {
       onClickHandler()
     }
   }
-
-  messages?.map((message) => {
-    if (message.messageRead === false && message.username !== user?.username)
-      count++
-  })
+  function handleUnreadMessages() {
+    setInputFocus(true)
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   return (
     <ChatContainer>
@@ -145,7 +148,12 @@ const Chat = ({ room, user }: ChatProps) => {
           })}
         <RefContainer ref={bottomRef} />
       </MessageListContainer>
-      {count && <div style={{ color: 'yellow' }}>{count} unread messages</div>}
+      {count && (
+        <NewMessages onClick={handleUnreadMessages}>
+          {count}
+          {count > 1 ? ' new messages' : ' new message'}
+        </NewMessages>
+      )}
       <InputWrapper focus={inputFocus}>
         <FlexContainer>
           <AreaInput

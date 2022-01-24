@@ -14,7 +14,7 @@ type ChatMessageProps = {
 }
 
 const ChatMessage = ({ message: msg }: ChatMessageProps) => {
-  const { username, color, timestamp, message, messageRead } = msg
+  const { username, color, timestamp, message } = msg
 
   function getTimeString() {
     const date = new Date(timestamp)
@@ -29,9 +29,7 @@ const ChatMessage = ({ message: msg }: ChatMessageProps) => {
     <Card>
       <InfoContainer>
         <Name>{username}</Name>
-        <Time>
-          ({getTimeString()}){messageRead === false ? 'Oläst' : ''}
-        </Time>
+        <Time>{getTimeString()}</Time>
       </InfoContainer>
       <MessageContainer color={color}>
         <p>{message}</p>

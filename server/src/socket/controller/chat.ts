@@ -17,8 +17,7 @@ export async function onChatMessage(
     message: data.message,
     timestamp: Date.now(),
     id: idGenerator(),
-    color: this.data.color,
-    messageRead: false
+    color: this.data.color
   }
 
   const { room } = data
