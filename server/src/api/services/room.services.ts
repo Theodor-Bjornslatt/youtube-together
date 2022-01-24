@@ -93,7 +93,7 @@ export const getAllRooms = async ({
   return {
     rooms: rooms.map((room) => {
       const clients = io.sockets.adapter.rooms.get(room.name)
-      const youtubeId = room.playlist[0]?.url.split('v=')[1]
+      const youtubeId = room.playlist[0]?.url.split('v=').pop().split('&')[0]
       const coverImage = `https://img.youtube.com/vi/${youtubeId}/hqdefault.jpg`
       return {
         id: room._id,
