@@ -29,7 +29,7 @@ const ChatMessage = ({ message: msg }: ChatMessageProps) => {
     <Card>
       <InfoContainer>
         <Name>{username}</Name>
-        <Time>({getTimeString()})</Time>
+        <Time>{getTimeString()}</Time>
       </InfoContainer>
       <MessageContainer color={color}>
         <p>{message}</p>

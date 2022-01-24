@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 
 import ChatMessage from './ChatMessage'
 import {
@@ -8,7 +8,8 @@ import {
   AreaInput,
   SubmitButton,
   FlexContainer,
-  RefContainer
+  RefContainer,
+  NewMessages
 } from './Chat.styled'
 import { useSockets } from '../../state/SocketContext'
 import { usePagination } from '../../hooks/usePagination'
@@ -16,13 +17,16 @@ import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import { apiGetRoomMessages } from '../../utils/api'
 import send from '../../public/send.png'
 import NextImage from '../NextImage'
+import { GlobalContext, User } from '../../state/GlobalState'
 
 type ChatProps = {
   room: string | null
+  user: User | null
 }
 
-const Chat = ({ room }: ChatProps) => {
+const Chat = ({ room, user }: ChatProps) => {
   const { socket, messages, setMessages } = useSockets()
+  const { state } = useContext(GlobalContext)
   const { moreDataAvailable, apiMethod, data, loading } = usePagination({
     apiFunction: apiGetRoomMessages,
     page: 2
@@ -32,6 +36,7 @@ const Chat = ({ room }: ChatProps) => {
   const [inputFocus, setInputFocus] = useState(false)
   const [autoScroll, setAutoScroll] = useState(true)
   const [isMounted, setIsMounted] = useState(false)
+  const [count, setCount] = useState(0)
 
   const chatListRef = useRef<HTMLDivElement>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -84,11 +89,22 @@ const Chat = ({ room }: ChatProps) => {
     if (!isMounted) return
     if (!bottomRefOnScreen) {
       setAutoScroll(false)
-    } else setAutoScroll(true)
+    } else {
+      setAutoScroll(true)
+      setCount(0)
+    }
   }, [bottomRefOnScreen])
-
   useEffect(() => {
+    const sender = messages?.[messages.length - 1]
     autoScroll && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+
+    if (bottomRefOnScreen === true) return
+    if (
+      sender?.username !== user?.username ||
+      sender?.username !== state.defaultUsername
+    ) {
+      setCount((prev) => prev + 1)
+    }
   }, [messages])
 
   const onClickHandler = () => {
@@ -96,6 +112,7 @@ const Chat = ({ room }: ChatProps) => {
       room,
       message: message.trim()
     }
+
     socket?.emit('chat', obj)
     setMessage('')
   }
@@ -107,6 +124,10 @@ const Chat = ({ room }: ChatProps) => {
       }
       onClickHandler()
     }
+  }
+  function handleUnreadMessages() {
+    setInputFocus(true)
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
   return (
@@ -127,6 +148,12 @@ const Chat = ({ room }: ChatProps) => {
           })}
         <RefContainer ref={bottomRef} />
       </MessageListContainer>
+      {count && (
+        <NewMessages onClick={handleUnreadMessages}>
+          {count}
+          {count > 1 ? ' new messages' : ' new message'}
+        </NewMessages>
+      )}
       <InputWrapper focus={inputFocus}>
         <FlexContainer>
           <AreaInput

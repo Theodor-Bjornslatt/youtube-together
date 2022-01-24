@@ -105,6 +105,7 @@ export const ChatButton = styled.button`
 export const InputWrapper = styled.div<StyledInputProps>`
   border-radius: ${borderRadius.large};
   display: inline-block;
+  //TODO
   //change this if trubble
   margin: ${spacings.extraExtraSmall} 0 ${spacings.medium};
   overflow: hidden;
@@ -118,6 +119,19 @@ export const InputWrapper = styled.div<StyledInputProps>`
 
 export const FlexContainer = styled.div`
   display: flex;
+`
+
+export const NewMessages = styled.div`
+  color: ${colors.darkPink};
+  font-size: ${fontSizes.extraExtraSmall};
+  font-family: ${fonts.roboto};
+  margin-bottom: -3px;
+  background: ${colors.dark};
+  border: ${borders.light};
+  padding: 0 ${spacings.extraExtraSmall};
+  padding-bottom: 1px;
+  border-radius: ${borderRadius.large};
+  cursor: pointer;
 `
 
 export const AreaInput = styled(TextareaAutosize)`

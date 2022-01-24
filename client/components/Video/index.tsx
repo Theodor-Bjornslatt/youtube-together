@@ -285,12 +285,12 @@ export default function Video({ room, user }: VideoProps) {
             />
           </div>
         </ButtonPanelContainer>
+        {isGuest ? (
+          <StyledDiv>Only host can change video</StyledDiv>
+        ) : (
+          <StyledDiv />
+        )}
       </ControlPanelContainer>
-      {isGuest ? (
-        <StyledDiv>Only host can change video</StyledDiv>
-      ) : (
-        <StyledDiv />
-      )}
     </div>
   )
 }
