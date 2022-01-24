@@ -7,11 +7,8 @@ import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import { apiGetRoomByName, serverSideWhoAmI } from '../../utils/api'
 import RoomContent from '../../components/RoomContent'
+import { User } from '../../types'
 import { colors } from '../../styles/variables'
-
-type CurrentUserData = {
-  user?: User
-}
 
 type Room = {
   name?: string
@@ -22,15 +19,8 @@ type RoomProps = {
   room: string
 }
 
-type User = {
-  id: string
-  color: string
-  username: string
-  email: string
-}
-
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  let userData: CurrentUserData | undefined
+  let userData: User | undefined
   const querySlug = ctx.query.slug
   const slug = Array.isArray(querySlug) ? querySlug[0] : [querySlug][0]
 

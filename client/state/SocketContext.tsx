@@ -14,7 +14,7 @@ import {
   PlaylistItemData,
   MessageData
 } from '../types'
-import { User } from './GlobalState'
+import { User } from '../types'
 
 type Context = {
   socket: Socket | undefined

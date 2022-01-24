@@ -2,7 +2,8 @@ import { GetServerSideProps } from 'next'
 import { useContext, useEffect } from 'react'
 
 import CreateRoomForm from '../components/CreateRoomForm'
-import { GlobalContext, User } from '../state/GlobalState'
+import { GlobalContext } from '../state/GlobalState'
+import { User } from '../types'
 
 type UserData = {
   user?: User

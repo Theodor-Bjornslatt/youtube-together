@@ -3,13 +3,6 @@ import { useEffect, createContext, useReducer } from 'react'
 import { MovedItemInfo } from '../types'
 import { useWindowSize } from '../hooks/useWindowSize'
 
-export type User = {
-  _id?: string
-  username: string
-  email: string
-  color: string
-}
-
 const initialState = {
   windowWidth: 0,
   loggedIn: false,

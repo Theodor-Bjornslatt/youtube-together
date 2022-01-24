@@ -10,7 +10,7 @@ import {
   FooterPlaceHolder,
   LogoutButton
 } from './Footer.styled'
-import { logout } from '../../utils/api'
+import { apiLogout } from '../../utils/api'
 
 export default function Footer() {
   const { dispatch } = useContext(GlobalContext)
@@ -19,7 +19,7 @@ export default function Footer() {
 
   const handleLogout = async () => {
     try {
-      await logout()
+      await apiLogout()
       dispatch({ type: 'loggedIn', payload: false })
     } catch (error) {
       return

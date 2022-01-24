@@ -1,4 +1,4 @@
-import { LoginObject, SignUpObject } from "../types"
+import { LoginObject, PostRoomData, SignUpObject } from "../types"
 
 export function validateSignUp(values: SignUpObject)
 {
@@ -58,17 +58,11 @@ export const validateSignIn = (values: LoginObject) => {
   return errors
 }
 
-// refactor typing here
-export const validateCreateRoom = (values: {[key: string]: any}) => {
-  const urlRegex = /^(https?:\/\/)?((www\.)?youtube\.com|youtu\.be)\/.+$/
+export const validateCreateRoom = (values: Omit<PostRoomData, "playlist">) => {
   const nameRegex = /[A-Za-z0-9]+/
-  const errors: {[key: string]: any} = {}
+  const errors: Partial<Omit<PostRoomData, "playlist">> = {}
 
-  if (!values.url) {
-    errors.url = 'At least one url is required'
-  } else if (!urlRegex.test(values.url)) {
-    errors.url = 'Url is invalid'
-  }
+  // Add validation of nickname
 
   if (!values.name) {
     errors.name = 'Name is required'

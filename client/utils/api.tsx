@@ -1,13 +1,18 @@
 import { GetServerSidePropsContext } from 'next'
 
-import { Rooms, MessageResponse } from '../types'
+import {
+  Rooms,
+  MessageResponse,
+  User,
+  MessageData,
+  LoginObject,
+  SignUpObject
+} from '../types'
 
-type QueryProp = {
-  query?: string
-  room?: string | null
-}
-
-export const serverSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
+// USER
+export const serverSideWhoAmI = async (
+  ctx: GetServerSidePropsContext
+): Promise<User> => {
   const { req } = ctx
   const { cookies } = req
   // @TODO throw different errors depending on case
@@ -25,7 +30,7 @@ export const serverSideWhoAmI = async (ctx: GetServerSidePropsContext) => {
   }
 }
 
-export const whoAmI = async () => {
+export const whoAmI = async (): Promise<User> => {
   try {
     const res = await fetch(`${process.env.API_URL}/api/whoami`, {
       credentials: 'include'
@@ -37,20 +42,72 @@ export const whoAmI = async () => {
   }
 }
 
+export const apiRegister = async (data: Omit<SignUpObject, 'repeat'>) => {
+  try {
+    const res = await fetch(`${process.env.API_URL}/api/register`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data)
+    })
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+export const apiLogin = async (data: LoginObject): Promise<User> => {
+  try {
+    const res = await fetch(`${process.env.API_URL}/api/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data)
+    })
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+export const apiLogout = async () => {
+  try {
+    const res = await fetch(`${process.env.API_URL}/api/logout`, {
+      method: 'POST',
+      credentials: 'include'
+    })
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+// ROOM
+type RoomQuery = {
+  query?: string
+  room?: string | null
+}
+
 export const apiGetRooms = async () => {
   try {
     const res = await fetch(`${process.env.API_URL}/api/rooms`, {
       credentials: 'include'
     })
     if (!res.ok) throw new Error()
-    const allRooms: Rooms = await res.json()
+    const allRooms = (await res.json()) as Rooms
     return allRooms.rooms
   } catch (e) {
     throw new Error()
   }
 }
 
-export const apiGetRoomMessages = async ({ query, room }: QueryProp) => {
+export const apiGetRoomMessages = async ({
+  query,
+  room
+}: RoomQuery): Promise<MessageData[]> => {
   try {
     const res = await fetch(
       `${process.env.API_URL}/api/rooms/${room}/messages${query ? query : ''}`,
@@ -67,12 +124,15 @@ export const apiGetRoomMessages = async ({ query, room }: QueryProp) => {
   }
 }
 
-export const logout = async () => {
+export const apiPostRoom = async (data: any) => {
   try {
-    const res = await fetch(`${process.env.API_URL}/api/logout`, {
+    const res = await fetch(`${process.env.API_URL}/api/rooms`, {
       method: 'POST',
-      credentials: 'include'
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(data)
     })
+    console.log('res.ok', res.ok)
     if (!res.ok) throw new Error()
     return await res.json()
   } catch (e) {
@@ -80,6 +140,17 @@ export const logout = async () => {
   }
 }
 
+export const apiGetRoomByName = async (slug: string) => {
+  try {
+    const res = await fetch(`${process.env.API_URL}/api/rooms/${slug}`)
+    if (!res.ok) throw new Error()
+    return await res.json()
+  } catch (e) {
+    throw new Error()
+  }
+}
+
+// PLAYLIST
 export const apiSaveNewPlaylistOrder = async (room: string, data: any) => {
   await fetch(`${process.env.API_URL}/api/rooms/${room}/playlist`, {
     method: 'PATCH',
@@ -99,62 +170,6 @@ export const apiPostPlaylistItem = async (room: string, data: any) => {
       }
     )
     if (!res.ok) console.log('res :>> ', res)
-    return await res.json()
-  } catch (e) {
-    throw new Error()
-  }
-}
-
-export const apiPostRoom = async (data: any) => {
-  console.log('data', data)
-  try {
-    const res = await fetch(`${process.env.API_URL}/api/rooms`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    })
-    console.log('res.ok', res.ok)
-    if (!res.ok) throw new Error()
-    return await res.json()
-  } catch (e) {
-    throw new Error()
-  }
-}
-export const apiLogin = async (data: any) => {
-  try {
-    const res = await fetch(`${process.env.API_URL}/api/login`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    })
-    if (!res.ok) throw new Error()
-    return await res.json()
-  } catch (e) {
-    throw new Error()
-  }
-}
-
-export const apiRegister = async (data: any) => {
-  try {
-    const res = await fetch(`${process.env.API_URL}/api/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    })
-    if (!res.ok) throw new Error()
-    return await res.json()
-  } catch (e) {
-    throw new Error()
-  }
-}
-
-export const apiGetRoomByName = async (slug: string) => {
-  try {
-    const res = await fetch(`${process.env.API_URL}/api/rooms/${slug}`)
-    if (!res.ok) throw new Error()
     return await res.json()
   } catch (e) {
     throw new Error()
