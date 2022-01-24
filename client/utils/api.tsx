@@ -1,6 +1,6 @@
 import { GetServerSidePropsContext } from 'next'
 
-import { Rooms } from '../types'
+import { Rooms, MessageResponse } from '../types'
 
 type QueryProp = {
   query?: string
@@ -60,7 +60,7 @@ export const apiGetRoomMessages = async ({ query, room }: QueryProp) => {
       }
     )
     if (!res.ok) throw new Error()
-    const { messages } = await res.json()
+    const { messages } = (await res.json()) as MessageResponse
     return messages
   } catch (e) {
     throw new Error()

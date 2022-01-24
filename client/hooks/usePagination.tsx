@@ -5,23 +5,27 @@ type apiProps = {
   room?: string | null
 }
 
-type PaginationProps = {
+type PaginationProps<T> = {
   limit?: number
   page?: number
-  apiFunction: (args: apiProps) => Promise<unknown[]>
+  apiFunction: (args: apiProps) => Promise<T[]>
 }
 
-export function usePagination({
+type ReadableProperties<T> = {
+  [Property in keyof T]: T[Property]
+}
+
+export function usePagination<T extends NonNullable<ReadableProperties<T>>>({
   limit = 10,
   apiFunction,
   page = 1
-}: PaginationProps) {
+}: PaginationProps<T>) {
   const [currentPage, setCurrentPage] = useState(page)
   const [loading, setLoading] = useState(false)
   const [moreDataAvailable, setMoreDataAvailable] = useState(true)
-  const [data, setData] = useState<any>({})
+  const [data, setData] = useState<T[] | []>([])
 
-  const apiMethod = async (room?: string | null) => {
+  const fetchMore = async (room?: string | null) => {
     if (!moreDataAvailable) return
     const query = `?limit=${limit}&page=${currentPage}`
     setLoading(true)
@@ -37,5 +41,5 @@ export function usePagination({
     }
   }
 
-  return { apiMethod, currentPage, loading, moreDataAvailable, data }
+  return { fetchMore, currentPage, loading, moreDataAvailable, data }
 }

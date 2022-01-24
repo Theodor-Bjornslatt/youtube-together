@@ -27,7 +27,7 @@ type ChatProps = {
 const Chat = ({ room, user }: ChatProps) => {
   const { socket, messages, setMessages } = useSockets()
   const { state } = useContext(GlobalContext)
-  const { moreDataAvailable, apiMethod, data, loading } = usePagination({
+  const { moreDataAvailable, fetchMore, data, loading } = usePagination({
     apiFunction: apiGetRoomMessages,
     page: 2
   })
@@ -76,7 +76,7 @@ const Chat = ({ room, user }: ChatProps) => {
   useEffect(() => {
     if (!topRefOnScreen) return
     if (moreDataAvailable) {
-      apiMethod(room)
+      fetchMore(room)
     }
   }, [topRefOnScreen])
 

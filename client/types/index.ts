@@ -48,3 +48,19 @@ export type SignUpObject = {
   repeat: string
 } & LoginObject
 
+export type MessageData = {
+  username: string
+  message: string
+  timestamp: number
+  id?: string
+  color?: string
+  room?: string
+}
+
+export type MessageResponse = {
+  messages: MessageData[]
+  room: string
+  limit: number
+  page: number
+}
+

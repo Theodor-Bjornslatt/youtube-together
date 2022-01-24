@@ -8,7 +8,12 @@ import {
 } from 'react'
 import io, { Socket } from 'socket.io-client'
 
-import { MovedItemInfo, SocketStatus, PlaylistItemData } from '../types'
+import {
+  MovedItemInfo,
+  SocketStatus,
+  PlaylistItemData,
+  MessageData
+} from '../types'
 import { User } from './GlobalState'
 
 type Context = {
@@ -39,15 +44,6 @@ type RoomStateData = {
 type LeaveStateData = {
   user: string
   newHost: string
-}
-
-export type MessageData = {
-  username: string
-  message: string
-  timestamp: number
-  id?: string
-  color?: string
-  room?: string
 }
 
 const socket =

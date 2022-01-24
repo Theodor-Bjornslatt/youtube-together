@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { MessageData } from '../../state/SocketContext'
+import { MessageData } from '../../types'
 import {
   Card,
   InfoContainer,
