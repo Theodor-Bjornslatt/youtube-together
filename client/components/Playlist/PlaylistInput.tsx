@@ -29,10 +29,7 @@ export default function PlaylistInput({
   onVideoAdd,
   actionsPermitted = true
 }: PlaylistInputProps) {
-  const initialPlaylistItem = {
-    url: ''
-  }
-  const { values, onChangeHandler } = useForm(initialPlaylistItem, () => null)
+  const { values, onChangeHandler } = useForm({ url: '' }, () => null)
 
   const [isUrlValid, setIsUrlValid] = useState(false)
   const [hasError, setHasError] = useState(false)

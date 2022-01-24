@@ -27,6 +27,7 @@ export default function RegisterForm() {
   }
 
   const submitForm = async () => {
+    // @TODO configure string_ to be ignored by unused-vars
     // eslint-disable-next-line
     const { repeat, ...signupValues } = values
 

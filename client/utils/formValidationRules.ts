@@ -62,7 +62,7 @@ export const validateCreateRoom = (values: Omit<PostRoomData, "playlist">) => {
   const nameRegex = /[A-Za-z0-9]+/
   const errors: Partial<Omit<PostRoomData, "playlist">> = {}
 
-  // Add validation of nickname
+  // @TODO Add validation of nickname
 
   if (!values.name) {
     errors.name = 'Name is required'

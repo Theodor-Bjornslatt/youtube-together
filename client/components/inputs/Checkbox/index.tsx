@@ -16,6 +16,7 @@ const Checkbox = ({ label, onClick, checked }: CheckboxProps) => {
         type="checkbox"
         checked={checked}
         onClick={onClick}
+        // @TODO - revisit
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         onChange={() => {}}
       />
