@@ -96,8 +96,10 @@ export default function Video({ room, user }: VideoProps) {
       case 'player':
         if (status.event == 1) {
           setIsFadingIn(true)
+          player?.pauseVideo()
         } else if (status.event == 2) {
           setIsFadingIn(false)
+          player?.playVideo()
         }
         status.timestamp && setTimestamp(status.timestamp)
         player?.seekTo && player.seekTo(status?.timestamp)
@@ -130,14 +132,12 @@ export default function Video({ room, user }: VideoProps) {
     isPlaying ? player?.pauseVideo() : player?.playVideo()
     setIsPlaying((prev) => !prev)
     setIsFadingIn((prev) => !prev)
-    const status = player?.getPlayerState()
-    const event = status ?? 2
 
     const playerStatus = {
       room,
       status: {
         type: 'player',
-        event: event === -1 ? 2 : event,
+        event: isPlaying ? 1 : 2,
         timestamp
       }
     }
