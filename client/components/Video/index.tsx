@@ -48,9 +48,10 @@ export default function Video({ room, user }: VideoProps) {
     host
   } = useSockets()
   const [isPlaying, setIsPlaying] = useState(true)
+  const [isMuted, setIsMuted] = useState(true)
   const [isFadingIn, setIsFadingIn] = useState(false)
   const [isGuest, setIsGuest] = useState(false)
-  const [volume, setVolume] = useState(0.0)
+  const [volume, setVolume] = useState(0.4)
   const [urlPlaying, setUrlPlaying] = useState<PlaylistItemData>({
     url: '',
     _id: '',
@@ -126,7 +127,8 @@ export default function Video({ room, user }: VideoProps) {
   }, [state.movedItemInfo])
 
   const handleStartStop = () => {
-    setIsPlaying(false)
+    isPlaying ? player?.pauseVideo() : player?.playVideo()
+    setIsPlaying((prev) => !prev)
     setIsFadingIn((prev) => !prev)
     const status = player?.getPlayerState()
     const event = status ?? 2
@@ -225,14 +227,15 @@ export default function Video({ room, user }: VideoProps) {
             <VideoPlayer
               url={urlPlaying.url}
               ref={ref}
-              playing={isPlaying}
+              playing={true}
               config={youtubeConfig}
               onProgress={handleProgress}
               width={'100%'}
               height={'100%'}
               volume={volume}
-              mute={volume === 0 ? 1 : 0}
+              mute={isMuted}
               onEnded={autoPlayNextVideo}
+              onPlay={() => setIsMuted(false)}
             />
           )}
           {!isPlaying && (
