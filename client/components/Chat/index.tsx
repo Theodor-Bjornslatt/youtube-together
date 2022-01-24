@@ -25,7 +25,7 @@ type ChatProps = {
 }
 
 const Chat = ({ room, user }: ChatProps) => {
-  const { socket, messages, setMessages } = useSockets()
+  const { socket, messages, setMessages, unreadMessages } = useSockets()
   const { state } = useContext(GlobalContext)
   const { moreDataAvailable, apiMethod, data, loading } = usePagination({
     apiFunction: apiGetRoomMessages,
@@ -64,6 +64,19 @@ const Chat = ({ room, user }: ChatProps) => {
   }, [])
 
   useEffect(() => {
+    if (unreadMessages === 0) return setCount(0)
+    if (bottomRefOnScreen) return setCount(0)
+    const sender = messages?.[messages.length - 1]
+
+    if (
+      sender?.username !== user?.username ||
+      sender?.username !== state.defaultUsername
+    ) {
+      setCount((prev) => prev + 1)
+    }
+  }, [unreadMessages])
+
+  useEffect(() => {
     data.length && setMessages((currentList) => [...data, ...currentList])
   }, [data])
 
@@ -94,17 +107,9 @@ const Chat = ({ room, user }: ChatProps) => {
       setCount(0)
     }
   }, [bottomRefOnScreen])
-  useEffect(() => {
-    const sender = messages?.[messages.length - 1]
-    autoScroll && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
 
-    if (bottomRefOnScreen === true) return
-    if (
-      sender?.username !== user?.username ||
-      sender?.username !== state.defaultUsername
-    ) {
-      setCount((prev) => prev + 1)
-    }
+  useEffect(() => {
+    autoScroll && bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   const onClickHandler = () => {
@@ -150,8 +155,7 @@ const Chat = ({ room, user }: ChatProps) => {
       </MessageListContainer>
       {count && (
         <NewMessages onClick={handleUnreadMessages}>
-          {count}
-          {count > 1 ? ' new messages' : ' new message'}
+          {count > 1 ? `${count} new messages` : `${count} new message`}
         </NewMessages>
       )}
       <InputWrapper focus={inputFocus}>

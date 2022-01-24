@@ -27,6 +27,7 @@ type Context = {
   status: SocketStatus
   timestamp: number
   setTimestamp: Dispatch<SetStateAction<number>>
+  unreadMessages: number
 }
 
 type RoomStateData = {
@@ -65,7 +66,8 @@ const SocketContext = createContext<Context>({
   host: '',
   status: {},
   timestamp: 0,
-  setTimestamp: () => null
+  setTimestamp: () => null,
+  unreadMessages: 0
 })
 
 type SocketProviderProps = {
@@ -80,6 +82,7 @@ function SocketsProvider({ children }: SocketProviderProps) {
   const [host, setHost] = useState('')
   const [timestamp, setTimestamp] = useState(0)
   const [itemToMove, setItemToMove] = useState({})
+  const [unreadMessages, setUnreadMessages] = useState(0)
 
   function updatePlaylistOrder(event: 'next' | 'previous') {
     const sortPlaylist = (
@@ -106,6 +109,7 @@ function SocketsProvider({ children }: SocketProviderProps) {
 
     socket.on('chat', (data: MessageData) => {
       setMessages((messages) => [...messages, data])
+      setUnreadMessages((prev) => prev + 1)
     })
 
     socket.on('status', (data: SocketStatus) => {
@@ -174,7 +178,8 @@ function SocketsProvider({ children }: SocketProviderProps) {
         cleanUpSocketStates,
         timestamp,
         setTimestamp,
-        status
+        status,
+        unreadMessages
       }}
     >
       {children}
