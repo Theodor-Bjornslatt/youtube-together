@@ -12,6 +12,7 @@ import PlaylistItem from './PlaylistItem'
 import { PlaylistProps } from '.'
 import { GlobalContext } from '../../state/GlobalState'
 import { PlaylistItemData } from '../../types'
+import { StyledDiv } from '../Video/Video.styled'
 
 export default function VideoList({
   actionsPermitted,
@@ -22,6 +23,7 @@ export default function VideoList({
   const [pointerPosition, setPointerPosition] = useState({ x: 0, y: 0 })
   const [itemPointerOffset, setItemPointerOffset] = useState({ x: 0, y: 0 })
   const [draggedItem, setDraggedItem] = useState<PlaylistItemData | undefined>()
+  const [tryingToDrag, setIsTryingToDrag] = useState(false)
   const [playlistCopy, setPlaylistCopy] = useState<PlaylistItemData[]>([
     ...playlist
   ])
@@ -29,7 +31,9 @@ export default function VideoList({
   const { dispatch } = useContext(GlobalContext)
 
   useEffect(() => {
-    window.addEventListener('pointerup', () => setDraggedItem(undefined))
+    window.addEventListener('pointerup', () => {
+      setDraggedItem(undefined)
+    })
 
     return () => {
       window.removeEventListener('pointerup', () => setDraggedItem(undefined))
@@ -69,6 +73,12 @@ export default function VideoList({
   }
 
   function startDrag(item: PlaylistItemData) {
+    if (!actionsPermitted) {
+      setIsTryingToDrag(true)
+      setTimeout(() => {
+        setIsTryingToDrag(false)
+      }, 2000)
+    }
     actionsPermitted && setDraggedItem(item)
   }
 
@@ -109,6 +119,11 @@ export default function VideoList({
 
   return (
     <>
+      {!actionsPermitted && tryingToDrag ? (
+        <StyledDiv>Only the host may alter the playlist</StyledDiv>
+      ) : (
+        <StyledDiv />
+      )}
       <PlaylistContainer
         ref={playlistRef}
         isActive={draggedItem != undefined}
