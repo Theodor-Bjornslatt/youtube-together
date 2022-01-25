@@ -1,6 +1,11 @@
 import styled from 'styled-components'
 
-import { fontSizes, fonts, borderRadius } from '../../../styles/variables'
+import {
+  fontSizes,
+  fonts,
+  borderRadius,
+  zIndexes
+} from '../../../styles/variables'
 import { inputBaseStyle, InputWrapper } from '../TextInput/textInput.styled'
 
 type Headline = {
@@ -30,7 +35,7 @@ export const OptionsWrapper = styled.div`
   font-family: ${fonts.roboto};
   min-height: 34px;
   width: 100%;
-  z-index: 1;
+  z-index: ${zIndexes.small};
   position: absolute;
   left: 0;
   top: 40px;

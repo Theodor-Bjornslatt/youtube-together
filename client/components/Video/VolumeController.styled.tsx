@@ -5,7 +5,8 @@ import {
   colors,
   lineHeights,
   sizes,
-  spacings
+  spacings,
+  zIndexes
 } from '../../styles/variables'
 
 export const MainContainer = styled.div`
@@ -19,7 +20,7 @@ export const VolumeBar = styled.input`
   margin: ${spacings.extraExtraSmall} 0;
   width: 100%;
   border-radius: ${borderRadius.small};
-  z-index: 1;
+  z-index: ${zIndexes.small};
 
   &:focus {
     outline: none;

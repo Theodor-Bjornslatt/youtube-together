@@ -9,7 +9,8 @@ import {
   lineHeights,
   sizes,
   spacings,
-  footerHeights
+  footerHeights,
+  zIndexes
 } from '../../styles/variables'
 import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
@@ -31,6 +32,7 @@ export const FooterContainer = styled.footer`
   background: ${colors.darkest};
   border-top: ${borders.light};
   height: ${footerHeights.desktop};
+  z-index: ${zIndexes.large};
 
   @media screen and(max-width: ${sizes.mobile}px) {
     height: ${footerHeights.mobile};

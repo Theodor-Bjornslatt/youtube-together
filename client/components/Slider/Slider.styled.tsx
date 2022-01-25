@@ -1,7 +1,13 @@
 import styled from 'styled-components'
 import Flickity from 'react-flickity-component'
 
-import { borders, colors, shadows, spacings } from '../../styles/variables'
+import {
+  borders,
+  colors,
+  shadows,
+  spacings,
+  zIndexes
+} from '../../styles/variables'
 
 export const FlickitySlider = styled(Flickity)`
   position: relative;
@@ -52,7 +58,7 @@ const BasicFlickityButton = styled.button`
   align-items: center;
   justify-content: center;
   position: absolute;
-  z-index: 1000;
+  z-index: ${zIndexes.large};
   height: 50px;
   width: 50px;
   border-radius: 100px;

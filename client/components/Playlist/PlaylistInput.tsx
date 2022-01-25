@@ -133,7 +133,9 @@ export default function PlaylistInput({
           <div>
             {isTextVisible && (
               <AddItemText
-                onAnimationEnd={handleTextAnimationEnd}
+                onAnimationEnd={(e) => (
+                  e.stopPropagation(), handleTextAnimationEnd()
+                )}
                 shouldTextFadeIn={shouldTextFadeIn}
               >
                 Add item to playlist

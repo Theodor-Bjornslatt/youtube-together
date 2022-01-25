@@ -119,25 +119,35 @@ export const PlaylistIconContainer = styled.div`
 
 const fadeInAddItem = keyframes`
   0% {
+    min-height: 0px;
     height: 0px;
+    opacity: 0;
   },
   50% {
-    height: 50px;
-  }
+    min-height: 40px;
+    height: 40px;
+  },
   100% {
-    height: 100px;
+    min-height: 80px;
+    height: 80px;
+    opacity: 1;
   }
 `
 
 const fadeOutAddItem = keyframes`
   0% {
-    height: 100px;
+    max-height: 80px;
+    height: 80px;
+    opacity: 1;
   },
   50% {
-    height: 50px;
+    max-height: 40px;
+    height: 40px;
   },
   100% {
+    max-height: 0px;
     height: 0px;
+    opacity: 0;
   }
 `
 
@@ -153,14 +163,14 @@ export const AddItemContainer = styled(
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  margin: -12px 0 0;
-  z-index: 100;
+  margin: -20px 0 0;
+  z-index: 10000;
   width: 100%;
   cursor: pointer;
-  height: ${(props) => (props.shouldAddItemFadeIn ? '100px' : 0)};
+  min-height: ${(props) => (props.shouldAddItemFadeIn ? '80px' : 0)};
   animation: ${(props) =>
       props.shouldAddItemFadeIn ? fadeInAddItem : fadeOutAddItem}
-    0.5s ease-out;
+    0.5s ease;
 
   :hover {
     background: ${colors.transparentDark};
@@ -170,8 +180,12 @@ export const AddItemContainer = styled(
 
 const FadeInText = keyframes`
   0% {
-    color: ${colors.darkest};
+    display: none:
   },
+  50% {
+    color: ${colors.darkest};
+    display: block;
+  }
   100% {
     color: ${colors.white};
   }
@@ -179,10 +193,15 @@ const FadeInText = keyframes`
 
 const FadeOutText = keyframes`
   0% {
+    display: block;
     color: ${colors.white};
   },
-  100% {
+  50% {
+    display: none;
     color: ${colors.darkest};
+  }
+  100% {
+    display: none;
   }
 `
 type TextAnimationProps = {
@@ -191,6 +210,6 @@ type TextAnimationProps = {
 
 export const AddItemText = styled.h4<TextAnimationProps>`
   animation: ${(props) => (props.shouldTextFadeIn ? FadeInText : FadeOutText)}
-    0.5s ease-out;
+    0.3s ease-out;
   padding: 0 ${spacings.extraSmall};
 `

@@ -5,7 +5,8 @@ import {
   footerHeights,
   headerBoxHeights,
   sizes,
-  spacings
+  spacings,
+  zIndexes
 } from '../../styles/variables'
 
 export const Container = styled.div`
@@ -43,7 +44,7 @@ export const ChatContainer = styled.div`
   justify-content: center;
   overflow-y: auto;
   flex-grow: 1;
-  z-index: 1;
+  z-index: ${zIndexes.small};
 `
 
 export const MainSectionContainer = styled.div`
