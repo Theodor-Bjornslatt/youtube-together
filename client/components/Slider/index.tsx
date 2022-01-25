@@ -1,53 +1,41 @@
 import { useRef } from 'react'
 import Flickity, { FlickityOptions } from 'react-flickity-component'
 
-import RoomCard from '../RoomCard'
 import { FlickitySlider } from './Slider.styled'
 
-export default function Slider() {
-  // temporary until actually fetching data
-  const arr = []
-  for (let i = 0; i < 10; i++) {
-    arr.push(i)
-  }
+type SliderProps = {
+  children: JSX.Element[]
+}
 
-  const roomInfo = {
-    name: 'Room',
-    online: '2',
-    nickname: 'losers',
-    cover: 'https://img.youtube.com/vi/gfkTfcpWqAY/0.jpg'
-  }
-
+export default function Slider({ children }: SliderProps) {
   const ref = useRef<Flickity | null>(null)
 
   const options: FlickityOptions = {
     dragThreshold: 8,
-    draggable: true,
+    draggable: children.length < 4 ? false : true,
     selectedAttraction: 0.5,
     friction: 0.3,
-    freeScroll: true,
+    freeScroll: children.length < 4 ? false : true,
     freeScrollFriction: 0.08,
-    groupCells: 1,
+    groupCells: children.length < 4 ? true : 1,
     pageDots: false,
     prevNextButtons: false,
-    wrapAround: true,
+    wrapAround: children.length < 4 ? false : true,
     imagesLoaded: false,
-    initialIndex: 2 //Temporary to fix something with wraparound, groupcells and initial transform property on
+    cellAlign: 'left',
+    initialIndex: children.length / 2 < 1 ? 0 : children.length / 2 - 1
   }
 
   return (
-    <FlickitySlider
-      options={options}
-      flickityRef={(current) => (ref.current = current)}
-      static={true}
-      reloadOnUpdate={true}
-    >
-      {console.log(arr)}
-      {arr.map((thing, index) => (
-        <div key={index}>
-          <RoomCard {...roomInfo} size={'small'} />
-        </div>
-      ))}
-    </FlickitySlider>
+    <div style={{ position: 'relative' }}>
+      <FlickitySlider
+        options={options}
+        flickityRef={(current) => (ref.current = current)}
+        static={true}
+        reloadOnUpdate={true}
+      >
+        {children}
+      </FlickitySlider>
+    </div>
   )
 }
