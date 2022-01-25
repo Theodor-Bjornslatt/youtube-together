@@ -52,21 +52,15 @@ export const Card = styled.div<SizeProp>`
 `
 
 export const ContentContainer = styled.div<SizeProp>`
-  align-items: center;
   display: flex;
+  flex-direction: ${(props) => (props.size === 'small' ? 'column' : 'row')};
+  align-items: ${(props) => (props.size === 'small' ? 'flex-start' : 'center')};
   justify-content: space-between;
   padding: ${spacings.extraExtraSmall} 0 0;
   width: 100%;
 
-  @media screen and (max-width: ${sizes.mobile}px) {
-    flex-direction: ${(props) => (props.size === 'small' ? 'column' : 'row')};
-    align-items: ${(props) =>
-      props.size === 'small' ? 'flex-start' : 'center'};
-
-    h5:last-of-type {
-      align-self: ${(props) =>
-        props.size === 'small' ? 'flex-end' : 'center'};
-    }
+  h5:last-of-type {
+    align-self: ${(props) => (props.size === 'small' ? 'flex-end' : 'center')};
   }
 `
 
