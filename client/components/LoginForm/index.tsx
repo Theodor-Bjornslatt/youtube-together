@@ -37,7 +37,6 @@ export default function LoginForm() {
     } catch (error) {
       setError(true)
     }
-
     if (!user) return
 
     dispatch({ type: 'loggedIn', payload: true })

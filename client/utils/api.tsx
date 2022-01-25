@@ -6,7 +6,9 @@ import {
   User,
   MessageData,
   LoginObject,
-  SignUpObject
+  SignUpObject,
+  RandomMessageQuery,
+  PaginationData
 } from '../types'
 
 // USER
@@ -77,6 +79,25 @@ export const apiLogin = async (data: LoginObject): Promise<User> => {
   }
 }
 
+export const apiGetRandomMessages = async ({
+  random = 5
+}: RandomMessageQuery) => {
+  try {
+    const res = await fetch(
+      `${process.env.API_URL}/api/messages?random=${random}`,
+      {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    )
+    if (!res.ok) throw new Error()
+    const { messages } = await res.json()
+    return messages
+  } catch (e) {
+    throw new Error()
+  }
+}
+
 export const apiLogout = async () => {
   try {
     const res = await fetch(`${process.env.API_URL}/api/logout`, {
@@ -96,11 +117,17 @@ type RoomQuery = {
   room?: string | null
 }
 
-export const apiGetRooms = async () => {
+export const apiGetRooms = async (query?: PaginationData) => {
+  const paginationQuery = `${query?.limit ? `limit=${query.limit}` : ''}${
+    query?.page ? `page=${query.page}` : ''
+  }`
   try {
-    const res = await fetch(`${process.env.API_URL}/api/rooms`, {
-      credentials: 'include'
-    })
+    const res = await fetch(
+      `${process.env.API_URL}/api/rooms${paginationQuery}`,
+      {
+        credentials: 'include'
+      }
+    )
     if (!res.ok) throw new Error()
     const allRooms = (await res.json()) as Rooms
     return allRooms.rooms

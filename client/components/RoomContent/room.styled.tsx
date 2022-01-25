@@ -69,3 +69,8 @@ export const Aside = styled.div`
     display: none;
   }
 `
+
+export const FlexWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+`

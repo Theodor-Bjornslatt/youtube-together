@@ -10,12 +10,14 @@ import {
   fontWeights,
   maxWidths,
   scrollbarWidths,
+  shadows,
   sizes,
   spacings
 } from '../../styles/variables'
 
 type StyledInputProps = {
-  focus: boolean
+  focus?: boolean
+  color?: string | undefined
 }
 
 export const ChatContainer = styled.div`
@@ -122,6 +124,12 @@ export const InputWrapper = styled.div<StyledInputProps>`
 export const FlexContainer = styled.div`
   display: flex;
 `
+export const FlexContainerColumn = styled.div`
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  justify-content: center;
+`
 
 export const NewMessages = styled.div`
   color: ${colors.darkPink};
@@ -150,6 +158,7 @@ export const AreaInput = styled(TextareaAutosize)`
   flex: 10;
   margin: 0;
   border-radius: 0;
+
   &:focus {
     outline: none;
   }
@@ -196,5 +205,53 @@ export const SubmitButton = styled.button`
       overflow: hidden;
       transform: scale(1.6);
     }
+  }
+`
+export const TeaserCard = styled.div<StyledInputProps>`
+  background: ${colors.dark};
+  padding: ${spacings.extraSmall};
+  border-radius: ${borderRadius.small};
+  margin: ${spacings.extraExtraSmall} 0;
+  width: 100%;
+  box-shadow: ${shadows.slider};
+
+  p {
+    font-family: ${fonts.roboto};
+    color: #5c5757;
+    font-size: ${fontSizes.small};
+  }
+
+  @media screen and (max-width: ${sizes.tablet}px) {
+    p {
+      font-size: ${fontSizes.extraSmall};
+    }
+  }
+
+  @media screen and (max-width: ${sizes.mobileSmall}px) {
+    font-size: ${fontSizes.extraExtraSmall};
+  }
+`
+
+export const TeaserInfoContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+export const TeaserMessageContainer = styled.div<StyledInputProps>`
+  padding: ${spacings.small};
+
+  p {
+    font-family: ${fonts.roboto};
+    font-style: normal;
+    color: ${(props) => props.color};
+    word-wrap: break-word;
+  }
+
+  @media screen and (max-width: ${sizes.tablet}px) {
+    padding: ${spacings.extraSmall};
+  }
+
+  @media screen and (max-width: ${sizes.mobileSmall}px) {
+    padding: ${spacings.extraSmall};
   }
 `

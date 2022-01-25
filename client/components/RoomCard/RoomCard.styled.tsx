@@ -10,13 +10,16 @@ import {
   spacings
 } from '../../styles/variables'
 
-export const Card = styled.div`
+export type SizeProp = { size?: 'small' | 'large' }
+
+export const Card = styled.div<SizeProp>`
   background-color: ${colors.darkest};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   padding: ${spacings.extraSmall};
-  box-shadow: 6px 8px 50px 0 #ebc9c911;
+  box-shadow: ${(props) =>
+    props.size === 'large' ? '6px 8px 50px 0 #ebc9c911' : 'none'};
 
   -webkit-transition: 0.4s; /* Safari */
   transition: 0.4s all;
@@ -78,13 +81,13 @@ export const ImageWrapperLarge = styled.div`
 `
 
 export const ImageWrapperSmall = styled.div`
-  height: 280px;
-  width: 280px;
+  height: 350px;
+  width: 350px;
   position: relative;
 
   @media screen and (max-width: ${sizes.tablet}px) {
-    height: 220px;
-    width: 220px;
+    height: 310px;
+    width: 310px;
   }
 
   @media screen and (max-width: ${sizes.mobile}px) {
