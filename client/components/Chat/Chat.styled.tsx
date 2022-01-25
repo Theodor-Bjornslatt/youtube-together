@@ -135,7 +135,7 @@ export const NewMessages = styled.div`
   color: ${colors.darkPink};
   font-size: ${fontSizes.extraExtraSmall};
   font-family: ${fonts.roboto};
-  margin-bottom: -3px;
+  margin-bottom: ${spacings.tiny};
   background: ${colors.dark};
   border: ${borders.light};
   padding: 0 ${spacings.extraExtraSmall};
