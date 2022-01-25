@@ -1,5 +1,6 @@
-import { useRef } from 'react'
+import { useEffect, useRef } from 'react'
 import Flickity, { FlickityOptions } from 'react-flickity-component'
+import { useRouter } from 'next/router'
 
 import NextImage from '../NextImage'
 import rightArrow from '../../public/right-arrow.svg'
@@ -16,6 +17,7 @@ type SliderProps = {
 
 export default function Slider({ children }: SliderProps) {
   const ref = useRef<Flickity | null>(null)
+  const router = useRouter()
 
   const options: FlickityOptions = {
     dragThreshold: 8,
@@ -33,6 +35,16 @@ export default function Slider({ children }: SliderProps) {
     initialIndex: children.length / 2 < 1 ? 0 : children.length / 2 - 1,
     cellSelector: '.cell'
   }
+
+  useEffect(() => {
+    if (!ref.current) return
+    ref.current.on(
+      'staticClick',
+      (_: unknown, __: unknown, cellElement: HTMLButtonElement) => {
+        router.push(`/room/${cellElement.value}`)
+      }
+    )
+  }, [])
 
   return (
     <div style={{ position: 'relative' }}>

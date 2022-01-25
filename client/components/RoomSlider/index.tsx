@@ -6,15 +6,11 @@ import Slider from '../Slider'
 import { RoomSliderBackground, RoomSliderCard } from './RoomSlider.styled'
 
 export default function RoomSlider({ rooms }: Rooms) {
-  console.log('rooms', rooms)
-  // @TODO add click function dependent on how long click lasts to allow drag
-  // router.push(`/room/${name}`)
-
   return (
     <RoomSliderBackground>
       <Slider>
         {rooms.map((room, id) => (
-          <RoomSliderCard key={id} className={'cell'}>
+          <RoomSliderCard value={room.name} key={id} className={'cell'}>
             <RoomCard {...room} size={'small'} />
           </RoomSliderCard>
         ))}
