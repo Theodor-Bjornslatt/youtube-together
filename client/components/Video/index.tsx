@@ -88,6 +88,7 @@ export default function Video({ room, user }: VideoProps) {
     if (!playlist || playlist.length < 1) return
     if (urlPlaying._id !== playlist?.[0]._id) {
       setUrlPlaying(playlist?.[0])
+      setIsPlaying(true)
     }
   }, [playlist])
 
