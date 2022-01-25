@@ -23,8 +23,10 @@ export const serverSideWhoAmI = async (
       headers: { Cookie: `sid=${cookies.sid}` },
       credentials: 'include'
     })
-    if (!res.ok) throw new Error()
-    return await res.json()
+    const user = await res.json()
+    if (!user) throw new Error()
+
+    return user
   } catch (e) {
     throw new Error()
   }
@@ -35,8 +37,10 @@ export const whoAmI = async (): Promise<User> => {
     const res = await fetch(`${process.env.API_URL}/api/whoami`, {
       credentials: 'include'
     })
-    if (!res.ok) throw new Error()
-    return await res.json()
+    const user = await res.json()
+    if (!user) throw new Error()
+
+    return user
   } catch (e) {
     throw new Error()
   }
@@ -132,7 +136,6 @@ export const apiPostRoom = async (data: any) => {
       credentials: 'include',
       body: JSON.stringify(data)
     })
-    console.log('res.ok', res.ok)
     if (!res.ok) throw new Error()
     return await res.json()
   } catch (e) {

@@ -11,6 +11,6 @@ router
 
 router.route('/login').post(guest, catchAsync(AuthController.apiLoginUser))
 router.route('/logout').post(member, catchAsync(AuthController.apiLogoutUser))
-router.route('/whoami').get(member, catchAsync(AuthController.apiWhoAmI))
+router.route('/whoami').get(catchAsync(AuthController.apiWhoAmI))
 
 export default router
