@@ -1,11 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 
+import { Label, WrapperInner } from '../TextInput/textInput.styled'
 import {
-  InputWrapper,
-  Label,
-  WrapperInner
-} from '../TextInput/textInput.styled'
-import { Arrow, Options, OptionsWrapper, Select } from './Dropdown.styled'
+  Arrow,
+  DropdownWrapper,
+  Options,
+  OptionsWrapper,
+  Select
+} from './Dropdown.styled'
 
 type DropdownProps = {
   label?: string
@@ -65,7 +67,7 @@ const Dropdown = ({ label, title, options, values }: DropdownProps) => {
   }, [])
 
   return (
-    <InputWrapper>
+    <DropdownWrapper>
       {label && <Label>{label}</Label>}
       <WrapperInner ref={dropDownRef}>
         <Select
@@ -98,7 +100,7 @@ const Dropdown = ({ label, title, options, values }: DropdownProps) => {
           </OptionsWrapper>
         )}
       </WrapperInner>
-    </InputWrapper>
+    </DropdownWrapper>
   )
 }
 

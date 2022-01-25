@@ -29,6 +29,7 @@ export const InputWrapper = styled.div`
   width: 100%;
   max-height: 100%;
   font-family: ${fonts.roboto};
+  margin-bottom: 10px;
 `
 
 export const WrapperInner = styled.div`
@@ -61,7 +62,7 @@ export const Input = styled.input<InputStyleProps>`
 
 export const ErrMsg = styled.span`
   color: ${colors.danger};
-  font-size: 0.75rem;
+  font-size: ${fontSizes.extraExtraSmall};
   padding-left: 8px;
   padding-top: 4px;
   height: 12px;
