@@ -1,25 +1,24 @@
+// import { useRouter } from 'next/router'
+
+import { Rooms } from '../../types'
 import RoomCard from '../RoomCard'
 import Slider from '../Slider'
+import { RoomSliderBackground, RoomSliderCard } from './RoomSlider.styled'
 
-export default function RoomSlider() {
-  const arr = []
-  for (let i = 0; i < 10; i++) {
-    arr.push(i)
-  }
+export default function RoomSlider({ rooms }: Rooms) {
+  console.log('rooms', rooms)
+  // @TODO add click function dependent on how long click lasts to allow drag
+  // router.push(`/room/${name}`)
 
-  const roomInfo = {
-    name: 'Room',
-    online: '2',
-    nickname: 'losers',
-    cover: 'https://img.youtube.com/vi/gfkTfcpWqAY/0.jpg'
-  }
   return (
-    <Slider>
-      {arr.map((thing, index) => (
-        <div key={index}>
-          <RoomCard {...roomInfo} size={'small'} />
-        </div>
-      ))}
-    </Slider>
+    <RoomSliderBackground>
+      <Slider>
+        {rooms.map((room, id) => (
+          <RoomSliderCard key={id} className={'cell'}>
+            <RoomCard {...room} size={'small'} />
+          </RoomSliderCard>
+        ))}
+      </Slider>
+    </RoomSliderBackground>
   )
 }

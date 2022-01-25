@@ -3,14 +3,16 @@ import {
   Card,
   ContentContainer,
   ImageWrapperLarge,
-  ImageWrapperSmall
+  ImageWrapperSmall,
+  SizeProp
 } from './RoomCard.styled'
 import { Room } from '../../types'
 
 type CardProp = {
-  size?: 'small' | 'large'
   onClick?: () => void
-} & Room
+} & Room &
+  SizeProp
+
 export default function RoomCard({
   name,
   online,
@@ -20,7 +22,7 @@ export default function RoomCard({
   onClick
 }: CardProp) {
   return (
-    <Card onClick={onClick}>
+    <Card onClick={onClick} size={size}>
       {size === 'small' ? (
         <ImageWrapperSmall>
           <NextImage src={cover}></NextImage>

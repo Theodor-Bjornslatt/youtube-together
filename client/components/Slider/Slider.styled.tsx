@@ -1,8 +1,13 @@
 import styled from 'styled-components'
 import Flickity from 'react-flickity-component'
 
+import { borders, colors, shadows, spacings } from '../../styles/variables'
+
 export const FlickitySlider = styled(Flickity)`
   position: relative;
+  border-top: ${borders.light};
+  border-bottom: ${borders.light};
+  padding: ${spacings.large};
 
   .flickity-enabled:focus {
     outline: none;
@@ -39,4 +44,28 @@ export const FlickitySlider = styled(Flickity)`
     cursor: -webkit-grabbing;
     cursor: grabbing;
   }
+`
+
+const BasicFlickityButton = styled.button`
+  top: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  z-index: 1000;
+  height: 50px;
+  width: 50px;
+  border-radius: 100px;
+  border: none;
+  background: ${colors.darkest};
+  box-shadow: ${shadows.small};
+  cursor: pointer;
+`
+
+export const FlickityPrevButton = styled(BasicFlickityButton)`
+  left: 2px;
+`
+
+export const FlickityNextButton = styled(BasicFlickityButton)`
+  right: 2px;
 `

@@ -7,7 +7,8 @@ import {
   MessageData,
   LoginObject,
   SignUpObject,
-  RandomMessageQuery
+  RandomMessageQuery,
+  PaginationData
 } from '../types'
 
 // USER
@@ -116,11 +117,17 @@ type RoomQuery = {
   room?: string | null
 }
 
-export const apiGetRooms = async () => {
+export const apiGetRooms = async (query?: PaginationData) => {
+  const paginationQuery = `${query?.limit ? `limit=${query.limit}` : ''}${
+    query?.page ? `page=${query.page}` : ''
+  }`
   try {
-    const res = await fetch(`${process.env.API_URL}/api/rooms`, {
-      credentials: 'include'
-    })
+    const res = await fetch(
+      `${process.env.API_URL}/api/rooms${paginationQuery}`,
+      {
+        credentials: 'include'
+      }
+    )
     if (!res.ok) throw new Error()
     const allRooms = (await res.json()) as Rooms
     return allRooms.rooms
