@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react'
+import { Dispatch, SetStateAction, useEffect, useState } from 'react'
 
 export type FormValueObject = { [key: string]: string | number }
 
 type FormValues<Initial extends FormValueObject> = {
   values: Initial
   errors: Partial<Initial>
+  setErrors: Dispatch<SetStateAction<Partial<Initial>>>
   onChangeHandler: (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void
@@ -52,6 +53,7 @@ export function useForm<
   return {
     values,
     errors,
+    setErrors,
     onChangeHandler,
     handleSubmit
   }

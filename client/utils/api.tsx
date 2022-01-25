@@ -47,18 +47,19 @@ export const whoAmI = async (): Promise<User> => {
 }
 
 export const apiRegister = async (data: Omit<SignUpObject, 'repeat'>) => {
-  try {
-    const res = await fetch(`${process.env.API_URL}/api/register`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      credentials: 'include',
-      body: JSON.stringify(data)
-    })
-    if (!res.ok) throw new Error()
-    return await res.json()
-  } catch (e) {
-    throw new Error()
+  const res = await fetch(`${process.env.API_URL}/api/register`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    credentials: 'include',
+    body: JSON.stringify(data)
+  })
+
+  if (!res.ok) {
+    const responseJson = await res.json()
+    throw new Error(responseJson.error)
   }
+
+  return await res.json()
 }
 
 export const apiLogin = async (data: LoginObject): Promise<User> => {
