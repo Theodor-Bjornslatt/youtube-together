@@ -35,6 +35,19 @@ export default function RegisterForm() {
       const res = await apiRegister(signupValues)
       if (!res) return
     } catch (error) {
+      if (error instanceof Error) {
+        if (error.message === 'Invalid email')
+          setErrors((values) => ({
+            ...values,
+            email: 'email is already in use'
+          }))
+        else if (error.message.startsWith('E11000'))
+          setErrors((values) => ({
+            ...values,
+            username: 'username is already taken'
+          }))
+      }
+
       return
     }
 
@@ -45,7 +58,7 @@ export default function RegisterForm() {
   const ref = useRef<HTMLFormElement>(null)
   useFocustrap(ref)
 
-  const { values, errors, onChangeHandler, handleSubmit } = useForm(
+  const { values, errors, onChangeHandler, handleSubmit, setErrors } = useForm(
     initialValue,
     submitForm,
     validateSignUp
