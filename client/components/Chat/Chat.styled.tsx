@@ -243,7 +243,7 @@ export const TeaserMessageContainer = styled.div<StyledInputProps>`
   p {
     font-family: ${fonts.roboto};
     font-style: normal;
-    color: ${(props) => props.color};
+    color: ${(props) => (props ? props.color : colors.darkPink)};
     word-wrap: break-word;
   }
 

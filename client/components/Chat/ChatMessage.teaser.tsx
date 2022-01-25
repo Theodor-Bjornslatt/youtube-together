@@ -14,7 +14,7 @@ type ChatMessageProps = {
 const TeaserChatMessageList = ({ messages }: ChatMessageProps) => {
   return (
     <>
-      {messages &&
+      {messages.length > 0 &&
         messages.map((msg) => {
           const { username, color, message, room, id } = msg
           if (!message) return

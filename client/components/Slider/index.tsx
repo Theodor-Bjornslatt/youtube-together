@@ -21,17 +21,17 @@ export default function Slider({ children }: SliderProps) {
 
   const options: FlickityOptions = {
     dragThreshold: 8,
-    draggable: children.length < 4 ? false : true,
+    draggable: children.length < 3 ? false : true,
     selectedAttraction: 0.01,
     friction: 0.3,
-    freeScroll: children.length < 4 ? false : true,
+    freeScroll: children.length < 3 ? false : true,
     freeScrollFriction: 0.08,
-    groupCells: children.length < 4 ? true : 1,
+    groupCells: children.length < 3 ? true : 1,
     pageDots: false,
     prevNextButtons: false,
-    wrapAround: children.length < 4 ? false : true,
+    wrapAround: children.length < 3 ? false : true,
     imagesLoaded: false,
-    cellAlign: 'left',
+    cellAlign: 'center',
     initialIndex: children.length / 2 < 1 ? 0 : children.length / 2 - 1,
     cellSelector: '.cell'
   }
