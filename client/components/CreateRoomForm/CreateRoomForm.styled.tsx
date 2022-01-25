@@ -1,6 +1,11 @@
 import styled from 'styled-components'
 
-import { sizes, spacings } from '../../styles/variables'
+import {
+  borders,
+  headerBoxHeights,
+  sizes,
+  spacings
+} from '../../styles/variables'
 import { ButtonStyled } from '../Button/Button.styled'
 import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
@@ -8,7 +13,15 @@ export const CreateRoomFormContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: 100%;
+  height: calc(
+    100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop}
+  );
+
+  @media screen and (max-width: ${sizes.mobile}px) {
+    height: calc(
+      100vh - ${headerBoxHeights.mobile} - ${headerBoxHeights.mobile}
+    );
+  }
 `
 
 export const CreateRoomMaxContainer = styled(MaxWidthContainerStyled)`
@@ -34,8 +47,13 @@ export const GridContainer = styled(MaxWidthContainerStyled)`
 `
 
 export const SubmitButton = styled(ButtonStyled)`
-  margin-top: ${spacings.extraLarge};
+  margin-top: ${spacings.extraExtraSmall};
   background-color: inherit;
+`
+
+export const TextWithIconContainer = styled.h5`
+  display: flex;
+  justify-content: center;
 `
 
 export const Form = styled.form`
@@ -51,4 +69,6 @@ export const Container = styled.div`
 
 export const PlaylistHeightContainer = styled.div`
   height: 40vh;
+  display: flex;
+  border-bottom: ${borders.light};
 `

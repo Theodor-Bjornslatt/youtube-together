@@ -50,6 +50,7 @@ export const colors = {
   brown: '#2D2828',
   white: '#F2EEE7',
   transparentDark: '#2D282880',
+  transparentDarkest: '#1e1c1c4d',
   transparentPink: '#FBECEC33',
   transparentBrown: '#443f3f8a',
   danger: '#FF1A1A'
@@ -91,6 +92,7 @@ export const spacings: Spacings = {
 
 export const shadows = {
   slider: '5px 6px 5px rgba(235, 201, 201, 0.08)',
+  extraSmall: '1px 1px 10px rgba(130, 110, 120, 0.04)',
   small: '5px 6px 30px rgba(235, 201, 201, 0.08)',
   large: '6px 8px 50px rgba(235, 201, 201, 0.03)'
 }
@@ -189,8 +191,12 @@ export const lineHeights: LineHeights = {
 
 type ScrollbarWidths = {
   regular: '10px'
+  medium: '8px'
+  small: '5px'
 }
 
 export const scrollbarWidths: ScrollbarWidths = {
-  regular: '10px'
+  regular: '10px',
+  medium: '8px',
+  small: '5px'
 }

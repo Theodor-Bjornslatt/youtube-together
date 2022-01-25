@@ -8,7 +8,8 @@ import {
   fontSizes,
   fontWeights,
   spacings,
-  sizes
+  shadows,
+  scrollbarWidths
 } from '../../styles/variables'
 
 type PlaylistContainerProps = {
@@ -16,12 +17,10 @@ type PlaylistContainerProps = {
 }
 
 export const Container = styled.div`
-  width: 100%;
-  height: 100%;
-
-  @media screen and (max-width: ${sizes.mobile}px) {
-    display: none;
-  }
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  overflow: hidden;
 `
 
 export const PlaylistContainer = styled.div<PlaylistContainerProps>`
@@ -29,14 +28,32 @@ export const PlaylistContainer = styled.div<PlaylistContainerProps>`
   cursor: ${(props) => (props.isActive ? 'grabbing' : 'default')};
   width: 100%;
   padding: ${spacings.extraExtraSmall} ${spacings.extraExtraSmall};
-  background: ${colors.dark};
-  overflow-y: auto;
   overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex: 1;
+  border-top: ${borders.light};
+  gap: ${spacings.extraSmall};
+
+  ::-webkit-scrollbar {
+    width: ${scrollbarWidths.small};
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: ${colors.transparentDark};
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: ${colors.brown};
+  }
 `
 
 export const PlaylistInputContainer = styled.div`
-  width: 100%;
+  position: relative;
   height: 100px;
+  flex: 0 0 auto;
+  margin: ${spacings.extraSmall} ${spacings.extraExtraSmall} 0;
 `
 
 type DraggingProps = {
@@ -47,14 +64,14 @@ type DraggingProps = {
 export const PlaylistItemContainer = styled.div<DraggingProps>`
   display: grid;
   width: 100%;
-  max-width: 500px;
+  box-sizing: border-box;
+  box-shadow: ${shadows.extraSmall};
   grid-template-columns: auto auto;
   justify-content: space-between;
   align-items: center;
-  height: 100px;
+  min-height: 80px;
   background: ${colors.darkest};
-  border: ${borders.light};
-  margin: ${spacings.extraSmall} 0;
+  border: 1px solid ${colors.transparentDark};
   padding: ${spacings.extraSmall};
   ${(props) =>
     props.isDragging &&
@@ -64,6 +81,7 @@ export const PlaylistItemContainer = styled.div<DraggingProps>`
     left: 0;
     opacity: 0.8;
     pointer-events: none;
+    width: calc(100% - ${spacings.extraExtraSmall} - ${spacings.extraExtraSmall});
     `}
   cursor: ${(props) => (props.isActive ? 'grabbing' : 'grab')};
   ${(props) => !props.isDragging && `transition: 0.3s ease-in;`}
@@ -80,12 +98,14 @@ export const PlaylistText = styled.h4`
   white-space: nowrap;
   font-family: Arial, Helvetica, sans-serif;
   font-weight: ${fontWeights.regular};
+  font-size: ${fontSizes.extraExtraSmall};
   pointer-events: none;
 
   span {
     font-family: ${fonts.roboto};
     font-weight: ${fontWeights.regular};
-    font-size: ${fontSizes.medium};
+    font-size: ${fontSizes.small};
+    color: ${colors.white};
     line-height: ${lineHeights.medium};
   }
 `
@@ -143,7 +163,7 @@ export const AddItemContainer = styled(
     0.5s ease-out;
 
   :hover {
-    background: ${colors.transparentPink};
+    background: ${colors.transparentDark};
     border-left: ${borders.light};
   }
 `
@@ -169,7 +189,7 @@ type TextAnimationProps = {
   shouldTextFadeIn?: boolean
 }
 
-export const AddItemText = styled.h5<TextAnimationProps>`
+export const AddItemText = styled.h4<TextAnimationProps>`
   animation: ${(props) => (props.shouldTextFadeIn ? FadeInText : FadeOutText)}
     0.5s ease-out;
   padding: 0 ${spacings.extraSmall};

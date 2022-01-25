@@ -9,6 +9,7 @@ import {
   fontSizes,
   fontWeights,
   maxWidths,
+  scrollbarWidths,
   sizes,
   spacings
 } from '../../styles/variables'
@@ -31,12 +32,15 @@ export const RefContainer = styled.div`
 
 export const MessageListContainer = styled.div`
   display: flex;
-  justify-content: flex-end;
   flex-direction: column;
   width: 100%;
   flex: 1;
   overflow-y: auto;
   padding: ${spacings.small} ${spacings.small} 0 ${spacings.small};
+
+  ::-webkit-scrollbar {
+    width: ${scrollbarWidths.medium};
+  }
 
   @media screen and (max-width: ${sizes.mobile}px) {
     padding: ${spacings.small} ${spacings.extraSmall} 0
@@ -105,9 +109,7 @@ export const ChatButton = styled.button`
 export const InputWrapper = styled.div<StyledInputProps>`
   border-radius: ${borderRadius.large};
   display: inline-block;
-  //TODO
-  //change this if trubble
-  margin: ${spacings.extraExtraSmall} 0 ${spacings.medium};
+  margin: ${spacings.extraExtraSmall} 0 0;
   overflow: hidden;
   -webkit-overflow: hidden;
   width: 100%;

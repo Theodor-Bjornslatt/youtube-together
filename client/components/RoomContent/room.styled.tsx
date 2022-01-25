@@ -9,15 +9,16 @@ import {
 
 export const Container = styled.div`
   box-sizing: border-box;
-  display: grid;
+  display: flex;
+  flex-direction: row;
   height: calc(
     100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop}
   );
-
   gap: ${spacings.extraExtraSmall};
-  padding: 0 ${spacings.large};
-  grid-template-columns: 3fr 1fr;
-  grid-auto-flow: column;
+  padding: 0 ${spacings.small};
+  max-width: 1530px;
+  margin: auto;
+  background: ${colors.darkest};
 
   @media screen and (max-width: ${sizes.desktop}px) {
     grid-template-columns: 1fr;
@@ -45,22 +46,26 @@ export const ChatContainer = styled.div`
 `
 
 export const MainSectionContainer = styled.div`
-  justify-self: center;
-  width: 100%;
+  flex: 1;
   display: grid;
   flex-direction: column;
   height: calc(
-    100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop}
+    100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop} -
+      ${spacings.small}
   );
+  padding-top: ${spacings.small};
+  max-width: 1000px;
 `
 
 export const Aside = styled.div`
+  display: flex;
   width: 100%;
-  margin: 0 1rem;
-  height: 100%;
-  border-left: 1px solid ${colors.brown};
+  max-width: 400px;
+  margin: 0 0 0 ${spacings.extraSmall};
+  height: inherit;
+  flex: 1;
 
-  @media screen and (max-width: ${sizes.desktop}px) {
+  @media screen and (max-width: ${sizes.tablet}px) {
     display: none;
   }
 `

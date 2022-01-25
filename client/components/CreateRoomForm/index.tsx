@@ -8,7 +8,8 @@ import {
   CreateRoomFormContainer,
   CreateRoomMaxContainer,
   CreateRoomFlexContainer,
-  PlaylistHeightContainer
+  PlaylistHeightContainer,
+  TextWithIconContainer
 } from './CreateRoomForm.styled'
 import NextImage from '../NextImage'
 import Playlist from '../Playlist'
@@ -18,6 +19,8 @@ import { TextInput } from '../inputs/TextInput'
 import { Form } from './CreateRoomForm.styled'
 import { PlaylistItemData, PostRoomData } from '../../types'
 import { apiPostRoom } from '../../utils/api'
+import { sizes } from '../../styles/variables'
+import { useWindowSize } from '../../hooks/useWindowSize'
 
 export default function CreateRoomForm() {
   const initialRoom: Omit<PostRoomData, 'playlist'> = {
@@ -25,6 +28,7 @@ export default function CreateRoomForm() {
     nickname: ''
   }
 
+  const { width } = useWindowSize()
   const { values, errors, onChangeHandler, handleSubmit } = useForm(
     initialRoom,
     onClickHandler,
@@ -74,12 +78,17 @@ export default function CreateRoomForm() {
               onChange={onChangeHandler}
             />
           </Form>
-          <PlaylistHeightContainer>
-            <Playlist playlist={playlist} setPlaylist={setPlaylist} />
-          </PlaylistHeightContainer>
+          {width > sizes.tablet && (
+            <PlaylistHeightContainer>
+              <Playlist playlist={playlist} setPlaylist={setPlaylist} />
+            </PlaylistHeightContainer>
+          )}
           <SubmitButton onClick={onClickHandler}>
-            <h5>START WATCHING TOGETHER</h5>
-            <NextImage src={play} width={34} height={34} />
+            <h5>START WATCHING</h5>
+            <TextWithIconContainer>
+              TOGETHER
+              <NextImage src={play} width={34} height={34} />
+            </TextWithIconContainer>
           </SubmitButton>
         </CreateRoomFlexContainer>
       </CreateRoomMaxContainer>
