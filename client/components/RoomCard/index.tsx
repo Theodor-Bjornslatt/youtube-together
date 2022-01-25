@@ -33,7 +33,7 @@ export default function RoomCard({
         </ImageWrapperLarge>
       )}
 
-      <ContentContainer>
+      <ContentContainer size={size}>
         <h5>{name}</h5>
         <h5>
           {nickname}: {online}
