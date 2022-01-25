@@ -30,12 +30,14 @@ export default function Playlist({
         onVideoAdd={onVideoAdd}
         setPlaylist={setPlaylist}
       />
-      <VideoList
-        actionsPermitted={actionsPermitted}
-        playlist={playlist}
-        setPlaylist={setPlaylist}
-        onEndDrag={onEndDrag}
-      />
+      {playlist.length > 0 && (
+        <VideoList
+          actionsPermitted={actionsPermitted}
+          playlist={playlist}
+          setPlaylist={setPlaylist}
+          onEndDrag={onEndDrag}
+        />
+      )}
     </Container>
   )
 }
