@@ -213,10 +213,21 @@ export const TeaserCard = styled.div<StyledInputProps>`
   margin: ${spacings.extraExtraSmall} 0;
   width: 100%;
   box-shadow: ${shadows.slider};
+
   p {
     font-family: ${fonts.roboto};
     color: #5c5757;
     font-size: ${fontSizes.small};
+  }
+
+  @media screen and (max-width: ${sizes.tablet}px) {
+    p {
+      font-size: ${fontSizes.extraSmall};
+    }
+  }
+
+  @media screen and (max-width: ${sizes.mobileSmall}px) {
+    font-size: ${fontSizes.extraExtraSmall};
   }
 `
 
@@ -226,12 +237,20 @@ export const TeaserInfoContainer = styled.div`
 `
 
 export const TeaserMessageContainer = styled.div<StyledInputProps>`
-  padding: 30px;
+  padding: ${spacings.small};
 
   p {
     font-family: ${fonts.roboto};
     font-style: normal;
     color: ${(props) => props.color};
     word-wrap: break-word;
+  }
+
+  @media screen and (max-width: ${sizes.tablet}px) {
+    padding: ${spacings.extraSmall};
+  }
+
+  @media screen and (max-width: ${sizes.mobileSmall}px) {
+    padding: ${spacings.extraSmall};
   }
 `

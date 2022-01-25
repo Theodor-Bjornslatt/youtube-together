@@ -4,7 +4,9 @@ import { FlexContainerColumn } from '../components/Chat/Chat.styled'
 import TeaserChatMessageList from '../components/Chat/ChatMessage.teaser'
 import Header from '../components/Header'
 import MaxWidthContainer from '../components/MaxWidthContainer'
+import { FlexWrapper } from '../components/RoomContent/room.styled'
 import RoomSlider from '../components/RoomSlider'
+import { NoRooms } from '../components/RoomSlider/RoomSlider.styled'
 import StartHero from '../components/StartHero'
 import { MessageData, Room } from '../types'
 import { apiGetRandomMessages, apiGetRooms } from '../utils/api'
@@ -38,16 +40,25 @@ const Home = ({ messages, rooms }: Props) => {
   return (
     <>
       <StartHero />
-      <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <FlexWrapper>
         <MaxWidthContainer size={'medium'}>
           <FlexContainerColumn>
+            <Header title={'Selection of rooms'} />
+            {rooms.length > 0 ? (
+              <RoomSlider rooms={rooms} />
+            ) : (
+              <NoRooms>No rooms, go ahead and create one</NoRooms>
+            )}
             <Header title={'Random messages'} />
-            <RoomSlider rooms={rooms} />
-            <Header title={'Random messages'} />
-            <TeaserChatMessageList messages={messages} />
+
+            <MaxWidthContainer size={'medium'}>
+              <FlexContainerColumn>
+                <TeaserChatMessageList messages={messages} />
+              </FlexContainerColumn>
+            </MaxWidthContainer>
           </FlexContainerColumn>
         </MaxWidthContainer>
-      </div>
+      </FlexWrapper>
     </>
   )
 }
