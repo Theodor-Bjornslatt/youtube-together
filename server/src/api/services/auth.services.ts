@@ -42,9 +42,13 @@ export const registerUserService = async (body: IUser): Promise<IUser> => {
 
 export const whoamiService = async (
   userId: string | undefined
-): Promise<IUser> => {
-  const user = await User.findOne({ _id: userId })
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { password, createdAt, updatedAt, __v, ...userDTO } = user._doc
-  return userDTO
+): Promise<IUser | Partial<IUser>> => {
+  try {
+    const user = await User.findOne({ _id: userId })
+    // eslint-disable-next-line @typescript-eslint/naming-convention
+    const { password, createdAt, updatedAt, __v, ...userDTO } = user._doc
+    return { id: userDTO._id, ...userDTO }
+  } catch (error) {
+    return {}
+  }
 }

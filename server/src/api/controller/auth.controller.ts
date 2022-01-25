@@ -27,7 +27,7 @@ const apiLogoutUser = async (req: Request, res: Response): Promise<void> => {
 const apiWhoAmI = async (req: Request, res: Response): Promise<void> => {
   const { userId } = req.session
   const user = await whoamiService(userId)
-  res.json({ id: user._id, ...user })
+  res.json(user)
 }
 
 const auth = {
