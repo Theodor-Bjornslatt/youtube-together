@@ -9,24 +9,32 @@ import {
   lineHeights,
   sizes,
   spacings,
-  headerBoxHeights
+  footerHeights
 } from '../../styles/variables'
 import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
 
 export const FooterPlaceHolder = styled.div`
-  height: ${headerBoxHeights.desktop};
+  height: ${footerHeights.desktop};
+
+  @media screen and(max-width: ${sizes.mobile}px) {
+    height: ${footerHeights.mobile};
+  }
 `
 
 export const FooterContainer = styled.footer`
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: ${headerBoxHeights.desktop};
   display: flex;
   justify-content: center;
   align-items: center;
   background: ${colors.darkest};
   border-top: ${borders.light};
+  height: ${footerHeights.desktop};
+
+  @media screen and(max-width: ${sizes.mobile}px) {
+    height: ${footerHeights.mobile};
+  }
 `
 
 export const FooterContentContainer = styled(MaxWidthContainerStyled)`

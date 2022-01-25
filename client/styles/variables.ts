@@ -7,6 +7,11 @@ type MaxWidth = {
   roomContent: 1000
 }
 
+export const footerHeights = {
+  mobile: '50px',
+  desktop: '60px'
+}
+
 export const maxWidths: MaxWidth = {
   extraExtraSmall: 780,
   extraSmall: 1080,
@@ -17,23 +22,23 @@ export const maxWidths: MaxWidth = {
 }
 
 type HeaderBoxHeight = {
-  mobile: '54px'
-  desktop: '72px'
+  mobile: '45px'
+  desktop: '50px'
 }
 
 export const headerBoxHeights: HeaderBoxHeight = {
-  mobile: '54px',
-  desktop: '72px'
+  mobile: '45px',
+  desktop: '50px',
 }
 
 type MinimumInputHeight = {
-  mobile: '40px'
-  desktop: '60px'
+  mobile: '35px'
+  desktop: '50px'
 }
 
 export const minimumInputHeights: MinimumInputHeight = {
-  mobile: '40px',
-  desktop: '60px'
+  mobile: '35px',
+  desktop: '50px'
 }
 
 export const imageFilters = {

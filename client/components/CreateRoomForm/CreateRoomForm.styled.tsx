@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import {
   borders,
+  footerHeights,
   headerBoxHeights,
   sizes,
   spacings
@@ -13,14 +14,10 @@ export const CreateRoomFormContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  height: calc(
-    100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop}
-  );
+  height: calc(100vh - ${headerBoxHeights.desktop} - ${footerHeights.desktop});
 
   @media screen and (max-width: ${sizes.mobile}px) {
-    height: calc(
-      100vh - ${headerBoxHeights.mobile} - ${headerBoxHeights.mobile}
-    );
+    height: calc(100vh - ${headerBoxHeights.mobile} - ${footerHeights.mobile});
   }
 `
 

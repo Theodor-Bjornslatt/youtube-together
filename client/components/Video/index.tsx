@@ -235,7 +235,7 @@ export default function Video({ room, user }: VideoProps) {
               width={'100%'}
               height={'100%'}
               volume={volume}
-              mute={isMuted}
+              mute={`${isMuted}`}
               onEnded={autoPlayNextVideo}
               onPlay={() => setIsMuted(false)}
             />

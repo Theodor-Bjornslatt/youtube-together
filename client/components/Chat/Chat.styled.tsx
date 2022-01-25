@@ -111,7 +111,7 @@ export const ChatButton = styled.button`
 export const InputWrapper = styled.div<StyledInputProps>`
   border-radius: ${borderRadius.large};
   display: inline-block;
-  margin: ${spacings.extraExtraSmall} 0 0;
+  margin: 0;
   overflow: hidden;
   -webkit-overflow: hidden;
   width: 100%;
@@ -148,7 +148,7 @@ export const AreaInput = styled(TextareaAutosize)`
   display: inline-block;
   box-sizing: border-box;
   background: ${colors.lightPink};
-  font-size: ${fontSizes.small};
+  font-size: ${fontSizes.extraSmall};
   font-family: ${fonts.roboto};
   padding: ${spacings.extraExtraSmall} 0 ${spacings.extraExtraSmall}
     ${spacings.extraSmall};

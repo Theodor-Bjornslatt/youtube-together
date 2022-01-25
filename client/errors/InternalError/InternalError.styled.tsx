@@ -1,6 +1,11 @@
 import styled, { keyframes } from 'styled-components'
 
-import { colors, headerBoxHeights, sizes } from '../../styles/variables'
+import {
+  colors,
+  footerHeights,
+  headerBoxHeights,
+  sizes
+} from '../../styles/variables'
 
 const Bouncing = keyframes`
   0% {
@@ -73,13 +78,15 @@ export const GridContainer = styled.div`
   display: grid;
   flex-direction: row;
   min-width: 100%;
-  height: calc(
-    100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop}
-  );
+  height: calc(100vh - ${headerBoxHeights.desktop} - ${footerHeights.desktop});
   grid-template-areas:
     'a b c'
     'd e f'
     'g h i';
+
+  @media screen and (max-width: ${sizes.mobile}px) {
+    height: calc(100vh - ${headerBoxHeights.mobile} - ${footerHeights.desktop});
+  }
 `
 
 export const NothingToSee = styled.div`
