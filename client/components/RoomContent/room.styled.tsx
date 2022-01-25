@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 import {
   colors,
+  footerHeights,
   headerBoxHeights,
   sizes,
   spacings
@@ -10,10 +11,9 @@ import {
 export const Container = styled.div`
   box-sizing: border-box;
   display: flex;
+  justify-content: center;
   flex-direction: row;
-  height: calc(
-    100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop}
-  );
+  height: calc(100vh - ${headerBoxHeights.desktop} - ${footerHeights.desktop});
   gap: ${spacings.extraExtraSmall};
   padding: 0 ${spacings.small};
   max-width: 1530px;
@@ -30,6 +30,7 @@ export const Container = styled.div`
 
   @media screen and (max-width: ${sizes.mobile}px) {
     padding: 0 ${spacings.extraSmall};
+    height: calc(100vh - ${headerBoxHeights.mobile} - ${footerHeights.mobile});
   }
 `
 
@@ -41,25 +42,29 @@ export const ChatContainer = styled.div`
   display: flex;
   justify-content: center;
   overflow-y: auto;
-  flex-shrink: 1;
+  flex-grow: 1;
   z-index: 1;
 `
 
 export const MainSectionContainer = styled.div`
   flex: 1;
-  display: grid;
+  display: flex;
   flex-direction: column;
-  height: calc(
-    100vh - ${headerBoxHeights.desktop} - ${headerBoxHeights.desktop} -
-      ${spacings.small}
-  );
-  padding-top: ${spacings.small};
+  height: inherit;
+  padding: ${spacings.small} 0;
   max-width: 1000px;
+
+  @media screen and (max-width: 2000px) {
+    max-width: 730px;
+  }
+
+  @media screen and (max-width: ${sizes.desktop}px) {
+    max-width: 550px;
+  }
 `
 
 export const Aside = styled.div`
   display: flex;
-  width: 100%;
   max-width: 400px;
   margin: 0 0 0 ${spacings.extraSmall};
   height: inherit;
