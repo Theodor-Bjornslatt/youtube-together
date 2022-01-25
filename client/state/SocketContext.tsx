@@ -157,6 +157,11 @@ function SocketsProvider({ children }: SocketProviderProps) {
     setPlaylist([])
     setMessages([])
     setActiveUsers([])
+    setStatus({})
+    setHost('')
+    setTimestamp(0)
+    setItemToMove({})
+    setUnreadMessages(0)
   }
 
   return (
