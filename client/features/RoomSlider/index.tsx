@@ -2,7 +2,7 @@
 
 import { Rooms } from '../../types'
 import RoomCard from '../RoomCard'
-import Slider from '../Slider'
+import Slider from '../../components/Slider'
 import { RoomSliderBackground, RoomSliderCard } from './RoomSlider.styled'
 
 export default function RoomSlider({ rooms }: Rooms) {

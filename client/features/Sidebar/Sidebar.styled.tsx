@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 
 import { colors, fontSizes, spacings } from '../../styles/variables'
-import { ButtonStyled } from '../Button/Button.styled'
+import { ButtonStyled } from '../../components/Button/Button.styled'
 
 export const Container = styled.div`
   display: flex;

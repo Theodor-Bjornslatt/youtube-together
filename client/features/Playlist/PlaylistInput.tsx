@@ -11,7 +11,7 @@ import {
 import { PlaylistItemData } from '../../types'
 import { useForm } from '../../hooks/useForm'
 import { validateUrl } from '../../utils/formValidationRules'
-import { TextInput } from '../inputs/TextInput'
+import { TextInput } from '../../components/TextInput'
 import {
   AddItemContainer,
   AddItemText,

@@ -7,8 +7,8 @@ import {
   sizes,
   spacings
 } from '../../styles/variables'
-import { ButtonStyled } from '../Button/Button.styled'
-import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
+import { ButtonStyled } from '../../components/Button/Button.styled'
+import { MaxWidthContainerStyled } from '../../components/MaxWidthContainer/MaxWidthContainer.styled'
 
 export const CreateRoomFormContainer = styled.div`
   display: flex;

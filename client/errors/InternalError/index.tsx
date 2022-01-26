@@ -9,7 +9,7 @@ import {
   Paragraph,
   NothingToSee
 } from './InternalError.styled'
-import MaxWidthContainer from '../../features/MaxWidthContainer'
+import MaxWidthContainer from '../../components/MaxWidthContainer'
 
 export default function InternalError() {
   const router = useRouter()

@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 
 import { Room } from '../../types'
-import MaxWidthContainer from '../MaxWidthContainer'
+import MaxWidthContainer from '../../components/MaxWidthContainer'
 import RoomCard from '../RoomCard'
 import {
   ContentContainer,

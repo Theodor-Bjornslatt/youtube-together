@@ -7,7 +7,7 @@ import {
   borders,
   fonts,
   spacings
-} from '../../../styles/variables'
+} from '../../styles/variables'
 
 export const inputBaseStyle = css`
   display: inline-block;

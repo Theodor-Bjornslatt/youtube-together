@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { borders, colors, fonts, spacings } from '../../../styles/variables'
+import { borders, colors, fonts, spacings } from '../../styles/variables'
 
 export const CheckboxContainer = styled.div`
   margin: 1rem;

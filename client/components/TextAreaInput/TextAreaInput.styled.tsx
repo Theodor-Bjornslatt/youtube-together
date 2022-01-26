@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import TextareaAutosize from 'react-textarea-autosize'
 
-import { colors, borders } from '../../../styles/variables'
+import { colors, borders } from '../../styles/variables'
 import { inputBaseStyle } from '../TextInput/textInput.styled'
 
 export const AreaInput = styled(TextareaAutosize)`

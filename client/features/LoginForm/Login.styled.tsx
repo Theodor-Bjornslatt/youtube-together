@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { ButtonStyled } from '../Button/Button.styled'
+import { ButtonStyled } from '../../components/Button/Button.styled'
 import { colors, fonts, fontSizes, spacings } from '../../styles/variables'
 
 export const LoginButton = styled(ButtonStyled)`

@@ -12,7 +12,7 @@ import {
   footerHeights,
   zIndexes
 } from '../../styles/variables'
-import { MaxWidthContainerStyled } from '../MaxWidthContainer/MaxWidthContainer.styled'
+import { MaxWidthContainerStyled } from '../../components/MaxWidthContainer/MaxWidthContainer.styled'
 
 export const FooterPlaceHolder = styled.div`
   height: ${footerHeights.desktop};

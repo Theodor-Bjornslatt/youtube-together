@@ -5,7 +5,7 @@ import {
   fonts,
   borderRadius,
   zIndexes
-} from '../../../styles/variables'
+} from '../../styles/variables'
 import { inputBaseStyle, InputWrapper } from '../TextInput/textInput.styled'
 
 type Headline = {
