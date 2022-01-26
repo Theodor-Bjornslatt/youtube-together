@@ -2,11 +2,11 @@ import { GetServerSideProps } from 'next'
 import router from 'next/router'
 import { useContext, useEffect } from 'react'
 
-import Header from '../../components/Header'
+import Header from '../../features/Header'
 import { GlobalContext } from '../../state/GlobalState'
 import { useSockets } from '../../state/SocketContext'
 import { apiGetRoomByName, serverSideWhoAmI } from '../../utils/api'
-import RoomContent from '../../components/RoomContent'
+import RoomContent from '../../features/RoomContent'
 import { User } from '../../types'
 import { colors } from '../../styles/variables'
 

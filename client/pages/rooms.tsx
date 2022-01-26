@@ -1,8 +1,8 @@
 import { GetServerSideProps } from 'next'
 import React from 'react'
 
-import Header from '../components/Header'
-import RoomList from '../components/RoomList'
+import Header from '../features/Header'
+import RoomList from '../features/RoomList'
 import { Room, Rooms } from '../types'
 import { apiGetRooms } from '../utils/api'
 

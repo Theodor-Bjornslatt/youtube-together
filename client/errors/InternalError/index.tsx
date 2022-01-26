@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import Header from '../../components/Header'
+import Header from '../../features/Header'
 import {
   CenteringContainer,
   GridContainer,
@@ -9,7 +9,7 @@ import {
   Paragraph,
   NothingToSee
 } from './InternalError.styled'
-import MaxWidthContainer from '../../components/MaxWidthContainer'
+import MaxWidthContainer from '../../features/MaxWidthContainer'
 
 export default function InternalError() {
   const router = useRouter()
