@@ -51,11 +51,11 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
 
 const Room = ({ user, room }: RoomProps) => {
   const { socket, cleanUpSocketStates, timestamp, host } = useSockets()
-
   const { dispatch, state } = useContext(GlobalContext)
 
   useEffect(() => {
     const handleRouteChange = () => {
+      dispatch({ type: 'movedItemInfo', payload: {} })
       socket?.emit('leave', room)
       cleanUpSocketStates()
     }
