@@ -48,7 +48,6 @@ export default function CreateRoomForm() {
       try {
         await apiPostRoom(room)
       } catch (error) {
-        console.log('error')
         return
       }
       router.push(`room/${values.name}`)
@@ -83,7 +82,7 @@ export default function CreateRoomForm() {
               <Playlist playlist={playlist} setPlaylist={setPlaylist} />
             </PlaylistHeightContainer>
           )}
-          <SubmitButton onClick={onClickHandler}>
+          <SubmitButton onClick={handleSubmit}>
             <h5>START WATCHING</h5>
             <TextWithIconContainer>
               TOGETHER

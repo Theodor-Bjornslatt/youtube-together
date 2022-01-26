@@ -1,7 +1,6 @@
-import { LoginObject, PostRoomData, SignUpObject } from "../types"
+import { LoginObject, PostRoomData, SignUpObject } from '../types'
 
-export function validateSignUp(values: SignUpObject)
-{
+export function validateSignUp(values: SignUpObject) {
   const validRegex =
     /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
   const errors: Partial<SignUpObject> = {}
@@ -58,18 +57,24 @@ export const validateSignIn = (values: LoginObject) => {
   return errors
 }
 
-export const validateCreateRoom = (values: Omit<PostRoomData, "playlist">) => {
-  const nameRegex = /[A-Za-z0-9]+/
-  const errors: Partial<Omit<PostRoomData, "playlist">> = {}
-
-  // @TODO Add validation of nickname
+export const validateCreateRoom = (values: Omit<PostRoomData, 'playlist'>) => {
+  const nameRegex = /^[a-zA-Z]+$/
+  const errors: Partial<Omit<PostRoomData, 'playlist'>> = {}
 
   if (!values.name) {
     errors.name = 'Name is required'
   } else if (values.name.length < 4 || values.name.length > 15) {
     errors.name = 'Name must be between 4 and 15 characters'
   } else if (!nameRegex.test(values.name)) {
-    errors.name = 'Name is invalid'
+    errors.name = 'Name can only contain a-z and no spaces'
+  }
+
+  if (!values.nickname) {
+    errors.nickname = 'Nickname is required'
+  } else if (values.nickname.length < 4 || values.nickname.length > 10) {
+    errors.nickname = 'Nickname must be between 4 and 10 characters'
+  } else if (!nameRegex.test(values.nickname)) {
+    errors.nickname = 'Nickname can only contain a-z and spaces'
   }
 
   return errors
