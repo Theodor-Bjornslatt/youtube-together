@@ -9,7 +9,7 @@ export const RoomSliderBackground = styled.div`
 export const RoomSliderCard = styled.button`
   border: none;
   padding: 0;
-  margin: 0 10px;
+  margin: ${spacings.medium} ${spacings.extraExtraSmall};
   background: inherit;
 `
 
