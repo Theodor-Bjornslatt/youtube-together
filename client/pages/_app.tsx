@@ -7,7 +7,7 @@ import Head from 'next/head'
 
 import { GlobalStyle } from '../styles/globalStyle'
 import { GlobalContextProvider } from '../state/GlobalState'
-import Footer from '../components/Footer'
+import Footer from '../features/Footer'
 import SocketProvider from '../state/SocketContext'
 import { whoAmI } from '../utils/api'
 import { colors } from '../styles/variables'

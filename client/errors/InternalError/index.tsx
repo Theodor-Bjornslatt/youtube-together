@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import Header from '../../components/Header'
+import Header from '../../features/Header'
 import {
   CenteringContainer,
   GridContainer,

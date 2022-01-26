@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import Header from '../components/Header'
-import LoginForm from '../components/LoginForm'
+import Header from '../features/Header'
+import LoginForm from '../features/LoginForm'
 
 export default function Login() {
   return (

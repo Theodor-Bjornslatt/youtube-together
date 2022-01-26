@@ -1,7 +1,7 @@
 import Link from 'next/link'
 
-import RegisterForm from '../components/RegisterForm'
-import Header from '../components/Header'
+import RegisterForm from '../features/RegisterForm'
+import Header from '../features/Header'
 
 export default function Register() {
   return (
