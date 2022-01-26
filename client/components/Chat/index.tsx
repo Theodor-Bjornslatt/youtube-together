@@ -154,7 +154,7 @@ const Chat = ({ room, user }: ChatProps) => {
           })}
         <RefContainer ref={bottomRef} />
       </MessageListContainer>
-      {count && (
+      {count > 0 && (
         <NewMessages onClick={handleUnreadMessages}>
           {count > 1 ? `${count} new messages` : `${count} new message`}
         </NewMessages>

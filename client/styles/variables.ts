@@ -1,50 +1,31 @@
-type MaxWidth = {
-  extraExtraSmall: 780
-  extraSmall: 1080
-  small: 1280
-  medium: 1440
-  large: 1600
-  roomContent: 1000
-}
-
 export const footerHeights = {
   mobile: '50px',
   desktop: '60px'
-}
+} as const
 
-export const maxWidths: MaxWidth = {
+export const maxWidths = {
   extraExtraSmall: 780,
   extraSmall: 1080,
   small: 1280,
   medium: 1440,
   large: 1600,
   roomContent: 1000
-}
+} as const
 
-type HeaderBoxHeight = {
-  mobile: '45px'
-  desktop: '50px'
-}
-
-export const headerBoxHeights: HeaderBoxHeight = {
+export const headerBoxHeights = {
   mobile: '45px',
   desktop: '50px',
-}
+} as const
 
-type MinimumInputHeight = {
-  mobile: '35px'
-  desktop: '50px'
-}
-
-export const minimumInputHeights: MinimumInputHeight = {
+export const minimumInputHeights = {
   mobile: '35px',
   desktop: '50px'
-}
+} as const
 
 export const imageFilters = {
   mediumDark: '#16141414',
   dark: '#16141450'
-}
+} as const
 
 export const colors = {
   lightPink: '#FBECEC',
@@ -59,31 +40,14 @@ export const colors = {
   transparentPink: '#FBECEC33',
   transparentBrown: '#443f3f8a',
   danger: '#FF1A1A'
-}
+} as const
 
-type BorderRadius = {
-  small: '5px'
-  large: '10px'
-}
-
-export const borderRadius: BorderRadius = {
+export const borderRadius = {
   small: '5px',
   large: '10px'
-}
+} as const
 
-type Spacings = {
-  tiny: '5px'
-  extraExtraSmall: '10px'
-  extraSmall: '18px'
-  small: '24px'
-  medium: '32px'
-  large: '40px'
-  extraLarge: '56px'
-  extraExtraLarge: '64px'
-  huge: '72px'
-}
-
-export const spacings: Spacings = {
+export const spacings = {
   tiny: '5px',
   extraExtraSmall: '10px',
   extraSmall: '18px',
@@ -93,7 +57,7 @@ export const spacings: Spacings = {
   extraLarge: '56px',
   extraExtraLarge: '64px',
   huge: '72px'
-}
+} as const
 
 export const shadows = {
   slider: '5px 6px 5px rgba(235, 201, 201, 0.08)',
@@ -101,53 +65,34 @@ export const shadows = {
   small: '5px 6px 30px rgba(235, 201, 201, 0.08)',
   large: '6px 8px 50px rgba(235, 201, 201, 0.03)',
   card: '6px 8px 50px 0 #ebc9c911'
-}
+} as const
 
 export const borders = {
   light: '1px solid #2D2828',
   danger: `1px solid ${colors.danger}`,
   focus: '1px solid lightpink',
   outline: '2px solid #D9A6AE'
-}
-type textColors = {
-  [key: string]: string
-}
-export const textColors: textColors = {
+} as const
+
+export const textColors = {
   Pink: '#FE37F6',
   Green: '#93FFA4',
   Blue: '#93F8FF'
-}
+} as const
 
 export const fonts = {
   raleway: `'Raleway', sans-serif`,
   roboto: `'Roboto Mono', monospace`
-}
+} as const
 
-type FontWeights = {
-  thin: 300
-  regular: 400
-  semiBold: 600
-  bold: 700
-}
-
-export const fontWeights: FontWeights = {
+export const fontWeights = {
   thin: 300,
   regular: 400,
   semiBold: 600,
   bold: 700
-}
+} as const
 
-type FontSizes = {
-  extraExtraSmall: '12px'
-  extraSmall: '14px'
-  small: '18px'
-  medium: '24px'
-  large: '32px'
-  extraLarge: '40px'
-  hero: '62px'
-}
-
-export const fontSizes: FontSizes = {
+export const fontSizes = {
   extraExtraSmall: '12px',
   extraSmall: '14px',
   small: '18px',
@@ -155,36 +100,17 @@ export const fontSizes: FontSizes = {
   large: '32px',
   extraLarge: '40px',
   hero: '62px'
-}
+} as const
 
-type Sizes = {
-  desktopWide: 1600
-  desktop: 1440
-  tablet: 1024
-  mobile: 768
-  mobileSmall: 450
-}
-
-export const sizes: Sizes = {
+export const sizes = {
   desktopWide: 1600,
   desktop: 1440,
   tablet: 1024,
   mobile: 768,
   mobileSmall: 450
-}
+} as const
 
-type LineHeights = {
-  extraExtraExtraSmall: '5px'
-  extraExtraSmall: '10px'
-  extraSmall: '20px'
-  small: '24px'
-  medium: '32px'
-  large: '45px'
-  extraLarge: '50px'
-  hero: '70px'
-}
-
-export const lineHeights: LineHeights = {
+export const lineHeights = {
   extraExtraExtraSmall: '5px',
   extraExtraSmall: '10px',
   extraSmall: '20px',
@@ -193,16 +119,16 @@ export const lineHeights: LineHeights = {
   large: '45px',
   extraLarge: '50px',
   hero: '70px'
-}
+} as const
 
-type ScrollbarWidths = {
-  regular: '10px'
-  medium: '8px'
-  small: '5px'
-}
-
-export const scrollbarWidths: ScrollbarWidths = {
+export const scrollbarWidths = {
   regular: '10px',
   medium: '8px',
   small: '5px'
-}
+} as const
+
+export const zIndexes = {
+  small: 1,
+  medium: 100,
+  large: 1000
+} as const

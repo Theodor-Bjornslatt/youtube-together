@@ -57,6 +57,7 @@ export const Form = styled.form`
   margin-top: ${spacings.extraLarge};
   width: 100%;
   margin-bottom: ${spacings.extraExtraSmall};
+  border-bottom: ${borders.light};
 `
 
 export const Container = styled.div`
