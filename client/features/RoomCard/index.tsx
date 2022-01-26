@@ -1,4 +1,4 @@
-import NextImage from '../NextImage'
+import NextImage from '../../components/NextImage'
 import {
   Card,
   ContentContainer,

@@ -16,7 +16,7 @@ import { usePagination } from '../../hooks/usePagination'
 import { useIntersectionObserver } from '../../hooks/useIntersectionObserver'
 import { apiGetRoomMessages } from '../../utils/api'
 import send from '../../public/send.png'
-import NextImage from '../NextImage'
+import NextImage from '../../components/NextImage'
 import { GlobalContext } from '../../state/GlobalState'
 import { User } from '../../types'
 

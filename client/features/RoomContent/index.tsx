@@ -3,7 +3,7 @@ import {
   ChatContainer,
   Container,
   MainSectionContainer
-} from './room.styled'
+} from './RoomContent.styled'
 import Sidebar from '../Sidebar'
 import Video from '../Video'
 import Chat from '../Chat'

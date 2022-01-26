@@ -11,7 +11,7 @@ import {
   PlaylistHeightContainer,
   TextWithIconContainer
 } from './CreateRoomForm.styled'
-import NextImage from '../NextImage'
+import NextImage from '../../components/NextImage'
 import Playlist from '../Playlist'
 import Header from '../Header'
 import play from '../../public/play.svg'

@@ -21,7 +21,7 @@ import {
   ContentContainer
 } from './Video.styled'
 import { useSockets } from '../../state/SocketContext'
-import NextImage from '../NextImage'
+import NextImage from '../../components/NextImage'
 import play from '../../public/play.png'
 import pause from '../../public/pause.png'
 import next from '../../public/next.png'

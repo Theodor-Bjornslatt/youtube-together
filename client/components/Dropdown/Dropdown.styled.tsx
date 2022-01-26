@@ -6,7 +6,7 @@ import {
   borderRadius,
   zIndexes
 } from '../../styles/variables'
-import { inputBaseStyle, InputWrapper } from '../TextInput/textInput.styled'
+import { inputBaseStyle, InputWrapper } from '../TextInput/TextInput.styled'
 
 type Headline = {
   headline?: string

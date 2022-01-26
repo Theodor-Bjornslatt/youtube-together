@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { InputWrapper } from '../TextInput/textInput.styled'
+import { InputWrapper } from '../TextInput/TextInput.styled'
 import { AreaInput } from './TextAreaInput.styled'
 
 type AreaProps = {

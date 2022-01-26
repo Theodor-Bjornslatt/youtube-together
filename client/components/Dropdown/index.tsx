@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import { Label, WrapperInner } from '../TextInput/textInput.styled'
+import { Label, WrapperInner } from '../TextInput/TextInput.styled'
 import {
   Arrow,
   DropdownWrapper,

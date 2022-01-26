@@ -6,7 +6,7 @@ import {
   Input,
   ErrMsg,
   Label
-} from './textInput.styled'
+} from './TextInput.styled'
 
 type InputProps = {
   label?: string

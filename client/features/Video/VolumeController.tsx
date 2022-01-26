@@ -1,6 +1,6 @@
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useRef } from 'react'
 
-import NextImage from '../NextImage'
+import NextImage from '../../components/NextImage'
 import volumeIcon from '../../public/volume.png'
 import volumeOff from '../../public/volumeOff.png'
 import { ControlButton } from './Video.styled'

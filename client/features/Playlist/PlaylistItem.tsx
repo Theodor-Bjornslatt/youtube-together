@@ -5,7 +5,7 @@ import {
   PlaylistText,
   PlaylistIconContainer
 } from './Playlist.styled'
-import NextImage from '../NextImage'
+import NextImage from '../../components/NextImage'
 import play from '../../public/play.svg'
 import { PlaylistItemData } from '../../types'
 
