@@ -57,7 +57,7 @@ const Chat = ({ room, user }: ChatProps) => {
     ref: bottomRef.current,
     root: chatListRef.current,
     threshold,
-    rootMargin: '50px'
+    rootMargin: '70px'
   })
 
   useEffect(() => {
@@ -132,7 +132,6 @@ const Chat = ({ room, user }: ChatProps) => {
     }
   }
   function handleUnreadMessages() {
-    setInputFocus(true)
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }
 
@@ -142,7 +141,10 @@ const Chat = ({ room, user }: ChatProps) => {
         ref={chatListRef}
         onScroll={(e) => {
           e.preventDefault()
-          inputRef.current?.blur()
+          if (!bottomRefOnScreen) {
+            setAutoScroll(false)
+            inputRef.current?.blur()
+          }
         }}
       >
         <div ref={topRef}>{loading && <h3>LOADING</h3>}</div>

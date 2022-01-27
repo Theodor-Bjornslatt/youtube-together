@@ -26,6 +26,8 @@ export const ChatContainer = styled.div`
   align-items: center;
   width: 100%;
   max-width: ${maxWidths.roomContent}px;
+
+  margin: 0 2px 2px 2px;
 `
 
 export const RefContainer = styled.div`
@@ -39,6 +41,7 @@ export const MessageListContainer = styled.div`
   flex: 1;
   overflow-y: auto;
   padding: ${spacings.small} ${spacings.small} 0 ${spacings.small};
+  margin-bottom: 3px;
 
   ::-webkit-scrollbar {
     width: ${scrollbarWidths.medium};
@@ -111,7 +114,6 @@ export const ChatButton = styled.button`
 export const InputWrapper = styled.div<StyledInputProps>`
   border-radius: ${borderRadius.large};
   display: inline-block;
-  margin: 0;
   overflow: hidden;
   -webkit-overflow: hidden;
   width: 100%;
@@ -119,6 +121,12 @@ export const InputWrapper = styled.div<StyledInputProps>`
   outline: ${(props) => {
     return props.focus ? `${borders.outline}` : `none`
   }};
+
+  @media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-appearance: none) and (display: flow-root) {
+      outline: none;
+    }
+  }
 `
 
 export const FlexContainer = styled.div`
@@ -192,10 +200,6 @@ export const SubmitButton = styled.button`
 
   &:hover {
     cursor: pointer;
-  }
-
-  &:disabled {
-    cursor: not-allowed;
   }
 
   &:active {

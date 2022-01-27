@@ -14,7 +14,7 @@ export const maxWidths = {
 
 export const headerBoxHeights = {
   mobile: '45px',
-  desktop: '50px',
+  desktop: '50px'
 } as const
 
 export const minimumInputHeights = {
