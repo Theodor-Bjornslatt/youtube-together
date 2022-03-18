@@ -7,11 +7,11 @@
 - Chat in realtime with friends watching the same videos
 - Drag and drop playlist (only for host ;-))
 - Add more videos to the playlist (again, only for host)
-- Video is in sync for everyone on the same room.
+- Video is in sync for everyone in the same room.
 
 ## Tech
 
-Watch Togheter uses a number of teach:
+Watch Together uses a number of teach:
 
 - [Docker] - containerize backend!
 - [Next.js] - awesome fullstack framework
